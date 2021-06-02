@@ -31,10 +31,10 @@ const EXPLORER_URLS: { [chainId in ChainId]: string } = {
 }
 
 const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: 'BscScan',
-  [ChainId.BSCTESTNET]: 'BscScan',
-  [ChainId.HECOMAINNET]: 'HecoInfo',
-  [ChainId.HECOTESTNET]: 'HecoInfo',
+  [ChainId.MAINNET]: 'viewOnBscscan',
+  [ChainId.BSCTESTNET]: 'viewOnBscscan',
+  [ChainId.HECOMAINNET]: 'viewOnHecoInfo',
+  [ChainId.HECOTESTNET]: 'viewOnHecoInfo',
 }
 
 export const getExplorerName = (chainId: ChainId) => {
