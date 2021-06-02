@@ -1,0 +1,32 @@
+name: Lint & Test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - develop
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 14.x
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install global cli utils
+        run: yarn global add dotenv-cli
+
+      - name: Run ESLint
+        run: yarn lint
+
+      - name: Run Tests
+        run: yarn test:dev

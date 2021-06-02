@@ -1,0 +1,38 @@
+name: Manual prod deploy
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2.1.1
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install global cli utils
+        run: yarn global add dotenv-cli
+      - name: Install dependincies
+        run: yarn install
+      - name: Build project
+        run: yarn build
+      - name: SFTP Deployment
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{secrets.SFTP_PROD_SERVER}}
+          username: ${{secrets.SFTP_USER}}
+          key: ${{secrets.SFTP_PROD_KEY}}
+          source: "build/*"
+          target: "/var/www/swap-interface/build"
+          strip_components: 1

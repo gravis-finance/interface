@@ -1,0 +1,43 @@
+name: Develop deploy
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2.1.1
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install global cli utils
+        run: yarn global add dotenv-cli
+      - name: Install dependincies
+        run: yarn install
+      - name: Build project
+        run: yarn build:dev
+        env:
+          NODE_ENV: "development"
+      - name: SFTP Deployment
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{secrets.SFTP_SERVER}}
+          username: ${{secrets.SFTP_USER}}
+          key: ${{secrets.SFTP_KEY}}
+          source: "build/*"
+          target: "/var/www/swap-interface/dev"
+          strip_components: 1
