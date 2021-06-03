@@ -282,6 +282,7 @@
   "orChangeNetwork": "Or change network on our site",
   "changeManually": "We found that you have different networks\nselected in your wallet and on our site.\nChange network in your wallet manually or use the button below",
   "continue": "Continue",
+  "for": "for",
 
   "time": {
     "time": "Time",
