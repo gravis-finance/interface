@@ -1,0 +1,14 @@
+{
+  "baseUrl": "https://stage.gswap.exchange",
+  "pluginsFile": false,
+  "fixturesFolder": false,
+  "supportFile": "tests/support/index.js",
+  "video": false,
+  "defaultCommandTimeout": 10000,
+  "chromeWebSecurity": true,
+  "integrationFolder": "tests/integration/",
+  "screenshotsFolder": "tests/screenshots/",
+  "env": {
+    "test_env": "dev"
+  }
+}
