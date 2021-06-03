@@ -16,6 +16,20 @@ const UikitMenu = lazy(() => import('@gravis.finance/uikit/dist/esm/widgets/Menu
 const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
   const { t } = useTranslation()
 
+  const { account } = useWeb3React()
+  const { chainId } = useActiveWeb3React()
+  const { login, logout } = useAuth()
+  const { isDark, toggleTheme } = useTheme()
+  const balance = useCurrencyBalance(account as string, ETHER)
+  const explorerName = getExplorerName(chainId as ChainId)
+  const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
+  const [selectedLanguage, setSelectedLanguage] = useState('')
+  const [presentationLink, setPresentationLink] = useState('https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf')
+  const useBalance = async () => {
+    const result = await balance
+    return result
+  }
+
   const links: MenuEntry[] = [
     {
       label: t('mainMenu.home'),
@@ -90,7 +104,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         },
         {
           label: t('mainMenu.pitchDeck'),
-          href: 'https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf',
+          href: presentationLink,
         },
         {
           label: t('mainMenu.tokenomics'),
@@ -101,21 +115,11 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
     },
   ]
 
-  const { account } = useWeb3React()
-  const { chainId } = useActiveWeb3React()
-  const { login, logout } = useAuth()
-  const { isDark, toggleTheme } = useTheme()
-  const balance = useCurrencyBalance(account as string, ETHER)
-  const explorerName = getExplorerName(chainId as ChainId)
-  const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
-  const [selectedLanguage, setSelectedLanguage] = useState('')
-  const useBalance = async () => {
-    const result = await balance
-    return result
-  }
-
   useEffect(() => {
     i18next.changeLanguage(selectedLanguage.toLowerCase())
+    if(selectedLanguage && selectedLanguage.toLowerCase() === 'en')
+      setPresentationLink('https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf')
+    else setPresentationLink('http://gateway.pinata.cloud/ipfs/QmS3gYhCphkyDN1GWg3TTqKFdJUCGXTKiGpi6BhSupjpJb/Gravis_presentation_JP.pdf')
   }, [selectedLanguage])
 
   // useBalance().then((result)=>console.log(result))
