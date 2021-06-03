@@ -475,7 +475,7 @@ const Swap = () => {
                     >
                       {priceImpactSeverity > 3 && !isExpertMode
                         ? t('priceImpactTooHigh')
-                        : priceImpactSeverity > 2 ? t('swap') : t('swapAnyway')}
+                        : priceImpactSeverity > 2 ? t('swapAnyway') : t('swap')}
                     </Button>
                   </StyledRowBetween>
                 ) : (
@@ -500,7 +500,7 @@ const Swap = () => {
                     {swapInputError ||
                       (priceImpactSeverity > 3 && !isExpertMode
                         ? t('priceImpactTooHigh')
-                        : priceImpactSeverity > 2 ? t('swap') : t('swapAnyway'))}
+                        : priceImpactSeverity > 2 ? t('swapAnyway') : t('swap'))}
                   </Button>
                 )}
                 {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}
