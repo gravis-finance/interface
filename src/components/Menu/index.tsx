@@ -24,7 +24,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   const explorerName = getExplorerName(chainId as ChainId)
   const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
   const [selectedLanguage, setSelectedLanguage] = useState('')
-  const [presentationLink, setPresentationLink] = useState('https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf')
+
   const useBalance = async () => {
     const result = await balance
     return result
@@ -104,7 +104,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         },
         {
           label: t('mainMenu.pitchDeck'),
-          href: presentationLink,
+          href: t('presentationLink'),
         },
         {
           label: t('mainMenu.tokenomics'),
@@ -117,9 +117,6 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
 
   useEffect(() => {
     i18next.changeLanguage(selectedLanguage.toLowerCase())
-    if(selectedLanguage && selectedLanguage.toLowerCase() === 'en')
-      setPresentationLink('https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf')
-    else setPresentationLink('http://gateway.pinata.cloud/ipfs/QmS3gYhCphkyDN1GWg3TTqKFdJUCGXTKiGpi6BhSupjpJb/Gravis_presentation_JP.pdf')
   }, [selectedLanguage])
 
   // useBalance().then((result)=>console.log(result))
