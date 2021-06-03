@@ -283,6 +283,7 @@
   "changeManually": "We found that you have different networks\nselected in your wallet and on our site.\nChange network in your wallet manually or use the button below",
   "continue": "Continue",
   "for": "for",
+  "comingSoon": "Coming soon",
 
   "time": {
     "time": "Time",

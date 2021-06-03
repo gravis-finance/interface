@@ -1,12 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Heading, LogoIcon } from '@gravis.finance/uikit'
+import { useTranslation } from 'react-i18next'
 
 const StyledCardHeader = styled.div`
   padding: 26px 24px;
 `
 
 const ComingSoon = () => {
+
+  const { t } = useTranslation()
+
   return (
     <StyledCardHeader>
       <Heading
@@ -21,7 +25,7 @@ const ComingSoon = () => {
         }}
       >
         <LogoIcon style={{ marginRight: '12px' }} />
-        Coming soon
+        {t('comingSoon')}
       </Heading>
     </StyledCardHeader>
   )
