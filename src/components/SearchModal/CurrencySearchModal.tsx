@@ -2,7 +2,7 @@ import { Currency } from '@gravis.finance/sdk'
 import React, { lazy, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { Button, CloseIcon, Flex, IconButton, Input, Text } from '@gravis.finance/uikit'
+import { AddIcon, Button, CloseIcon, Flex, IconButton, Input, Text, ArrowBackIcon } from '@gravis.finance/uikit'
 import useLast from '../../hooks/useLast'
 import { useSelectedListUrl } from '../../state/lists/hooks'
 import { CurrencySearch } from './CurrencySearch'
@@ -123,6 +123,32 @@ const ErrorText = styled(Text)`
   margin-top: 4px;
 `
 
+const StyledButton = styled(Button)`
+  padding: 0 16px;
+  ${({ disabled }) => disabled ? `
+    > svg * {
+      fill: rgba(255,255,255,0.4);
+    }
+  ` :''}
+  > svg {
+    margin-right: 16px;
+  }
+`
+
+const Footer = styled.div`
+  display: flex;
+  padding: 6px 16px 22px 24px;
+  cursor: pointer;
+  
+  > div {
+    color: #009CE1;
+  }
+  
+  > svg * {
+    stroke: #009CE1; 
+  }
+`
+
 const AddCustomTokenModal = ({onDismiss}) => {
 
   const [errorMessage, setErrorMessage] = useState('')
@@ -138,6 +164,7 @@ const AddCustomTokenModal = ({onDismiss}) => {
   const onChangeHandler = (e) => {
     clearTimeout(timer)
     setTokenAddress(undefined)
+    setErrorMessage('')
     if(e.target.value.length > 0) {
       if(e.target.value.slice(0,2) !== '0x')
         setErrorMessage(t('invalidTokenAddress'))
@@ -154,6 +181,11 @@ const AddCustomTokenModal = ({onDismiss}) => {
     addToken(tokenInfo)
     onDismiss()
   }
+
+  // useEffect(() => {
+  //   if(tokenAddress && tokenAddress.length>1)
+  //     if(!tokenInfo) setErrorMessage('token not found')
+  // }, [tokenAddress, tokenInfo])
 
   return (
     <StyledColumn>
@@ -199,10 +231,15 @@ const AddCustomTokenModal = ({onDismiss}) => {
                 </TokenInfoBlock>
               </StyledFlex>
             <AddTokenButtonContainer>
-              <Button disabled={(errorMessage.length > 0 || !tokenInfo) as boolean} data-id="add-token-button" onClick={onAddButtonClick}>{t('addToken')}</Button>
+              <StyledButton disabled={(errorMessage.length > 0 || !tokenInfo) as boolean} data-id="add-token-button" onClick={onAddButtonClick}><AddIcon />{t('addToken')}</StyledButton>
             </AddTokenButtonContainer>
           </ModalBody>
         </StyledBody>
+        <Separator />
+        <Footer onClick={onDismiss}>
+          <ArrowBackIcon />
+          <Text>{t('returnToSelectTokens')}</Text>
+        </Footer>
       </PaddedColumn>
     </StyledColumn>
 
