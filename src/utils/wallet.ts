@@ -54,6 +54,32 @@ const Params = {
       blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
     },
   ],
+  [ChainId.MATICMAINNET]: [
+    {
+      chainId: `0x${ChainId.MATICMAINNET.toString(16)}`,
+      chainName: 'Matic Network',
+      nativeCurrency: {
+        name: 'MATIC',
+        symbol: 'matic',
+        decimals: 18,
+      },
+      rpcUrls: nodes[ChainId.MATICMAINNET],
+      blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com/'],
+    },
+  ],
+  [ChainId.MATICTESTNET]: [
+    {
+      chainId: `0x${ChainId.MATICTESTNET.toString(16)}`,
+      chainName: 'Mumbai Matic Network',
+      nativeCurrency: {
+        name: 'MATIC',
+        symbol: 'matic',
+        decimals: 18,
+      },
+      rpcUrls: nodes[ChainId.MATICTESTNET],
+      blockExplorerUrls: ['https://explorer-mumbai.maticvigil.com/'],
+    },
+  ],
 }
 
 /**

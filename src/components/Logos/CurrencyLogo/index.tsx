@@ -4,6 +4,7 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import BNBLogo from '../../../assets/images/binance-logo.png'
 import HTlogo from '../../../assets/images/heco-logo.png'
+import MATIClogo from '../../../assets/images/matic-logo.png'
 import useHttpLocations from '../../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../../state/lists/hooks'
 import Logo from '../Logo'
@@ -14,6 +15,8 @@ const BaseLogo: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: BNBLogo,
   [ChainId.HECOMAINNET]: HTlogo,
   [ChainId.HECOTESTNET]: HTlogo,
+  [ChainId.MATICMAINNET]: MATIClogo,
+  [ChainId.MATICTESTNET]: MATIClogo,
 }
 
 const getTokenLogoURL = (address: string) =>
