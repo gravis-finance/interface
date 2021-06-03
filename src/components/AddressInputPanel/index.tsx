@@ -1,5 +1,6 @@
 import React, { useContext, useCallback } from 'react'
 import styled, { ThemeContext } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import useENS from '../../hooks/useENS'
 import { useActiveWeb3React } from '../../hooks'
 import { ExternalLink, TYPE } from '../Shared'
@@ -83,6 +84,7 @@ export default function AddressInputPanel({
   const theme = useContext(ThemeContext)
 
   const { address, loading, name } = useENS(value)
+  const { t } = useTranslation()
 
   const handleInput = useCallback(
     (event) => {
@@ -106,7 +108,7 @@ export default function AddressInputPanel({
               </Black>
               {address && chainId && (
                 <ExternalLink href={getExplorerLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
-                  (View on {getExplorerName(chainId)})
+                  ({t(`${getExplorerName(chainId)}`)})
                 </ExternalLink>
               )}
             </RowBetween>

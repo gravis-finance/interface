@@ -30,7 +30,7 @@ const TransactionSubmittedContent = ({ onDismiss, chainId, hash }: TransactionSu
         <AutoColumn gap="8px" justify="center">
           {chainId && hash && (
             <LinkExternal href={getExplorerLink(chainId, hash, 'transaction')} data-id="explorer-transaction-link">
-              {t('viewOn')} {getExplorerName(chainId)}
+              {t(`${getExplorerName(chainId)}`)}
             </LinkExternal>
           )}
           <Button onClick={onDismiss} mt="20px" data-id="submit-transaction-close-button" style={{ width: '142px' }}>

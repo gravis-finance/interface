@@ -69,7 +69,7 @@ export default function TransactionPopup({
         </Body>
         {chainId && (
           <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
-            View on {getExplorerName(chainId)}
+            {t(`${getExplorerName(chainId)}`)}
           </ExternalLink>
         )}
       </AutoColumn>

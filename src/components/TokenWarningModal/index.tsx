@@ -1,7 +1,7 @@
 import { Token } from '@gravis.finance/sdk'
 import { transparentize } from 'polished'
 import { Button, Text } from '@gravis.finance/uikit'
-
+import { useTranslation } from 'react-i18next'
 import React, { useCallback, useMemo, useState, lazy } from 'react'
 import styled from 'styled-components'
 import { AlertTriangle } from 'react-feather'
@@ -12,6 +12,7 @@ import { getExplorerLink, getExplorerName, shortenAddress } from '../../utils'
 import CurrencyLogo from '../Logos/CurrencyLogo'
 import { AutoRow, RowBetween } from '../Row'
 import { AutoColumn } from '../Column'
+
 
 const Modal = lazy(() => import('../Modal'))
 const { main: Main, blue: Blue } = TYPE
@@ -79,7 +80,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
           {chainId && (
             <ExternalLink style={{ fontWeight: 400 }} href={getExplorerLink(chainId, token.address, 'token')}>
               <Blue title={token.address}>
-                {shortenAddress(token.address)} (View on {getExplorerName(chainId)})
+                {shortenAddress(token.address)} (t(`${getExplorerName(chainId)}`))
               </Blue>
             </ExternalLink>
           )}
@@ -100,6 +101,7 @@ export default function TokenWarningModal({
 }) {
   const [understandChecked, setUnderstandChecked] = useState(false)
   const toggleUnderstand = useCallback(() => setUnderstandChecked((uc) => !uc), [])
+  const { t } = useTranslation()
 
   const handleDismiss = useCallback(() => null, [])
   return (
@@ -108,18 +110,13 @@ export default function TokenWarningModal({
         <AutoColumn gap="lg">
           <AutoRow gap="6px">
             <StyledWarningIcon />
-            <Text color="failure">Token imported</Text>
+            <Text color="failure">{t('tokenImported')}</Text>
           </AutoRow>
           <Text>
-            Anyone can create an BEP20 token on BSC with <em>any</em> name, including creating fake versions of existing
-            tokens and tokens that claim to represent projects that do not have a token.
+            {t('errorMessages.importTokenWarning')}
           </Text>
           <Text>
-            This interface can load arbitrary tokens by token addresses. Please take extra caution and do your research
-            when interacting with arbitrary BEP20 tokens.
-          </Text>
-          <Text>
-            If you purchase an arbitrary token, <strong>you may be unable to sell it back.</strong>
+            {t('errorMessages.importTokenWarningPurchase')}<strong>{t('errorMessages.youMaybeUnable')}</strong>
           </Text>
           {tokens.map((token) => {
             return <TokenWarningCard key={token.address} token={token} />
@@ -135,7 +132,7 @@ export default function TokenWarningModal({
                   onChange={toggleUnderstand}
                 />{' '}
                 <Text as="span" ml="4px">
-                  I understand
+                  {t('iUnderstand')}
                 </Text>
               </label>
             </div>
@@ -149,7 +146,7 @@ export default function TokenWarningModal({
                 onConfirm()
               }}
             >
-              Continue
+              {t('continue')}
             </Button>
           </RowBetween>
         </AutoColumn>
