@@ -129,16 +129,16 @@ export const TEST_HECO_UNI = new Token(
 )
 
 // MATIC Testnet Basic Tokens
-export const TEST_MATIC_WMATIС = new Token(
+export const TEST_MATIC_WMATIC = new Token(
   ChainId.MATICTESTNET,
-  '0x0000000000000000000000000000000000001010',
+  '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
   18,
-  'WHT',
-  'Wrapped HT'
+  'WMATIC',
+  'Wrapped Matic'
 )
 export const TEST_MATIC_USDT = new Token(
   ChainId.MATICTESTNET,
-  '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
+  '0x3E823a0A1a471Dac708Cd819f857cd703648644C',
   18,
   'USDT',
   'USDT'
@@ -261,7 +261,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   ],
   [ChainId.MATICMAINNET]: [],
   [ChainId.MATICTESTNET]: [
-    [TEST_MATIC_DAI, TEST_MATIC_USDT], 
+    [TEST_MATIC_DAI, TEST_MATIC_USDT],
     [TEST_MATIC_DAI, TEST_MATIC_USDC],
     [TEST_MATIC_USDT, TEST_MATIC_USDC]
   ],
