@@ -95,7 +95,7 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
   const isProduction = process.env.REACT_APP_NODE_ENV === 'production'
   const { account } = useActiveWeb3React()
   const currentId = getNetworkId()
-  const supportedChains = useMemo(() => (isProduction ? ['56', '128'] : ['97', '256']), [isProduction])
+  const supportedChains = useMemo(() => (isProduction ? ['56', '128', '137'] : ['97', '256', '80001']), [isProduction])
 
   fixNetworkIdAtUrl(currentId, supportedChains)
 
