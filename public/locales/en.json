@@ -108,6 +108,7 @@
   "copyAddress": "Copy Address",
   "viewOnBscscan": "View on BSCScan",
   "viewOnHecoInfo": "View on HecoInfo",
+  "MaticInfo": "View on Matic",
   "clearAll": "clear all",
   "close": "Close",
   "noRecentTransactions": "No recent transactions",
