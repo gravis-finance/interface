@@ -2197,7 +2197,7 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
   integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
 
-"@gravis.finance/sdk@^1.0.3", "@gravis.finance/sdk@^1.0.9":
+"@gravis.finance/sdk@^1.0.9":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.9.tgz#2b28032859ca03b75875d75ae731d4b816c22b16"
   integrity sha512-LC3k2UKgnF+GDk37yjRXQRCzjunHbsOIlwzwpn7tSvoFlgLk8/RulwbaAR/Cb+uZAt/iTbyaF/gqnQ/983KYeQ==
@@ -2210,12 +2210,12 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/uikit@^1.1.70":
-  version "1.1.70"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.1.70.tgz#cf716f556deb7b5cbb5584ea89399c7ca811529e"
-  integrity sha512-FSOYMfZGWk5PdUqWiD5lZUOgG9g/WYtWtFBaQqyu9QMz5ZibwaOxnMx72x6NHLLcLjSQS5HvxjX2eKxRI9OFDA==
+"@gravis.finance/uikit@^1.1.73":
+  version "1.1.73"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.1.73.tgz#8f858df00dba6c23dffc00f864969747c4503c2d"
+  integrity sha512-qpZv6U3rL7fVIQX9qrdNF3hx0fcYkt2CKOUghoutMty3f7DMZvE5L5wwed2PXuvQaKTwsYsFXSbHgmWEinLcrQ==
   dependencies:
-    "@gravis.finance/sdk" "^1.0.3"
+    "@gravis.finance/sdk" "^1.0.9"
     "@types/lodash" "^4.14.162"
     "@types/styled-system" "^5.1.10"
     lodash "^4.17.20"
