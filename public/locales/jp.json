@@ -108,6 +108,7 @@
   "copyAddress": "アドレスをコピー",
   "viewOnBscscan": "BSCScanで見る",
   "viewOnHecoInfo": "HecoInfoで見る",
+  "MaticInfo": "Maticで見る",
   "clearAll": "すべてクリア",
   "close": "閉じる",
   "noRecentTransactions": "最近のトランザクションがありません",
@@ -283,6 +284,8 @@
   "changeManually": "あなたのウォレットと弊社サイトで選択されているネットワークが異なることがわかりました\n \n ウォレットと当社サイトで異なるネットワークが選択されています。\n \n ウォレットのネットワークを手動で変更するか、下のボタンを使用してください",
   "continue": "続ける",
   "for": "にとって",
+  "presentationLink": "http://gateway.pinata.cloud/ipfs/QmS3gYhCphkyDN1GWg3TTqKFdJUCGXTKiGpi6BhSupjpJb/Gravis_presentation_JP.pdf",
+  "language": "jp",
 
   "time": {
     "time": "時間",

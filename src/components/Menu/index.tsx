@@ -1,5 +1,5 @@
 import React, { lazy, useEffect, useState } from 'react'
-import { MenuEntry, useModal } from '@gravis.finance/uikit'
+import { MenuEntry, urlSearchLanguageParam, useModal } from '@gravis.finance/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
@@ -24,7 +24,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   const explorerName = getExplorerName(chainId as ChainId)
   const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
   const [selectedLanguage, setSelectedLanguage] = useState('')
-  const [presentationLink, setPresentationLink] = useState('https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf')
+
   const useBalance = async () => {
     const result = await balance
     return result
@@ -34,7 +34,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
     {
       label: t('mainMenu.home'),
       icon: 'HomeIcon',
-      href: process.env.REACT_APP_HOME_URL,
+      href: `${process.env.REACT_APP_HOME_URL}?${urlSearchLanguageParam}=${t('language')}`,
     },
     {
       label: t('mainMenu.trade'),
@@ -64,15 +64,15 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       items: [
         {
           label: t('mainMenu.analytics.overview'),
-          href: process.env.REACT_APP_INFO_URL as string,
+          href: `${process.env.REACT_APP_INFO_URL}?${urlSearchLanguageParam}=${t('language')}`,
         },
         {
           label: t('mainMenu.analytics.tokens'),
-          href: `${process.env.REACT_APP_INFO_URL}/tokens`,
+          href: `${process.env.REACT_APP_INFO_URL}/tokens?${urlSearchLanguageParam}=${t('language')}`,
         },
         {
           label: t('mainMenu.analytics.pairs'),
-          href: `${process.env.REACT_APP_INFO_URL}/pairs`,
+          href: `${process.env.REACT_APP_INFO_URL}/pairs?${urlSearchLanguageParam}=${t('language')}`,
         },
       ],
     },
@@ -82,7 +82,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       items: [
         {
           label: t('mainMenu.ino.bbRound'),
-          href: `${process.env.REACT_APP_BIG_BANG_URL}`,
+          href: `${process.env.REACT_APP_BIG_BANG_URL}?${urlSearchLanguageParam}=${t('language')}`,
         },
       ],
     },
@@ -104,7 +104,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         },
         {
           label: t('mainMenu.pitchDeck'),
-          href: presentationLink,
+          href: t('presentationLink'),
         },
         {
           label: t('mainMenu.tokenomics'),
@@ -117,9 +117,6 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
 
   useEffect(() => {
     i18next.changeLanguage(selectedLanguage.toLowerCase())
-    if(selectedLanguage && selectedLanguage.toLowerCase() === 'en')
-      setPresentationLink('https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf')
-    else setPresentationLink('http://gateway.pinata.cloud/ipfs/QmS3gYhCphkyDN1GWg3TTqKFdJUCGXTKiGpi6BhSupjpJb/Gravis_presentation_JP.pdf')
   }, [selectedLanguage])
 
   // useBalance().then((result)=>console.log(result))

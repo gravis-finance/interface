@@ -3,13 +3,16 @@ import random from 'lodash/random'
 
 const bscNodes = [process.env.REACT_APP_NODE_1, process.env.REACT_APP_NODE_2, process.env.REACT_APP_NODE_3]
 const hecoNodes = [process.env.REACT_APP_HECO_NODE_1]
+const maticNodes = [process.env.REACT_APP_MATIC_NODE_1, process.env.REACT_APP_MATIC_NODE_2]
 
 // Array of available nodes to connect to
-export const nodes = {
+export const nodes: { [chainId in ChainId]: any }= {
   [ChainId.MAINNET]: bscNodes,
   [ChainId.BSCTESTNET]: bscNodes,
   [ChainId.HECOMAINNET]: hecoNodes,
   [ChainId.HECOTESTNET]: hecoNodes,
+  [ChainId.MATICMAINNET]: maticNodes,
+  [ChainId.MATICTESTNET]: maticNodes,
 }
 
 const getNodeUrl = (chainId: ChainId) => {
