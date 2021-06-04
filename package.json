@@ -12,7 +12,7 @@
     "@crowdin/crowdin-api-client": "^1.8.16",
     "@ethersproject/experimental": "^5.0.1",
     "@gravis.finance/sdk": "^1.0.9",
-    "@gravis.finance/uikit": "^1.1.72",
+    "@gravis.finance/uikit": "^1.1.73",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
     "@reach/portal": "^0.10.3",
