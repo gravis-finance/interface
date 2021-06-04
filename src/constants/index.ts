@@ -128,6 +128,29 @@ export const TEST_HECO_UNI = new Token(
   'UNI'
 )
 
+// MATIC Mainnet Basic Tokens
+export const MATIC_DAI = new Token(
+  ChainId.MATICMAINNET,
+  '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
+  18,
+  'DAI',
+  'Dai Stablecoin'
+)
+export const MATIC_USDC = new Token(
+  ChainId.MATICMAINNET,
+  '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+  18,
+  'USDS',
+  'USDC Coin'
+)
+export const MATIC_USDT = new Token(
+  ChainId.MATICMAINNET,
+  '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
+  18,
+  'USDT',
+  'Tether USD'
+)
+
 // MATIC Testnet Basic Tokens
 export const TEST_MATIC_WMATIC = new Token(
   ChainId.MATICTESTNET,
@@ -263,6 +286,6 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.MATICTESTNET]: [
     [TEST_MATIC_DAI, TEST_MATIC_USDT],
     [TEST_MATIC_DAI, TEST_MATIC_USDC],
-    [TEST_MATIC_USDT, TEST_MATIC_USDC]
+    [TEST_MATIC_USDT, TEST_MATIC_USDC],
   ],
 }
