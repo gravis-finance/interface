@@ -1,5 +1,5 @@
 import React, { lazy, useEffect, useState } from 'react'
-import { MenuEntry, useModal } from '@gravis.finance/uikit'
+import { MenuEntry, urlSearchLanguageParam, useModal } from '@gravis.finance/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
@@ -34,7 +34,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
     {
       label: t('mainMenu.home'),
       icon: 'HomeIcon',
-      href: process.env.REACT_APP_HOME_URL,
+      href: `${process.env.REACT_APP_HOME_URL}?${urlSearchLanguageParam}=${t('language')}`,
     },
     {
       label: t('mainMenu.trade'),
@@ -64,15 +64,15 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       items: [
         {
           label: t('mainMenu.analytics.overview'),
-          href: process.env.REACT_APP_INFO_URL as string,
+          href: `${process.env.REACT_APP_INFO_URL}?${urlSearchLanguageParam}=${t('language')}`,
         },
         {
           label: t('mainMenu.analytics.tokens'),
-          href: `${process.env.REACT_APP_INFO_URL}/tokens`,
+          href: `${process.env.REACT_APP_INFO_URL}/tokens?${urlSearchLanguageParam}=${t('language')}`,
         },
         {
           label: t('mainMenu.analytics.pairs'),
-          href: `${process.env.REACT_APP_INFO_URL}/pairs`,
+          href: `${process.env.REACT_APP_INFO_URL}/pairs?${urlSearchLanguageParam}=${t('language')}`,
         },
       ],
     },
@@ -82,7 +82,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       items: [
         {
           label: t('mainMenu.ino.bbRound'),
-          href: `${process.env.REACT_APP_BIG_BANG_URL}`,
+          href: `${process.env.REACT_APP_BIG_BANG_URL}?${urlSearchLanguageParam}=${t('language')}`,
         },
       ],
     },
