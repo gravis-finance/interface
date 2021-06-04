@@ -183,7 +183,7 @@ export default function CurrencyInputPanel({
                     borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
                   }}
                 >
-                  {t('balance')}: {selectedCurrencyBalance?.toSignificant(6)}
+                  {t('balanceTitle')}: {selectedCurrencyBalance?.toSignificant(6)}
                 </Text>
               )}
             </RowBetween>
