@@ -21,6 +21,8 @@ const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'testnet.',
   [ChainId.HECOMAINNET]: '',
   [ChainId.HECOTESTNET]: 'testnet.',
+  [ChainId.MATICMAINNET]: 'explorer-mainnet.',
+  [ChainId.MATICTESTNET]: 'explorer-mumbai.',
 }
 
 const EXPLORER_URLS: { [chainId in ChainId]: string } = {
@@ -28,6 +30,8 @@ const EXPLORER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'bscscan.com',
   [ChainId.HECOMAINNET]: 'hecoinfo.com',
   [ChainId.HECOTESTNET]: 'hecoinfo.com',
+  [ChainId.MATICMAINNET]: 'maticvigil.com',
+  [ChainId.MATICTESTNET]: 'maticvigil.com',
 }
 
 const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
@@ -35,6 +39,8 @@ const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'viewOnBscscan',
   [ChainId.HECOMAINNET]: 'viewOnHecoInfo',
   [ChainId.HECOTESTNET]: 'viewOnHecoInfo',
+  [ChainId.MATICMAINNET]: 'MaticInfo',
+  [ChainId.MATICTESTNET]: 'MaticInfo'
 }
 
 export const getExplorerName = (chainId: ChainId) => {
