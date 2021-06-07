@@ -154,7 +154,6 @@ const AddCustomTokenModal = ({onDismiss}) => {
   const [errorMessage, setErrorMessage] = useState('')
   const { t } = useTranslation()
   let timer;
-  let timer2;
   const [tokenAddress, setTokenAddress] = useState<string | undefined>('xxx')
   const tokenInfo = useToken(tokenAddress)
   const addToken = useAddUserToken()
