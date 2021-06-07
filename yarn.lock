@@ -2210,10 +2210,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/uikit@^1.1.74":
-  version "1.1.74"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.1.74.tgz#e8f7e860f58913d3184e093db04d8a9eccaec1e9"
-  integrity sha512-8tiZQLq24xgxEOsFR2/dwanOgd3XdBXBJ3AKD3nHMH+xKP7AsoYNnduxCvfPLbhVZMkmt24/ZxU8obd01h7sKA==
+"@gravis.finance/uikit@^1.1.78":
+  version "1.1.78"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.1.78.tgz#52e45058863626675279a8650c47d8be84aea719"
+  integrity sha512-j6puyrmiy3FXI2xNpCgSwzHYbXbAU2uOJp9cIrc5Z0vik2Br1vLjOguI1Y5417YYLZdZeq/fjS/WJRQ6QreO8A==
   dependencies:
     "@gravis.finance/sdk" "^1.0.9"
     "@types/lodash" "^4.14.162"
