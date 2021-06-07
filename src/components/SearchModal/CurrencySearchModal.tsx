@@ -154,6 +154,7 @@ const AddCustomTokenModal = ({onDismiss}) => {
   const [errorMessage, setErrorMessage] = useState('')
   const { t } = useTranslation()
   let timer;
+  let timer2;
   const [tokenAddress, setTokenAddress] = useState<string | undefined>('xxx')
   const tokenInfo = useToken(tokenAddress)
   const addToken = useAddUserToken()
@@ -181,6 +182,14 @@ const AddCustomTokenModal = ({onDismiss}) => {
     addToken(tokenInfo)
     onDismiss()
   }
+
+  useEffect(() => {
+    if(!tokenInfo)
+      setTimeout(() => setErrorMessage(t('nothingFound')), 8000)
+    else {
+      setErrorMessage('')
+    }
+  }, [tokenAddress, tokenInfo, t])
 
   // useEffect(() => {
   //   if(tokenAddress && tokenAddress.length>1)
