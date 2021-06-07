@@ -2210,17 +2210,19 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/uikit@^1.1.78":
-  version "1.1.78"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.1.78.tgz#52e45058863626675279a8650c47d8be84aea719"
-  integrity sha512-j6puyrmiy3FXI2xNpCgSwzHYbXbAU2uOJp9cIrc5Z0vik2Br1vLjOguI1Y5417YYLZdZeq/fjS/WJRQ6QreO8A==
+"@gravis.finance/uikit@^1.1.79":
+  version "1.1.79"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.1.79.tgz#eb6038ab89e80156003db5beb76a0ce7cea8e54e"
+  integrity sha512-2fkb3XhypGOLVizMVVNbJT/kV3s2ivb5GWq1RDCatv0SSMU2NoiviQkDsOuLymaL/1R6JQH3yAtxr3mcPfDzfw==
   dependencies:
     "@gravis.finance/sdk" "^1.0.9"
+    "@popperjs/core" "^2.9.2"
     "@types/lodash" "^4.14.162"
     "@types/styled-system" "^5.1.10"
     lodash "^4.17.20"
     react-lottie-player "^1.3.1"
     react-multi-lang "^2.1.1"
+    react-popper "^2.2.5"
     react-transition-group "^4.4.1"
     styled-system "^5.1.5"
     typeface-inter "^3.15.1"
@@ -2661,7 +2663,7 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.15.tgz#6a9d143f7f4f49db2d782f9e1c8839a29b43ae23"
   integrity sha512-15spi3V28QdevleWBNXE4pIls3nFZmBbUGrW9IVPwiQczuSb9n76TCB4bsk8TSel+I1OkHEdPhu5QKMfY6rQHA==
 
-"@popperjs/core@^2.4.4":
+"@popperjs/core@^2.4.4", "@popperjs/core@^2.9.2":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.2.tgz#adea7b6953cbb34651766b0548468e743c6a2353"
   integrity sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q==
@@ -18314,7 +18316,7 @@ react-multi-lang@^2.1.1:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-react-popper@^2.2.3:
+react-popper@^2.2.3, react-popper@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-2.2.5.tgz#1214ef3cec86330a171671a4fbcbeeb65ee58e96"
   integrity sha512-kxGkS80eQGtLl18+uig1UIf9MKixFSyPxglsgLBxlYnyDf65BiY9B3nZSc6C9XUNDgStROB0fMQlTEz1KxGddw==
