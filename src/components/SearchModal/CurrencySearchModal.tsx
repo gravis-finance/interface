@@ -85,7 +85,7 @@ const StyledColumn = styled(Column)`
 `
 
 const StyledBody = styled.div`
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 8px 20px;
 `
 
 const TokenInfoBlock = styled.div`
@@ -100,7 +100,7 @@ const StyledText = styled(Text)`
 const AddTokenButtonContainer = styled.div`
   width: 100%;
   display: flex;
-  margin-top: 12px;
+  margin-top: 80px;
   button {
     // margin: auto;
     height: 42px;
@@ -181,6 +181,14 @@ const AddCustomTokenModal = ({onDismiss}) => {
     addToken(tokenInfo)
     onDismiss()
   }
+
+  useEffect(() => {
+    if(!tokenInfo)
+      setTimeout(() => setErrorMessage(t('nothingFound')), 8000)
+    else {
+      setErrorMessage('')
+    }
+  }, [tokenAddress, tokenInfo, t])
 
   // useEffect(() => {
   //   if(tokenAddress && tokenAddress.length>1)

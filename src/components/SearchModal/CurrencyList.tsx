@@ -124,7 +124,7 @@ function CurrencyRow({
                 if (chainId && currency instanceof Token) removeToken(chainId.toString(), currency.address)
               }}
             >
-              ({t('removes')})
+              ({t('remove')})
             </LinkStyledButton>
           </Main>
         ) : null}</Text>
