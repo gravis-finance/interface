@@ -91,6 +91,14 @@
       "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
     },
     {
+      "name": "Quickswap Token",
+      "address": "0x831753DD7087CaC61aB5644b308642cc1c33Dc13",
+      "symbol": "QUICK",
+      "decimals": 18,
+      "chainId": 128,
+      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/8206.png"
+    },
+    {
       "name": "Heco-Peg 1INCH Token",
       "symbol": "1INCH",
       "address": "0xD192f8e3224Ff0f48B08DB4791576B6878B426A0",
