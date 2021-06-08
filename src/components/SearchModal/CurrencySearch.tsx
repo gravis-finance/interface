@@ -61,12 +61,11 @@ const StyledRemoveIcon = styled.div`
   cursor: pointer;
 `
 
-const StyledAddCustomToken = styled.div<{node_env?: string}>`
+const StyledAddCustomToken = styled.div`
   position: absolute;
   top: 15px;
   right: 40px;
   cursor: pointer;
-  ${({ node_env })=> node_env !== 'development' ? 'display: none;' : ''}
   
   * {
     cursor: pointer;
@@ -224,7 +223,7 @@ export function CurrencySearch({
               onKeyDown={handleEnter}
             />
             {/* TODO Remove display: none */}
-            <StyledAddCustomToken onClick={addCustomTokenHandler} data-id="add-custom-token-button" node_env={process.env.REACT_APP_NODE_ENV}>
+            <StyledAddCustomToken onClick={addCustomTokenHandler} data-id="add-custom-token-button">
               <AddIcon />
               <QuestionHelper
                 text={t('questionHelperMessages.addCustomToken')}
@@ -253,7 +252,7 @@ export function CurrencySearch({
               <Text>{t('nothingFound')}
                 {/* . Use Add Custom Token feature. */}
               </Text>
-              <Button onClick={addCustomTokenHandler} style={{ display: 'none' }}><AddIcon style={{ marginRight: '8px' }}/>{t('addToken')}</Button>
+              <Button onClick={addCustomTokenHandler}><AddIcon style={{ marginRight: '8px' }}/>{t('addToken')}</Button>
             </div>
           </NothingFoundContainer>
         )}
