@@ -1,8 +1,21 @@
-# Gravis Finance Swap Exchange
-
-[GravisSwap](https://gravis.finance/) is an automated market maker (“**AMM**”) that allows two tokens to be exchanged on the [Binance Smart Chain](https://www.binance.org/en/smartChain) (BSC). It is fast, cheap, and allows anyone to participate.
+# Gravis Finance Swap Interface
 
 This repo is responsible for the **exchange** interface of the AMM: [https://gswap.exchange](https://gswap.exchange)
 
-If you want to contribute, please refer to the [contributing guidelines](./CONTRIBUTING.md) of this project.
-If you want to list a token, refers to the [listing guidelines](./listing.md).
+An open source interface for Gravis -- NFT Focused Multi-chain DEX with cross-chain Bridge. Powered by HecoChain & BSC, coming soon: Solana, PolkaDot, NearProtocol, Polygon, Avalanche.
+
+- Website: [gravis.finance](gravis.finance)
+- Interface: [gswap.exchange](https://gswap.exchange)
+- Medium: [gravis-finance.medium.com/](https://gravis-finance.medium.com/)
+- Twitter: [@gravis_finance](https://twitter.com/gravis_finance)
+- Telegram: [@gravis_finance](https://t.me/gravis_finance)
+- Telegram(JP🇯🇵): [@gravis_finance_jp](https://t.me/gravis_finance_jp)
+- Email: [info@gravis.finance](mailto:info@gravis.finance)
+- Tokenomics: [v1.06](https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282)
+- Pitch Deck: [v1.11](https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf)
+
+- Pitch Deck(JP🇯🇵): [v1.11](https://gateway.pinata.cloud/ipfs/QmS3gYhCphkyDN1GWg3TTqKFdJUCGXTKiGpi6BhSupjpJb/Gravis_presentation_JP.pdf)
+
+## Contributions
+
+See [CONTRIBUTING](./CONTRIBUTING.md).

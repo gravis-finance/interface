@@ -2209,7 +2209,7 @@
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
-
+    
 "@gravis.finance/uikit@^1.1.81":
   version "1.1.81"
   resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.1.81.tgz#8e51af16c591fe89eca1ec973a97f69f9d911146"
