@@ -2209,17 +2209,18 @@
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
-    
-"@gravis.finance/uikit@^1.1.81":
-  version "1.1.81"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.1.81.tgz#8e51af16c591fe89eca1ec973a97f69f9d911146"
-  integrity sha512-9Y2KqSSY057VFSD+A19uCzKCH9BCIXVV5Ebnnr6NiNvk5Y1TCxqHZcdYD8opZ1+eZerxug6iQa+5MzHTVFbv6Q==
+
+"@gravis.finance/uikit@^1.1.82":
+  version "1.1.82"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.1.82.tgz#03e2629f0d476ba77cb7b8865ceffc8b4edba76c"
+  integrity sha512-kXG+ybbPGwTYtTay7sm8kEiV43wgtlkYDKcIa1+m2QOHSZjafkTwX++/f7Kq4VWaT/wrBb4j9ug1GRhzx11dUQ==
   dependencies:
     "@gravis.finance/sdk" "^1.0.9"
     "@popperjs/core" "^2.9.2"
     "@types/lodash" "^4.14.162"
     "@types/styled-system" "^5.1.10"
     lodash "^4.17.20"
+    react-device-detect "^1.17.0"
     react-lottie-player "^1.3.1"
     react-multi-lang "^2.1.1"
     react-popper "^2.2.5"
@@ -18238,7 +18239,7 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-react-device-detect@^1.6.2:
+react-device-detect@^1.17.0, react-device-detect@^1.6.2:
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-1.17.0.tgz#a00b4fd6880cebfab3fd8a42a79dc0290cdddca9"
   integrity sha512-bBblIStwpHmoS281JFIVqeimcN3LhpoP5YKDWzxQdBIUP8S2xPvHDgizLDhUq2ScguLfVPmwfF5y268EEQR60w==
