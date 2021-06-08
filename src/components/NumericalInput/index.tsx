@@ -1,88 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
-import { escapeRegExp } from '../../utils'
+import { Currency } from '@gravis.finance/sdk'
+import { useTranslation } from 'react-i18next'
+import { Text } from '@gravis.finance/uikit'
+import { Field } from '../../state/swap/actions'
+import { usePair } from '../../data/Reserves'
 
-const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: string }>`
-  color: ${({ error, theme }) => (error ? theme.colors.failure : theme.colors.text)};
-  width: 0;
-  position: relative;
-  font-weight: 500;
-  outline: none;
-  border: none;
-  flex: 1 1 auto;
-  background-color: transparent;
-  font-size: 16px;
-  text-align: ${({ align }) => align && align};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0px;
-  color: #909090;
-  -webkit-appearance: textfield;
-
-  ::-webkit-search-decoration {
-    -webkit-appearance: none;
-  }
-
-  [type='number'] {
-    -moz-appearance: textfield;
-  }
-
-  ::-webkit-outer-spin-button,
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-
-  ::placeholder {
-    // color: ${({ theme }) => theme.colors.textSubtle};
-    color: #909090;
-  }
+const StyledRoot = styled.div`
+  padding-top: 24px;
 `
 
-const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group
+const SwapInfo = React.memo(({ currencies }: { currencies: { [field in Field]?: Currency } }) => {
+  const { t } = useTranslation()
+  const [, pair] = usePair(currencies[Field.INPUT] ?? undefined, currencies[Field.OUTPUT] ?? undefined)
 
-export const Input = React.memo(function InnerInput({
-  value,
-  onUserInput,
-  placeholder,
-  ...rest
-}: {
-  value: string | number
-  onUserInput: (input: string) => void
-  error?: boolean
-  fontSize?: string
-  align?: 'right' | 'left'
-} & Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'as'>) {
-  const enforcer = (nextUserInput: string) => {
-    if (nextUserInput === '' || inputRegex.test(escapeRegExp(nextUserInput))) {
-      onUserInput(nextUserInput)
-    }
-  }
+  if (!pair) return null
 
   return (
-    <StyledInput
-      {...rest}
-      value={value}
-      onChange={(event) => {
-        // replace commas with periods, because uniswap exclusively uses period as the decimal separator
-        enforcer(event.target.value.replace(/,/g, '.'))
-      }}
-      // universal input options
-      inputMode="decimal"
-      title="Token Amount"
-      autoComplete="off"
-      autoCorrect="off"
-      // text-specific options
-      type="text"
-      pattern="^[0-9]*[.,]?[0-9]*$"
-      placeholder={placeholder || '0.0'}
-      minLength={1}
-      maxLength={79}
-      spellCheck="false"
-    />
+    <StyledRoot>
+      {[pair.reserve0, pair.reserve1].map((reserve) => (
+        <Text fontSize="14px" color="#909090" key={reserve.currency.symbol}>
+          {t('tokenAmount')} {reserve.currency.symbol}: {reserve.toSignificant(6)}
+        </Text>
+      ))}
+    </StyledRoot>
   )
 })
 
-export default Input
-
-// const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group
+export default SwapInfo
