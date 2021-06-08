@@ -7,7 +7,7 @@ import { Field } from '../../state/swap/actions'
 import { usePair } from '../../data/Reserves'
 
 const StyledRoot = styled.div`
-  padding-top: 8px;
+  padding-top: 24px;
 `
 
 const SwapInfo = React.memo(({ currencies }: { currencies: { [field in Field]?: Currency } }) => {
