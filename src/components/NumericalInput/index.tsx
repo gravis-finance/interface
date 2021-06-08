@@ -19,20 +19,16 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   padding: 0px;
   color: #909090;
   -webkit-appearance: textfield;
-
   ::-webkit-search-decoration {
     -webkit-appearance: none;
   }
-
   [type='number'] {
     -moz-appearance: textfield;
   }
-
   ::-webkit-outer-spin-button,
   ::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
-
   ::placeholder {
     // color: ${({ theme }) => theme.colors.textSubtle};
     color: #909090;
@@ -42,11 +38,11 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group
 
 export const Input = React.memo(function InnerInput({
-  value,
-  onUserInput,
-  placeholder,
-  ...rest
-}: {
+                                                      value,
+                                                      onUserInput,
+                                                      placeholder,
+                                                      ...rest
+                                                    }: {
   value: string | number
   onUserInput: (input: string) => void
   error?: boolean
@@ -84,5 +80,3 @@ export const Input = React.memo(function InnerInput({
 })
 
 export default Input
-
-// const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group

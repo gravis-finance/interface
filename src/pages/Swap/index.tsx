@@ -36,6 +36,7 @@ import { useTranslation } from 'react-i18next'
 import AppBody from '../AppBody'
 import { ReactComponent as ExchangeIcon } from '../../assets/svg/exchange-icon.svg'
 import GravisSpinner from '../../components/GravisSpinner'
+import SwapInfo from './SwapInfo'
 
 const { main: Main } = TYPE
 
@@ -132,12 +133,11 @@ const Swap = () => {
   const { independentField, typedValue, recipient } = useSwapState()
   const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
 
-  const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback(
-    currencies[Field.INPUT],
-    currencies[Field.OUTPUT],
-    typedValue,
-    t
-  )
+  const {
+    wrapType,
+    execute: onWrap,
+    inputError: wrapInputError,
+  } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue, t)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   //   const { address: recipientAddress } = useENSAddress(recipient)
   const trade = showWrap ? undefined : v2Trade
@@ -475,7 +475,9 @@ const Swap = () => {
                     >
                       {priceImpactSeverity > 3 && !isExpertMode
                         ? t('priceImpactTooHigh')
-                        : priceImpactSeverity > 2 ? t('swapAnyway') : t('swap')}
+                        : priceImpactSeverity > 2
+                        ? t('swapAnyway')
+                        : t('swap')}
                     </Button>
                   </StyledRowBetween>
                 ) : (
@@ -500,13 +502,16 @@ const Swap = () => {
                     {swapInputError ||
                       (priceImpactSeverity > 3 && !isExpertMode
                         ? t('priceImpactTooHigh')
-                        : priceImpactSeverity > 2 ? t('swapAnyway') : t('swap'))}
+                        : priceImpactSeverity > 2
+                        ? t('swapAnyway')
+                        : t('swap'))}
                   </Button>
                 )}
                 {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}
                 {/* <ProgressSteps steps={[approval === ApprovalState.APPROVED]} /> */}
                 {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
               </BottomGrouping>
+              <SwapInfo currencies={currencies} />
             </CardBody>
           </StyledCardBody>
         </Wrapper>
