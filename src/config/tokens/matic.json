@@ -99,6 +99,14 @@
       "logoURI": "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/polygon/assets/0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619/logo.png"
     },
     {
+      "name": "Quickswap Token",
+      "address": "0x831753DD7087CaC61aB5644b308642cc1c33Dc13",
+      "symbol": "QUICK",
+      "decimals": 18,
+      "chainId": 137,
+      "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/8206.png"
+    },
+    {
       "name": "Wrapped BTC",
       "address": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
       "symbol": "WBTC",

@@ -78,7 +78,7 @@ function Migrate() {
   const [tokenList, setTokenList] = useState<any>([])
 
   const networkId = getNetworkId()
-  const isVampiringAvailable = networkId === '97' || networkId === '256'
+  const isVampiringAvailable = networkId === '97'
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -221,7 +221,7 @@ function Migrate() {
 
   // TODO Add normal check to vampirism
 
-  const isVampiringAvailableHardCoded = process.env.REACT_APP_NODE_ENV === 'development'
+  const isVampiringAvailableHardCoded = process.env.REACT_APP_NODE_ENV === 'development' && isVampiringAvailable
 
   return (
     <CardWrapper>
