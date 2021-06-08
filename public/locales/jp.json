@@ -108,6 +108,7 @@
   "copyAddress": "アドレスをコピー",
   "viewOnBscscan": "BSCScanで見る",
   "viewOnHecoInfo": "HecoInfoで見る",
+  "MaticInfo": "Maticで見る",
   "clearAll": "すべてクリア",
   "close": "閉じる",
   "noRecentTransactions": "最近のトランザクションがありません",
@@ -284,7 +285,7 @@
   "continue": "続ける",
   "for": "にとって",
   "presentationLink": "http://gateway.pinata.cloud/ipfs/QmS3gYhCphkyDN1GWg3TTqKFdJUCGXTKiGpi6BhSupjpJb/Gravis_presentation_JP.pdf",
-  "language": "en",
+  "language": "jp",
 
   "time": {
     "time": "時間",

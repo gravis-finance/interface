@@ -17,6 +17,7 @@ export const ETH = new Token(
   'Binance-Peg Ethereum Token'
 )
 
+// BSC Testnet Basic Tokens
 export const TEST_BSC_WBNB = new Token(
   ChainId.BSCTESTNET,
   '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
@@ -108,21 +109,102 @@ export const TEST_HECO_USDC = new Token(
 export const TEST_HECO_DAI = new Token(
   ChainId.HECOTESTNET,
   '0xc73cbC85C8Df0e7b40Cc05f8B82De4a7ae8F8813',
-  6,
+  18,
   'DAI',
   'DAI'
 )
 export const TEST_HECO_WBTC = new Token(
   ChainId.HECOTESTNET,
   '0x7bA4b2383255b891D51D1702023904dcEf6d952a',
-  6,
+  8,
   'WBTC',
   'Wrapped BTC'
 )
 export const TEST_HECO_UNI = new Token(
   ChainId.HECOTESTNET,
   '0x6e4Dc12aF5477fCE40F87841dAfdf7156722635e',
-  6,
+  18,
+  'UNI',
+  'UNI'
+)
+
+// MATIC Mainnet Basic Tokens
+export const MATIC_DAI = new Token(
+  ChainId.MATICMAINNET,
+  '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
+  18,
+  'DAI',
+  'Dai Stablecoin'
+)
+export const MATIC_USDC = new Token(
+  ChainId.MATICMAINNET,
+  '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+  18,
+  'USDS',
+  'USDC Coin'
+)
+export const MATIC_USDT = new Token(
+  ChainId.MATICMAINNET,
+  '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
+  18,
+  'USDT',
+  'Tether USD'
+)
+export const MATIC_WETH = new Token(
+  ChainId.MATICMAINNET,
+  '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619',
+  18,
+  'WETH',
+  'Wrapped Ether'
+)
+export const MATIC_IRON = new Token(
+  ChainId.MATICMAINNET,
+  '0xD86b5923F3AD7b585eD81B448170ae026c65ae9a',
+  18,
+  'IRON',
+  'IRON Stablecoin'
+)
+
+// MATIC Testnet Basic Tokens
+export const TEST_MATIC_WMATIC = new Token(
+  ChainId.MATICTESTNET,
+  '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
+  18,
+  'WMATIC',
+  'Wrapped Matic'
+)
+export const TEST_MATIC_USDT = new Token(
+  ChainId.MATICTESTNET,
+  '0x3E823a0A1a471Dac708Cd819f857cd703648644C',
+  18,
+  'USDT',
+  'USDT'
+)
+export const TEST_MATIC_USDC = new Token(
+  ChainId.MATICTESTNET,
+  '0x0020Ef42Ec72A901c48Df446cCBC866e64b17fDd',
+  18,
+  'USDC',
+  'USDC'
+)
+export const TEST_MATIC_DAI = new Token(
+  ChainId.MATICTESTNET,
+  '0x74dB81ee72b471c175E115993F929B113151C85d',
+  18,
+  'DAI',
+  'DAI'
+)
+export const TEST_MATIC_WBTC = new Token(
+  ChainId.MATICTESTNET,
+  '0x15f52f35DC0E68514Bdb442F8021D7860e766a80',
+  18,
+  'WBTC',
+  'Wrapped BTC'
+)
+export const TEST_MATIC_UNI = new Token(
+  ChainId.MATICTESTNET,
+  '0xa87424a801444B9282F0B1351d7F65128e8D4159',
+  18,
   'UNI',
   'UNI'
 )
@@ -132,6 +214,8 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.BSCTESTNET]: [WETH[ChainId.BSCTESTNET]],
   [ChainId.HECOMAINNET]: [WETH[ChainId.HECOMAINNET]],
   [ChainId.HECOTESTNET]: [WETH[ChainId.HECOTESTNET]],
+  [ChainId.MATICMAINNET]: [WETH[ChainId.MATICMAINNET]],
+  [ChainId.MATICTESTNET]: [WETH[ChainId.MATICTESTNET]],
 }
 
 // used to construct intermediary pairs for trading
@@ -141,6 +225,15 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.BSCTESTNET]: [TEST_BSC_DAI, TEST_BSC_USDC, TEST_BSC_USDT, TEST_BSC_BUSD],
   [ChainId.HECOMAINNET]: [...WETH_ONLY[ChainId.HECOMAINNET], HECO_USDT, HECO_ETH],
   [ChainId.HECOTESTNET]: [TEST_HECO_DAI, TEST_HECO_USDT, TEST_HECO_USDC],
+  [ChainId.MATICMAINNET]: [
+    ...WETH_ONLY[ChainId.MATICMAINNET],
+    MATIC_DAI,
+    MATIC_USDT,
+    MATIC_USDC,
+    MATIC_IRON,
+    MATIC_WETH,
+  ],
+  [ChainId.MATICTESTNET]: [TEST_MATIC_DAI, TEST_MATIC_USDT, TEST_MATIC_USDC],
 }
 
 /**
@@ -152,6 +245,8 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
   [ChainId.BSCTESTNET]: {},
   [ChainId.HECOMAINNET]: {},
   [ChainId.HECOTESTNET]: {},
+  [ChainId.MATICMAINNET]: {},
+  [ChainId.MATICTESTNET]: {},
 }
 
 // used for display in the default list when adding liquidity
@@ -168,6 +263,15 @@ export const SUGGESTED_BASES: ChainTokenList = {
     TEST_HECO_WBTC,
     TEST_HECO_UNI,
   ],
+  [ChainId.MATICMAINNET]: [
+    ...WETH_ONLY[ChainId.MATICMAINNET],
+    MATIC_DAI,
+    MATIC_USDT,
+    MATIC_USDC,
+    MATIC_IRON,
+    MATIC_WETH,
+  ],
+  [ChainId.MATICTESTNET]: [...WETH_ONLY[ChainId.MATICTESTNET], TEST_MATIC_DAI, TEST_MATIC_USDT, TEST_MATIC_USDC],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -177,6 +281,15 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.BSCTESTNET]: [...WETH_ONLY[ChainId.BSCTESTNET], TEST_BSC_DAI, TEST_BSC_USDC, TEST_BSC_USDT, TEST_BSC_BUSD],
   [ChainId.HECOMAINNET]: [...WETH_ONLY[ChainId.HECOMAINNET], HECO_USDT, HECO_ETH],
   [ChainId.HECOTESTNET]: [...WETH_ONLY[ChainId.HECOTESTNET], TEST_HECO_DAI, TEST_HECO_USDC, TEST_HECO_USDT],
+  [ChainId.MATICMAINNET]: [
+    ...WETH_ONLY[ChainId.MATICMAINNET],
+    MATIC_DAI,
+    MATIC_USDT,
+    MATIC_USDC,
+    MATIC_IRON,
+    MATIC_WETH,
+  ],
+  [ChainId.MATICTESTNET]: [...WETH_ONLY[ChainId.MATICTESTNET], TEST_MATIC_DAI, TEST_MATIC_USDT, TEST_MATIC_USDC],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -203,5 +316,18 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.HECOTESTNET]: [
     [TEST_HECO_DAI, TEST_HECO_USDT],
     [TEST_HECO_DAI, TEST_HECO_USDC],
+  ],
+  [ChainId.MATICMAINNET]: [
+    [MATIC_DAI, MATIC_USDT],
+    [MATIC_DAI, MATIC_USDC],
+    [MATIC_USDT, MATIC_USDC],
+    [MATIC_USDT, MATIC_IRON],
+    [MATIC_USDC, MATIC_IRON],
+    [MATIC_IRON, MATIC_DAI],
+  ],
+  [ChainId.MATICTESTNET]: [
+    [TEST_MATIC_DAI, TEST_MATIC_USDT],
+    [TEST_MATIC_DAI, TEST_MATIC_USDC],
+    [TEST_MATIC_USDT, TEST_MATIC_USDC],
   ],
 }
