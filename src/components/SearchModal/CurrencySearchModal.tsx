@@ -184,7 +184,7 @@ const AddCustomTokenModal = ({onDismiss}) => {
 
   useEffect(() => {
     if(!tokenInfo)
-      setTimeout(() => setErrorMessage(t('nothingFound')), 8000)
+      setTimeout(() => setErrorMessage(t('nothingFound')), 12000)
     else {
       setErrorMessage('')
     }
