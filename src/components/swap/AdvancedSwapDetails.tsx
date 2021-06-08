@@ -154,7 +154,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
                   <Text fontSize="14px" bold>
                     {t('route')}
                   </Text>
-                  <QuestionHelper text={t('questionHelperMessages.routingThroughTokens')} />
+                  <QuestionHelper text={t('errorMessages.routingThroughTokens')} />
                 </RowFixed>
                 <SwapRoute trade={trade} />
               </AutoColumn>
