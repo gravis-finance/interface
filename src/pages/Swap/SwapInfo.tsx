@@ -20,7 +20,7 @@ const SwapInfo = React.memo(({ currencies }: { currencies: { [field in Field]?: 
     <StyledRoot>
       {[pair.reserve0, pair.reserve1].map((reserve) => (
         <Text fontSize="14px" color="#909090" key={reserve.currency.symbol}>
-          {reserve.currency.symbol} {t('inPool')}: {reserve.toSignificant(6)}
+          {reserve.currency.symbol} {t('inPool')}: {reserve.toSignificant(8)}
         </Text>
       ))}
     </StyledRoot>
