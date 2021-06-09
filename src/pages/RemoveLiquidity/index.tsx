@@ -51,18 +51,6 @@ const Body = styled.div`
   // padding-right: 24px;
 `
 
-const StyledAddIcon = styled.div`
-  display: flex;
-  margin-left: 20px;
-  background: linear-gradient(0deg, #303030, #303030), #ffffff;
-  border-radius: 37px;
-  padding: 4px;
-
-  > * {
-    margin: auto;
-  }
-`
-
 const StyledTextAddIcon = styled.div`
   border-radius: 6px;
   display: flex;
@@ -83,6 +71,37 @@ const StyledReceived = styled(StyledInternalLink)`
   padding: 7px 8px;
   :hover {
     text-decoration: none;
+  }
+`
+
+const StyledPercentButton = styled(Button)`
+    height: 24px;
+    width: 37px;
+    font-size: 10px;
+    font-weight: bold;
+    background: #2d4f5d;
+    border-radius: 6px;
+  `
+
+const StyledWrapper = styled(Wrapper)`
+    margin-top: 0;
+  `
+
+const StyledPriceContainer = styled.div`
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 6px 8px;
+  `
+
+const StyledAddIcon = styled.div`
+  display: flex;
+  margin-left: 20px;
+  background: linear-gradient(0deg, #303030, #303030), #ffffff;
+  border-radius: 37px;
+  padding: 4px;
+
+  > * {
+    margin: auto;
   }
 `
 
@@ -363,111 +382,6 @@ const RemoveLiquidity = ({
     }
   }
 
-  function ModalHeader() {
-    return (
-      <AutoColumn gap="md" style={{ marginTop: '0' }}>
-        <RowBetween
-          style={{
-            background: 'linear-gradient(0deg, #303030, #303030), #F5F7FF',
-            boxShadow: 'inset 0px -1px 0px rgba(129, 129, 129, 0.15)',
-            borderRadius: '43px',
-            padding: '13px 16px',
-          }}
-          alignItems="center"
-        >
-          <Text fontSize="14px">{parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}</Text>
-          <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyA} size="24px" />
-            <Text fontSize="14px" style={{ marginLeft: '10px' }}>
-              {currencyA?.symbol}
-            </Text>
-          </RowFixed>
-        </RowBetween>
-        <RowFixed>
-          <StyledAddIcon>
-            <BorderedAddIcon width="24px" />
-          </StyledAddIcon>
-        </RowFixed>
-        <RowBetween
-          style={{
-            background: 'linear-gradient(0deg, #303030, #303030), #F5F7FF',
-            boxShadow: 'inset 0px -1px 0px rgba(129, 129, 129, 0.15)',
-            borderRadius: '43px',
-            padding: '13px 16px',
-          }}
-          alignItems="center"
-        >
-          <Text fontSize="14px">{parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}</Text>
-          <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyB} size="24px" />
-            <Text fontSize="14px" style={{ marginLeft: '10px' }}>
-              {currencyB?.symbol}
-            </Text>
-          </RowFixed>
-        </RowBetween>
-
-        <Text fontSize="14px" color="rgba(255, 255, 255, 0.5)">
-          {t('outputEstimated')}{' '}
-          <Text style={{ display: 'inline-block' }} fontSize="14px" color="#009CE1">
-            {allowedSlippage / 100}%
-          </Text>{' '}
-          {t('transactionWillRevert')}
-        </Text>
-      </AutoColumn>
-    )
-  }
-
-  const StyledPriceContainer = styled.div`
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 6px;
-    padding: 6px 8px;
-  `
-
-  function ModalBottom() {
-    return (
-      <>
-        <RowBetween style={{ padding: '6px 8px' }}>
-          <Text color="rgba(255, 255, 255, 0.5)" fontSize="11px">
-            {`${currencyA?.symbol}/${currencyB?.symbol}`} {t('burned')}
-          </Text>
-          <RowFixed>
-            <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} margin size={24} />
-            <Text fontSize="11px" ml="8px" color="rgba(255, 255, 255, 0.5)">
-              {parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}
-            </Text>
-          </RowFixed>
-        </RowBetween>
-        {pair && (
-          <StyledPriceContainer>
-            <RowBetween>
-              <Text color="rgba(255, 255, 255, 0.5);" fontSize="11px">
-                {t('price')}
-              </Text>
-              <Text fontSize="11px" color="#009CE1">
-                1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
-              </Text>
-            </RowBetween>
-            <RowBetween>
-              <div />
-              <Text fontSize="11px" color="#009CE1">
-                1 {currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
-              </Text>
-            </RowBetween>
-          </StyledPriceContainer>
-        )}
-        <Button
-          disabled={!(approval === ApprovalState.APPROVED || signatureData !== null)}
-          onClick={onRemove}
-          fullwidth
-          style={{ marginBottom: '24px', marginTop: '24px' }}
-          data-id="confirm-button"
-        >
-          {t('confirm')}
-        </Button>
-      </>
-    )
-  }
-
   const pendingText = `${t('removing')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
     currencyA?.symbol
   } ${t('and')} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`
@@ -522,21 +436,8 @@ const RemoveLiquidity = ({
     liquidityPercentChangeCallback
   )
 
-  const StyledWrapper = styled(Wrapper)`
-    margin-top: 0;
-  `
-
   const { chainId: chain } = useActiveWeb3React()
   const [receivedSymbol] = useState(chain === 56 || chain === 97 ? 'BNB' : 'HT')
-
-  const StyledPercentButton = styled(Button)`
-    height: 24px;
-    width: 37px;
-    font-size: 10px;
-    font-weight: bold;
-    background: #2d4f5d;
-    border-radius: 6px;
-  `
 
   return (
     <>
@@ -544,20 +445,110 @@ const RemoveLiquidity = ({
         <AddRemoveTabs adding={false} />
         <StyledWrapper>
           <TransactionConfirmationModal
-            isOpen={showConfirm}
-            onDismiss={handleDismissConfirmation}
-            attemptingTxn={attemptingTxn}
-            hash={txHash || ''}
-            content={() => (
-              <ConfirmationModalContent
+              isOpen={showConfirm}
+              onDismiss={handleDismissConfirmation}
+              hash={txHash || ''}
+              attemptingTxn={attemptingTxn}
+              pendingText={pendingText}
+          >
+            <ConfirmationModalContent
                 title={t('youWillReceiveMessage')}
                 onDismiss={handleDismissConfirmation}
-                topContent={ModalHeader}
-                bottomContent={ModalBottom}
-              />
-            )}
-            pendingText={pendingText}
-          />
+                topContent={
+                  <AutoColumn gap="md" style={{ marginTop: '0' }}>
+                    <RowBetween
+                        style={{
+                          background: 'linear-gradient(0deg, #303030, #303030), #F5F7FF',
+                          boxShadow: 'inset 0px -1px 0px rgba(129, 129, 129, 0.15)',
+                          borderRadius: '43px',
+                          padding: '13px 16px',
+                        }}
+                        alignItems="center"
+                    >
+                      <Text fontSize="14px">{parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}</Text>
+                      <RowFixed gap="4px">
+                        <CurrencyLogo currency={currencyA} size="24px" />
+                        <Text fontSize="14px" style={{ marginLeft: '10px' }}>
+                          {currencyA?.symbol}
+                        </Text>
+                      </RowFixed>
+                    </RowBetween>
+                    <RowFixed>
+                      <StyledAddIcon>
+                        <BorderedAddIcon width="24px" />
+                      </StyledAddIcon>
+                    </RowFixed>
+                    <RowBetween
+                        style={{
+                          background: 'linear-gradient(0deg, #303030, #303030), #F5F7FF',
+                          boxShadow: 'inset 0px -1px 0px rgba(129, 129, 129, 0.15)',
+                          borderRadius: '43px',
+                          padding: '13px 16px',
+                        }}
+                        alignItems="center"
+                    >
+                      <Text fontSize="14px">{parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}</Text>
+                      <RowFixed gap="4px">
+                        <CurrencyLogo currency={currencyB} size="24px" />
+                        <Text fontSize="14px" style={{ marginLeft: '10px' }}>
+                          {currencyB?.symbol}
+                        </Text>
+                      </RowFixed>
+                    </RowBetween>
+
+                    <Text fontSize="14px" color="rgba(255, 255, 255, 0.5)">
+                      {t('outputEstimated')}{' '}
+                      <Text style={{ display: 'inline-block' }} fontSize="14px" color="#009CE1">
+                        {allowedSlippage / 100}%
+                      </Text>{' '}
+                      {t('transactionWillRevert')}
+                    </Text>
+                  </AutoColumn>
+                }
+                bottomContent={
+                  <>
+                    <RowBetween style={{ padding: '6px 8px' }}>
+                      <Text color="rgba(255, 255, 255, 0.5)" fontSize="11px">
+                        {`${currencyA?.symbol}/${currencyB?.symbol}`} {t('burned')}
+                      </Text>
+                      <RowFixed>
+                        <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} margin size={24} />
+                        <Text fontSize="11px" ml="8px" color="rgba(255, 255, 255, 0.5)">
+                          {parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}
+                        </Text>
+                      </RowFixed>
+                    </RowBetween>
+                    {pair && (
+                        <StyledPriceContainer>
+                          <RowBetween>
+                            <Text color="rgba(255, 255, 255, 0.5);" fontSize="11px">
+                              {t('price')}
+                            </Text>
+                            <Text fontSize="11px" color="#009CE1">
+                              1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
+                            </Text>
+                          </RowBetween>
+                          <RowBetween>
+                            <div />
+                            <Text fontSize="11px" color="#009CE1">
+                              1 {currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
+                            </Text>
+                          </RowBetween>
+                        </StyledPriceContainer>
+                    )}
+                    <Button
+                        disabled={!(approval === ApprovalState.APPROVED || signatureData !== null)}
+                        onClick={onRemove}
+                        fullwidth
+                        style={{ marginBottom: '24px', marginTop: '24px' }}
+                        data-id="confirm-button"
+                    >
+                      {t('confirm')}
+                    </Button>
+                  </>
+                }
+            />
+          </TransactionConfirmationModal>
           <AutoColumn>
             <Body>
               <OutlineCard>
