@@ -20,7 +20,7 @@ const TransactionConfirmationModal = ({
   attemptingTxn,
   hash,
   pendingText,
-                                        children,
+  children,
 }: ConfirmationModalProps) => {
   const { chainId } = useActiveWeb3React()
 
@@ -34,7 +34,7 @@ const TransactionConfirmationModal = ({
       ) : hash ? (
         <TransactionSubmittedContent chainId={chainId} hash={hash} onDismiss={onDismiss} />
       ) : (
-          children
+        children
       )}
     </Modal>
   )

@@ -55,9 +55,10 @@ export default function ConfirmSwapModal({
   )
 
   // text to show while loading
-  const pendingText = t('swappingFor', {inputAmount: `${trade?.inputAmount?.toSignificant(6)} ${
-      trade?.inputAmount?.currency?.symbol
-    }`, outputAmount: `${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`})
+  const pendingText = t('swappingFor', {
+    inputAmount: `${trade?.inputAmount?.toSignificant(6)} ${trade?.inputAmount?.currency?.symbol}`,
+    outputAmount: `${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`,
+  })
 
   return (
     <TransactionConfirmationModal
@@ -67,35 +68,35 @@ export default function ConfirmSwapModal({
       hash={txHash}
       pendingText={pendingText}
     >
-      { swapErrorMessage ? (
-          <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} />
+      {swapErrorMessage ? (
+        <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} />
       ) : (
-          <ConfirmationModalContent
-              title={t('confirmSwap')}
-              onDismiss={onDismiss}
-              topContent={
-                !!trade && (
-                    <SwapModalHeader
-                        trade={trade}
-                        allowedSlippage={allowedSlippage}
-                        recipient={recipient}
-                        showAcceptChanges={showAcceptChanges}
-                        onAcceptChanges={onAcceptChanges}
-                    />
-                )
-              }
-              bottomContent={
-                !!trade && (
-                    <SwapModalFooter
-                        onConfirm={onConfirm}
-                        trade={trade}
-                        disabledConfirm={showAcceptChanges}
-                        swapErrorMessage={swapErrorMessage}
-                        allowedSlippage={allowedSlippage}
-                    />
-                )
-              }
-          />
+        <ConfirmationModalContent
+          title={t('confirmSwap')}
+          onDismiss={onDismiss}
+          topContent={
+            !!trade && (
+              <SwapModalHeader
+                trade={trade}
+                allowedSlippage={allowedSlippage}
+                recipient={recipient}
+                showAcceptChanges={showAcceptChanges}
+                onAcceptChanges={onAcceptChanges}
+              />
+            )
+          }
+          bottomContent={
+            !!trade && (
+              <SwapModalFooter
+                onConfirm={onConfirm}
+                trade={trade}
+                disabledConfirm={showAcceptChanges}
+                swapErrorMessage={swapErrorMessage}
+                allowedSlippage={allowedSlippage}
+              />
+            )
+          }
+        />
       )}
     </TransactionConfirmationModal>
   )
