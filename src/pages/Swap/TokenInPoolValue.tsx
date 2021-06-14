@@ -13,6 +13,7 @@ const StyledRoot = styled.div`
   color: #909090;
   text-align: right;
   line-height: 1.2;
+  margin-top: 4px;
   ${space}
 `
 
