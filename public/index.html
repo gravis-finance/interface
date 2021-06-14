@@ -11,11 +11,16 @@
     <link rel="preconnect" href="%REACT_APP_MATIC_NODE_2%" />
     <!-- Links -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-Regular.woff2?v=3.18" as="font">
-    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-SemiBold.woff2?v=3.18" as="font">
-    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-Bold.woff2?v=3.18" as="font">
-    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-Medium.woff2?v=3.18" as="font">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" media="print" onload="this.media='all'; this.onload=null;">
+    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-Regular.woff2?v=3.18" as="font" />
+    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-SemiBold.woff2?v=3.18" as="font" />
+    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-Bold.woff2?v=3.18" as="font" />
+    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-Medium.woff2?v=3.18" as="font" />
+    <link
+      rel="stylesheet"
+      href="https://rsms.me/inter/inter.css"
+      media="print"
+      onload="this.media='all'; this.onload=null;"
+    />
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,17 +29,57 @@
       name="description"
       content="NFT Focused Multi-chain DEX with cross-chain Bridge. Powered by HecoChain & BSC, coming soon: Solana, PolkaDot, NearProtocol, Polygon, Avalanche."
     />
-    <meta property="og:description" content="NFT Focused Multi-chain DEX with cross-chain Bridge. Powered by HecoChain & BSC, coming soon: Solana, PolkaDot, NearProtocol, Polygon, Avalanche." />
+    <meta
+      property="og:description"
+      content="NFT Focused Multi-chain DEX with cross-chain Bridge. Powered by HecoChain & BSC, coming soon: Solana, PolkaDot, NearProtocol, Polygon, Avalanche."
+    />
     <meta property="og:image" content="https://gravis.finance/android-chrome-512x512.png" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon-16x16.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon-32x32.png" sizes="32x32" />
     <!-- Meta -->
     <title>Gravis Finance</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-X0NG9J2FRS');</script>
+    <!-- Google.Analytics counter -->
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-MWCPRSYTVQ')
+    </script>
+    <!-- Google.Analytics counter -->
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      ;(function (m, e, t, r, i, k, a) {
+        m[i] =
+          m[i] ||
+          function () {
+            ;(m[i].a = m[i].a || []).push(arguments)
+          }
+        m[i].l = 1 * new Date()
+        ;(k = e.createElement(t)),
+          (a = e.getElementsByTagName(t)[0]),
+          (k.async = 1),
+          (k.src = r),
+          a.parentNode.insertBefore(k, a)
+      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym')
+
+      ym(80851390, 'init', {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true,
+      })
+    </script>
+    <noscript
+      ><div><img src="https://mc.yandex.ru/watch/80851390" style="position: absolute; left: -9999px" alt="" /></div
+    ></noscript>
+    <!-- /Yandex.Metrika counter -->
     <div id="root"></div>
   </body>
 </html>
