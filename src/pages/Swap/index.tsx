@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { CurrencyAmount, JSBI, Token, Trade } from '@gravis.finance/sdk'
+import { CurrencyAmount, JSBI, Token, Trade, TokenAmount } from '@gravis.finance/sdk'
 import { ArrowDown } from 'react-feather'
 import { CardBody, Button, Text, Flex } from '@gravis.finance/uikit'
 
@@ -36,7 +36,8 @@ import { useTranslation } from 'react-i18next'
 import AppBody from '../AppBody'
 import { ReactComponent as ExchangeIcon } from '../../assets/svg/exchange-icon.svg'
 import GravisSpinner from '../../components/GravisSpinner'
-import SwapInfo from './SwapInfo'
+import { usePair } from '../../data/Reserves'
+import TokenInPoolValue from './TokenInPoolValue'
 
 const { main: Main } = TYPE
 
@@ -98,6 +99,23 @@ const SpinnerContainer = styled.div`
   width: 100%;
   > * {
     margin: auto;
+  }
+`
+
+const StyledAutoRow = styled(AutoRow)`
+  > div {
+    flex: 1;
+
+    &:nth-child(2) {
+      display: flex;
+      justify-content: center;
+    }
+
+    &:nth-child(3) {
+      align-self: baseline;
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 `
 
@@ -221,6 +239,11 @@ const Swap = () => {
     recipient
   )
 
+  // get tokens in pool
+  const [, pair] = usePair(currencies[Field.INPUT] ?? undefined, currencies[Field.OUTPUT] ?? undefined)
+  const { reserve0, reserve1 }: { reserve0?: TokenAmount; reserve1?: TokenAmount } =
+    trade?.route?.path.length === 2 && !!pair ? pair : {}
+
   const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
 
   const handleSwap = useCallback(() => {
@@ -340,26 +363,32 @@ const Swap = () => {
                   id="swap-currency-input"
                 />
                 <AutoColumn justify="space-between">
-                  <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>
-                    <ArrowWrapper clickable>
-                      <StyledIconButton
-                        onClick={() => {
-                          setApprovalSubmitted(false) // reset 2 step UI for approvals
-                          onSwitchTokens()
-                          setRotated(!rotated)
-                        }}
-                        data-id="revert-trade-button"
-                        reversed={rotated}
-                      >
-                        <ExchangeIcon />
-                      </StyledIconButton>
-                    </ArrowWrapper>
-                    {recipient === null && !showWrap && isExpertMode ? (
-                      <LinkStyledButton id="add-recipient-button" onClick={() => onChangeRecipient('')}>
-                        + Add a send (optional)
-                      </LinkStyledButton>
-                    ) : null}
-                  </AutoRow>
+                  <StyledAutoRow justify="space-between" style={{ padding: '0 1rem' }}>
+                    <div />
+                    <div>
+                      <ArrowWrapper clickable>
+                        <StyledIconButton
+                          onClick={() => {
+                            setApprovalSubmitted(false) // reset 2 step UI for approvals
+                            onSwitchTokens()
+                            setRotated(!rotated)
+                          }}
+                          data-id="revert-trade-button"
+                          reversed={rotated}
+                        >
+                          <ExchangeIcon />
+                        </StyledIconButton>
+                      </ArrowWrapper>
+                      {recipient === null && !showWrap && isExpertMode ? (
+                        <LinkStyledButton id="add-recipient-button" onClick={() => onChangeRecipient('')}>
+                          + Add a send (optional)
+                        </LinkStyledButton>
+                      ) : null}
+                    </div>
+                    <div>
+                      <TokenInPoolValue value={reserve0} />
+                    </div>
+                  </StyledAutoRow>
                 </AutoColumn>
                 <CurrencyInputPanel
                   value={formattedAmounts[Field.OUTPUT]}
@@ -371,6 +400,7 @@ const Swap = () => {
                   otherCurrency={currencies[Field.INPUT]}
                   id="swap-currency-output"
                 />
+                <TokenInPoolValue value={reserve1} pr="1rem" />
 
                 {recipient !== null && !showWrap ? (
                   <>
@@ -511,7 +541,6 @@ const Swap = () => {
                 {/* <ProgressSteps steps={[approval === ApprovalState.APPROVED]} /> */}
                 {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
               </BottomGrouping>
-              <SwapInfo currencies={currencies} />
             </CardBody>
           </StyledCardBody>
         </Wrapper>

@@ -9,9 +9,9 @@ interface ConfirmationModalProps {
   isOpen: boolean
   onDismiss: () => void
   hash: string | undefined
-  content: () => React.ReactNode
   attemptingTxn: boolean
   pendingText: string
+  children?: React.ReactNode
 }
 
 const TransactionConfirmationModal = ({
@@ -20,7 +20,7 @@ const TransactionConfirmationModal = ({
   attemptingTxn,
   hash,
   pendingText,
-  content,
+  children,
 }: ConfirmationModalProps) => {
   const { chainId } = useActiveWeb3React()
 
@@ -34,7 +34,7 @@ const TransactionConfirmationModal = ({
       ) : hash ? (
         <TransactionSubmittedContent chainId={chainId} hash={hash} onDismiss={onDismiss} />
       ) : (
-        content()
+        children
       )}
     </Modal>
   )

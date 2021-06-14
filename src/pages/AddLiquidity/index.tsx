@@ -153,11 +153,13 @@ export default function AddLiquidity({
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_A],
-    chainId && ROUTER_ADDRESS[chainId], t
+    chainId && ROUTER_ADDRESS[chainId],
+    t
   )
   const [approvalB, approveBCallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_B],
-    chainId && ROUTER_ADDRESS[chainId], t
+    chainId && ROUTER_ADDRESS[chainId],
+    t
   )
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
@@ -256,60 +258,6 @@ export default function AddLiquidity({
       })
   }
 
-  const modalHeader = () => {
-    return noLiquidity ? (
-      <AutoColumn gap="20px">
-        <Card mt="20px" borderRadius="20px" padding="0">
-          <RowFlat>
-            <UIKitText fontSize="24px" mr="8px">
-              {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol}`}
-            </UIKitText>
-            <DoubleCurrencyLogo
-              currency0={currencies[Field.CURRENCY_A]}
-              currency1={currencies[Field.CURRENCY_B]}
-              size={24}
-            />
-          </RowFlat>
-        </Card>
-      </AutoColumn>
-    ) : (
-      <AutoColumn gap="10px">
-        <RowFlat>
-          <UIKitText fontSize="24px" mr="8px">
-            {liquidityMinted?.toSignificant(6)}
-          </UIKitText>
-          <DoubleCurrencyLogo
-            currency0={currencies[Field.CURRENCY_A]}
-            currency1={currencies[Field.CURRENCY_B]}
-            size={24}
-          />
-        </RowFlat>
-        <Row>
-          <UIKitText fontSize="22px">
-            {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol} ${t('poolTokens')}`}
-          </UIKitText>
-        </Row>
-        <Text fontSize="14px" color="rgba(255, 255, 255, 0.5)">
-          {t('outputEstimatedRevert')}{' '}
-          <span style={{ color: '#009CE1' }}>{allowedSlippage / 100}%</span> {t('transactionWillRevert')}
-        </Text>
-      </AutoColumn>
-    )
-  }
-
-  const modalBottom = () => {
-    return (
-      <ConfirmAddModalBottom
-        price={price}
-        currencies={currencies}
-        parsedAmounts={parsedAmounts}
-        noLiquidity={noLiquidity}
-        onAdd={onAdd}
-        poolTokenPercentage={poolTokenPercentage}
-      />
-    )
-  }
-
   const pendingText = `${t('supplying')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
     currencies[Field.CURRENCY_A]?.symbol
   } ${t('and')} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
@@ -373,16 +321,65 @@ export default function AddLiquidity({
             onDismiss={handleDismissConfirmation}
             attemptingTxn={attemptingTxn}
             hash={txHash}
-            content={() => (
-              <ConfirmationModalContent
-                title={noLiquidity ? t('creatingPool') : t('youWillReceivePart')}
-                onDismiss={handleDismissConfirmation}
-                topContent={modalHeader}
-                bottomContent={modalBottom}
-              />
-            )}
             pendingText={pendingText}
-          />
+          >
+            <ConfirmationModalContent
+              title={noLiquidity ? t('creatingPool') : t('youWillReceivePart')}
+              onDismiss={handleDismissConfirmation}
+              topContent={
+                noLiquidity ? (
+                  <AutoColumn gap="20px">
+                    <Card mt="20px" borderRadius="20px" padding="0">
+                      <RowFlat>
+                        <UIKitText fontSize="24px" mr="8px">
+                          {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol}`}
+                        </UIKitText>
+                        <DoubleCurrencyLogo
+                          currency0={currencies[Field.CURRENCY_A]}
+                          currency1={currencies[Field.CURRENCY_B]}
+                          size={24}
+                        />
+                      </RowFlat>
+                    </Card>
+                  </AutoColumn>
+                ) : (
+                  <AutoColumn gap="10px">
+                    <RowFlat>
+                      <UIKitText fontSize="24px" mr="8px">
+                        {liquidityMinted?.toSignificant(6)}
+                      </UIKitText>
+                      <DoubleCurrencyLogo
+                        currency0={currencies[Field.CURRENCY_A]}
+                        currency1={currencies[Field.CURRENCY_B]}
+                        size={24}
+                      />
+                    </RowFlat>
+                    <Row>
+                      <UIKitText fontSize="22px">
+                        {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol} ${t(
+                          'poolTokens'
+                        )}`}
+                      </UIKitText>
+                    </Row>
+                    <Text fontSize="14px" color="rgba(255, 255, 255, 0.5)">
+                      {t('outputEstimatedRevert')} <span style={{ color: '#009CE1' }}>{allowedSlippage / 100}%</span>{' '}
+                      {t('transactionWillRevert')}
+                    </Text>
+                  </AutoColumn>
+                )
+              }
+              bottomContent={
+                <ConfirmAddModalBottom
+                  price={price}
+                  currencies={currencies}
+                  parsedAmounts={parsedAmounts}
+                  noLiquidity={noLiquidity}
+                  onAdd={onAdd}
+                  poolTokenPercentage={poolTokenPercentage}
+                />
+              }
+            />
+          </TransactionConfirmationModal>
           <CardBody>
             <AutoColumn gap="20px">
               {noLiquidity && (
