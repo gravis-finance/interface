@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect, useMemo, useState, lazy } from 'react'
-import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch } from 'react-router-dom'
+import React, { Suspense, lazy } from 'react'
+import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { getNetworkId, NetworkSwitchError, NotFound, useModal } from '@gravis.finance/uikit'
 
@@ -73,73 +73,66 @@ const BodyWrapper = styled.div`
   }
 `
 
-const fixNetworkIdAtUrl = (id: string, supportedChains: any) => {
-  if (!id || supportedChains?.indexOf(id) === -1) {
-    const chainId = localStorage.getItem('chainId')
-    const newId = chainId || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
-    const newurl = `${window.location.protocol}//${window.location.host}${
-      window.location.pathname
-    }?network=${newId.toString()}`
-    window.history.pushState({ path: newurl }, '', newurl)
-  }
-}
+const isProduction = process.env.REACT_APP_NODE_ENV === 'production'
+const supportedChains = isProduction ? ['56', '128', '137'] : ['97', '256', '80001']
+const provider: any = (window as WindowChain).ethereum
 
-// ToDo refactor
 const DefaultRoute = ({ ...props }: RouteProps) => {
+  useEagerConnect()
+
   const loginBlockVisible = true
-
-  const [isRightNetworkId, setRightNetworkId] = useState(true)
-  const [previousNetworkId, setPreviousNetworkId] = useState('')
-  const [isSupportedChain, setSupportedChain] = useState(false)
-
-  const isProduction = process.env.REACT_APP_NODE_ENV === 'production'
+  const location = useLocation()
   const { account } = useActiveWeb3React()
-  const currentId = getNetworkId()
-  const supportedChains = useMemo(() => (isProduction ? ['56', '128', '137'] : ['97', '256', '80001']), [isProduction])
+  const chainId = getNetworkId()
+  const [providerChainId, setProviderChainId] = React.useState<string>(provider?.networkVersion)
+  const isSupportedChain = React.useMemo(() => supportedChains.indexOf(providerChainId) !== -1, [providerChainId])
 
-  fixNetworkIdAtUrl(currentId, supportedChains)
+  React.useEffect(() => {
+    const handleChange = (newChainId) => {
+      setProviderChainId(parseInt(newChainId, 16).toString())
+    }
+    provider?.on('chainChanged', handleChange)
+  }, [])
 
-  const provider: any = (window as WindowChain).ethereum
-  const providerNetworkId = provider?.networkVersion
+  const handleChangeNetwork = React.useCallback(() => {
+    setupNetwork(chainId)
+  }, [chainId])
 
-  const handleChange = () => {
-    setSupportedChain(!(supportedChains.indexOf(providerNetworkId) === -1))
-  }
-
-  provider?.on('chainChanged', handleChange)
-
-  const handleChangeNetwork = () => {
-    setupNetwork(currentId)
-  }
-
-  const [openModal, onDismiss] = useModal(
-    <NetworkSwitchError
-      isSupportedChain={isSupportedChain}
-      isProduction={isProduction}
-      changeNetwork={handleChangeNetwork}
-    />,
-    false
+  const errorModal = React.useMemo(
+    () => (
+      <NetworkSwitchError
+        isSupportedChain={isSupportedChain}
+        isProduction={isProduction}
+        changeNetwork={handleChangeNetwork}
+      />
+    ),
+    [isSupportedChain, handleChangeNetwork]
   )
 
-  if (providerNetworkId !== previousNetworkId && previousNetworkId !== '') {
-    setRightNetworkId(true)
-    setPreviousNetworkId(providerNetworkId)
-    setSupportedChain(!(supportedChains.indexOf(providerNetworkId) === -1))
-    onDismiss()
-  }
+  const [openModal, onDismiss] = useModal(errorModal, false)
 
-  useEffect(() => {
-    setSupportedChain(!(supportedChains.indexOf(providerNetworkId) === -1))
-  }, [providerNetworkId, supportedChains])
-
-  useEffect(() => {
+  React.useEffect(() => {
     if (!account) return
-    if (currentId !== providerNetworkId && isRightNetworkId && providerNetworkId && currentId) {
-      setRightNetworkId(false)
-      setPreviousNetworkId(providerNetworkId)
+    if (chainId !== providerChainId) {
       openModal()
+    } else {
+      onDismiss()
     }
-  }, [account, currentId, isRightNetworkId, openModal, providerNetworkId])
+  }, [openModal, onDismiss, providerChainId, chainId, account])
+
+  // redirect to supported chain id
+  if (!chainId || supportedChains?.indexOf(chainId) === -1) {
+    return (
+      <Redirect
+        to={{
+          ...location,
+          search: `?network=${
+            localStorage.getItem('chainId') || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
+          }`,
+        }}
+      />
+    )
+  }
 
   return (
     <Menu loginBlockVisible={loginBlockVisible}>
@@ -151,8 +144,6 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
 }
 
 export default function App() {
-  useEagerConnect()
-
   return (
     <Router>
       <Suspense fallback={<PageLoader />}>
