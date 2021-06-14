@@ -5,8 +5,8 @@ import { Wrapper, Section, BottomSection, ContentHeader } from './helpers'
 type ConfirmationModalContentProps = {
   title: string
   onDismiss: () => void
-  topContent: () => React.ReactNode
-  bottomContent: () => React.ReactNode
+  topContent: React.ReactNode
+  bottomContent: React.ReactNode
 }
 
 const StyledBodyContainer = styled.div`
@@ -27,8 +27,8 @@ const ConfirmationModalContent = ({ title, bottomContent, onDismiss, topContent 
     <Wrapper>
       <ContentHeader onDismiss={onDismiss}>{title}</ContentHeader>
       <StyledBodyContainer>
-        <StyledSection>{topContent()}</StyledSection>
-        <BottomSection gap="0">{bottomContent()}</BottomSection>
+        <StyledSection>{topContent}</StyledSection>
+        <BottomSection gap="0">{bottomContent}</BottomSection>
       </StyledBodyContainer>
     </Wrapper>
   )

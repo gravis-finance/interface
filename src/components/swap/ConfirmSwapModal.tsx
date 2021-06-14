@@ -1,5 +1,5 @@
 import { currencyEquals, Trade } from '@gravis.finance/sdk'
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import TransactionConfirmationModal, {
   ConfirmationModalContent,
@@ -54,49 +54,11 @@ export default function ConfirmSwapModal({
     [originalTrade, trade]
   )
 
-  const modalHeader = useCallback(() => {
-    return trade ? (
-      <SwapModalHeader
-        trade={trade}
-        allowedSlippage={allowedSlippage}
-        recipient={recipient}
-        showAcceptChanges={showAcceptChanges}
-        onAcceptChanges={onAcceptChanges}
-      />
-    ) : null
-  }, [allowedSlippage, onAcceptChanges, recipient, showAcceptChanges, trade])
-
-  const modalBottom = useCallback(() => {
-    return trade ? (
-      <SwapModalFooter
-        onConfirm={onConfirm}
-        trade={trade}
-        disabledConfirm={showAcceptChanges}
-        swapErrorMessage={swapErrorMessage}
-        allowedSlippage={allowedSlippage}
-      />
-    ) : null
-  }, [allowedSlippage, onConfirm, showAcceptChanges, swapErrorMessage, trade])
-
   // text to show while loading
-  const pendingText = t('swappingFor', {inputAmount: `${trade?.inputAmount?.toSignificant(6)} ${
-      trade?.inputAmount?.currency?.symbol
-    }`, outputAmount: `${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`})
-
-  const confirmationContent = useCallback(
-    () =>
-      swapErrorMessage ? (
-        <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} />
-      ) : (
-        <ConfirmationModalContent
-          title={t('confirmSwap')}
-          onDismiss={onDismiss}
-          topContent={modalHeader}
-          bottomContent={modalBottom}
-        />
-      ),
-    [t, onDismiss, modalBottom, modalHeader, swapErrorMessage]
-  )
+  const pendingText = t('swappingFor', {
+    inputAmount: `${trade?.inputAmount?.toSignificant(6)} ${trade?.inputAmount?.currency?.symbol}`,
+    outputAmount: `${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`,
+  })
 
   return (
     <TransactionConfirmationModal
@@ -104,8 +66,38 @@ export default function ConfirmSwapModal({
       onDismiss={onDismiss}
       attemptingTxn={attemptingTxn}
       hash={txHash}
-      content={confirmationContent}
       pendingText={pendingText}
-    />
+    >
+      {swapErrorMessage ? (
+        <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} />
+      ) : (
+        <ConfirmationModalContent
+          title={t('confirmSwap')}
+          onDismiss={onDismiss}
+          topContent={
+            !!trade && (
+              <SwapModalHeader
+                trade={trade}
+                allowedSlippage={allowedSlippage}
+                recipient={recipient}
+                showAcceptChanges={showAcceptChanges}
+                onAcceptChanges={onAcceptChanges}
+              />
+            )
+          }
+          bottomContent={
+            !!trade && (
+              <SwapModalFooter
+                onConfirm={onConfirm}
+                trade={trade}
+                disabledConfirm={showAcceptChanges}
+                swapErrorMessage={swapErrorMessage}
+                allowedSlippage={allowedSlippage}
+              />
+            )
+          }
+        />
+      )}
+    </TransactionConfirmationModal>
   )
 }
