@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react'
-import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { getNetworkId, NetworkSwitchError, NotFound, useModal } from '@gravis.finance/uikit'
 
@@ -21,15 +21,15 @@ const Swap = lazy(() => import('./Swap'))
 const Migrate = lazy(() => import('./Migrate'))
 const AddLiquidity = lazy(() => import('./AddLiquidity'))
 const RedirectDuplicateTokenIds = lazy(() =>
-    import('./AddLiquidity/redirects').then(({ RedirectDuplicateTokenIds: component }) => ({ default: component }))
+  import('./AddLiquidity/redirects').then(({ RedirectDuplicateTokenIds: component }) => ({ default: component }))
 )
 const RedirectOldAddLiquidityPathStructure = lazy(() =>
-    import('./AddLiquidity/redirects').then(({ RedirectOldAddLiquidityPathStructure: component }) => ({
-      default: component,
-    }))
+  import('./AddLiquidity/redirects').then(({ RedirectOldAddLiquidityPathStructure: component }) => ({
+    default: component,
+  }))
 )
 const RedirectToAddLiquidity = lazy(() =>
-    import('./AddLiquidity/redirects').then(({ RedirectToAddLiquidity: component }) => ({ default: component }))
+  import('./AddLiquidity/redirects').then(({ RedirectToAddLiquidity: component }) => ({ default: component }))
 )
 
 const AppWrapper = styled.div`
@@ -78,98 +78,100 @@ const supportedChains = isProduction ? ['56', '128', '137'] : ['97', '256', '800
 const provider: any = (window as WindowChain).ethereum
 
 const DefaultRoute = ({ ...props }: RouteProps) => {
-  const loginBlockVisible = true
+  useEagerConnect()
 
+  const loginBlockVisible = true
+  const location = useLocation()
   const { account } = useActiveWeb3React()
-  const networkIdFromUrl = getNetworkId()
-  const [chainId, setChainId] = React.useState<string>(provider?.networkVersion)
-  const isSupportedChain = React.useMemo(() => supportedChains.indexOf(chainId) !== -1, [chainId])
+  const chainId = getNetworkId()
+  const [providerChainId, setProviderChainId] = React.useState<string>(provider?.networkVersion)
+  const isSupportedChain = React.useMemo(() => supportedChains.indexOf(providerChainId) !== -1, [providerChainId])
 
   React.useEffect(() => {
     const handleChange = (newChainId) => {
-      setChainId(parseInt(newChainId, 16).toString())
+      setProviderChainId(parseInt(newChainId, 16).toString())
     }
     provider?.on('chainChanged', handleChange)
   }, [])
 
   const handleChangeNetwork = React.useCallback(() => {
-    setupNetwork(networkIdFromUrl)
-  }, [networkIdFromUrl])
+    setupNetwork(chainId)
+  }, [chainId])
 
   const errorModal = React.useMemo(
-      () => (
-          <NetworkSwitchError
-              isSupportedChain={isSupportedChain}
-              isProduction={isProduction}
-              changeNetwork={handleChangeNetwork}
-          />
-      ),
-      [isSupportedChain, handleChangeNetwork]
+    () => (
+      <NetworkSwitchError
+        isSupportedChain={isSupportedChain}
+        isProduction={isProduction}
+        changeNetwork={handleChangeNetwork}
+      />
+    ),
+    [isSupportedChain, handleChangeNetwork]
   )
 
   const [openModal, onDismiss] = useModal(errorModal, false)
 
   React.useEffect(() => {
     if (!account) return
-    if (chainId !== networkIdFromUrl) {
+    if (chainId !== providerChainId) {
       openModal()
     } else {
       onDismiss()
     }
-  }, [openModal, onDismiss, networkIdFromUrl, chainId, account])
+  }, [openModal, onDismiss, providerChainId, chainId, account])
+
+  // redirect to supported chain id
+  if (!chainId || supportedChains?.indexOf(chainId) === -1) {
+    return (
+      <Redirect
+        to={{
+          ...location,
+          search: `?network=${
+            localStorage.getItem('chainId') || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
+          }`,
+        }}
+      />
+    )
+  }
 
   return (
-      <Menu loginBlockVisible={loginBlockVisible}>
-        <BodyWrapper>
-          <Route {...props} />
-        </BodyWrapper>
-      </Menu>
+    <Menu loginBlockVisible={loginBlockVisible}>
+      <BodyWrapper>
+        <Route {...props} />
+      </BodyWrapper>
+    </Menu>
   )
 }
 
 export default function App() {
-  useEagerConnect()
-
-  // if chainId from url is not supported then redirect to supported chainId
-  const networkIdFromUrl = getNetworkId()
-  if (!networkIdFromUrl || supportedChains?.indexOf(networkIdFromUrl) === -1) {
-    const chainIdFromStorage = localStorage.getItem('chainId')
-    const newId = chainIdFromStorage || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
-    const newurl = `${window.location.protocol}//${window.location.host}${
-        window.location.pathname
-    }?network=${newId.toString()}`
-    window.history.pushState({ path: newurl }, '', newurl)
-    return null
-  }
-
   return (
-      <Router>
-        <Suspense fallback={<PageLoader />}>
-          <AppWrapper>
-            <Web3ReactManager>
-              <Switch>
-                <DefaultRoute exact path="/" component={() => <Redirect to="/swap" />} />
-                <DefaultRoute exact strict path="/swap" component={Swap} />
-                <DefaultRoute exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
-                <DefaultRoute exact strict path="/send" component={RedirectPathToSwapOnly} />
-                <DefaultRoute exact strict path="/migrate" component={Migrate} />
-                <DefaultRoute exact strict path="/find" component={PoolFinder} />
-                <DefaultRoute exact strict path="/pool" component={Pool} />
-                <DefaultRoute exact strict path="/create" component={RedirectToAddLiquidity} />
-                <DefaultRoute exact path="/add" component={AddLiquidity} />
-                <DefaultRoute exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
-                <DefaultRoute exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
-                <DefaultRoute exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
-                <DefaultRoute exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-                <Route>
-                  <Menu loginBlockVisible={false}>
-                    <NotFound redirectURL={process.env.REACT_APP_HOME_URL} />
-                  </Menu>
-                </Route>
-              </Switch>
-            </Web3ReactManager>
-          </AppWrapper>
-        </Suspense>
-      </Router>
+    <Router>
+      <Suspense fallback={<PageLoader />}>
+        <AppWrapper>
+          <Web3ReactManager>
+            <Switch>
+              <DefaultRoute exact path="/" component={() => <Redirect to="/swap" />} />
+              <DefaultRoute exact strict path="/swap" component={Swap} />
+              <DefaultRoute exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
+              <DefaultRoute exact strict path="/send" component={RedirectPathToSwapOnly} />
+              <DefaultRoute exact strict path="/migrate" component={Migrate} />
+              <DefaultRoute exact strict path="/find" component={PoolFinder} />
+              <DefaultRoute exact strict path="/pool" component={Pool} />
+              <DefaultRoute exact strict path="/create" component={RedirectToAddLiquidity} />
+              <DefaultRoute exact path="/add" component={AddLiquidity} />
+              <DefaultRoute exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
+              <DefaultRoute exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
+              <DefaultRoute exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
+              <DefaultRoute exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
+              <Route>
+                <Menu loginBlockVisible={false}>
+                  <NotFound redirectURL={process.env.REACT_APP_HOME_URL} />
+                </Menu>
+              </Route>
+            </Switch>
+          </Web3ReactManager>
+        </AppWrapper>
+      </Suspense>
+    </Router>
   )
 }
