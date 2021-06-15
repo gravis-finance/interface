@@ -64,7 +64,7 @@ const Params = {
         decimals: 18,
       },
       rpcUrls: nodes[ChainId.MATICMAINNET],
-      blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com/'],
+      blockExplorerUrls: ['https://polygonscan.com/'],
     },
   ],
   [ChainId.MATICTESTNET]: [
