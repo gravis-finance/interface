@@ -1,5 +1,5 @@
 import React, { lazy, useEffect, useState } from 'react'
-import { MenuEntry, urlSearchLanguageParam, useModal } from '@gravis.finance/uikit'
+import { MenuEntry, urlSearchLanguageParam, useModal, getNetworkForAnalytics } from '@gravis.finance/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
@@ -64,15 +64,15 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       items: [
         {
           label: t('mainMenu.analytics.overview'),
-          href: `${process.env.REACT_APP_INFO_URL}?${urlSearchLanguageParam}=${t('language')}`,
+          href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
         },
         {
           label: t('mainMenu.analytics.tokens'),
-          href: `${process.env.REACT_APP_INFO_URL}/tokens?${urlSearchLanguageParam}=${t('language')}`,
+          href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
         },
         {
           label: t('mainMenu.analytics.pairs'),
-          href: `${process.env.REACT_APP_INFO_URL}/pairs?${urlSearchLanguageParam}=${t('language')}`,
+          href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
         },
       ],
     },
