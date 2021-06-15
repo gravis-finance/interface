@@ -21,7 +21,7 @@ const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'testnet.',
   [ChainId.HECOMAINNET]: '',
   [ChainId.HECOTESTNET]: 'testnet.',
-  [ChainId.MATICMAINNET]: 'explorer-mainnet.',
+  [ChainId.MATICMAINNET]: '',
   [ChainId.MATICTESTNET]: 'explorer-mumbai.',
 }
 
@@ -30,7 +30,7 @@ const EXPLORER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.BSCTESTNET]: 'bscscan.com',
   [ChainId.HECOMAINNET]: 'hecoinfo.com',
   [ChainId.HECOTESTNET]: 'hecoinfo.com',
-  [ChainId.MATICMAINNET]: 'maticvigil.com',
+  [ChainId.MATICMAINNET]: 'polygonscan.com',
   [ChainId.MATICTESTNET]: 'maticvigil.com',
 }
 
