@@ -109,6 +109,8 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
     [isSupportedChain, handleChangeNetwork]
   )
 
+  // useModal hook run update every time any modal is open.
+  // don't add openModal and onDismiss to useEffect deps as it cause bugs
   const [openModal, onDismiss] = useModal(errorModal, false)
 
   React.useEffect(() => {
@@ -118,7 +120,7 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
     } else {
       onDismiss()
     }
-  }, [openModal, onDismiss, providerChainId, chainId, account])
+  }, [providerChainId, chainId, account]) // eslint-disable-line
 
   // redirect to supported chain id
   if (!chainId || supportedChains?.indexOf(chainId) === -1) {
