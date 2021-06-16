@@ -132,7 +132,7 @@ function Migrate() {
 
   const isValid = !migrateInputError
 
-  const { wrapType } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue, t)
+  const { wrapType } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
 
   const trade = v2Trade
@@ -167,7 +167,7 @@ function Migrate() {
   // check whether the user has approved the router on the input token
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.INPUT],
-    chainId && VAMPIRE_ADDRESS[chainId], t
+    chainId && VAMPIRE_ADDRESS[chainId]
   )
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)

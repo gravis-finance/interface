@@ -153,13 +153,11 @@ export default function AddLiquidity({
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_A],
-    chainId && ROUTER_ADDRESS[chainId],
-    t
+    chainId && ROUTER_ADDRESS[chainId]
   )
   const [approvalB, approveBCallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_B],
-    chainId && ROUTER_ADDRESS[chainId],
-    t
+    chainId && ROUTER_ADDRESS[chainId]
   )
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
@@ -241,9 +239,9 @@ export default function AddLiquidity({
           setAttemptingTxn(false)
 
           addTransaction(response, {
-            summary: `${t('add')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+            summary: `{{add}} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencies[Field.CURRENCY_A]?.symbol
-            } ${t('and')} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
+            } {{and}} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
           })
 
           setTxHash(response.hash)

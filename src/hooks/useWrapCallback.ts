@@ -18,13 +18,11 @@ const NOT_APPLICABLE = { wrapType: WrapType.NOT_APPLICABLE }
  * @param inputCurrency the selected input currency
  * @param outputCurrency the selected output currency
  * @param typedValue the user input value
- * @param t
  */
 export default function useWrapCallback(
   inputCurrency: Currency | undefined,
   outputCurrency: Currency | undefined,
-  typedValue: string | undefined,
-  t: any
+  typedValue: string | undefined
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
   const { chainId, account } = useActiveWeb3React()
   const wethContract = useWETHContract()
@@ -47,7 +45,7 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` })
-                  addTransaction(txReceipt, { summary: `${t('wrap')} ${inputAmount.toSignificant(6)} BNB ${t('to')} WBNB` })
+                  addTransaction(txReceipt, { summary: `{{wrap)} ${inputAmount.toSignificant(6)} BNB {{to}} WBNB` })
                 } catch (error) {
                   console.error('Could not deposit', error)
                 }
@@ -64,7 +62,7 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`)
-                  addTransaction(txReceipt, { summary: `${t('unwrap')} ${inputAmount.toSignificant(6)} WBNB ${t('to')} BNB` })
+                  addTransaction(txReceipt, { summary: `{{unwrap}} ${inputAmount.toSignificant(6)} WBNB {{to}} BNB` })
                 } catch (error) {
                   console.error('Could not withdraw', error)
                 }
@@ -74,5 +72,5 @@ export default function useWrapCallback(
       }
     }
     return NOT_APPLICABLE
-  }, [t, wethContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction])
+  }, [wethContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction])
 }
