@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { PopupSuccessIcon, ErrorIcon } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import styled, { ThemeContext } from 'styled-components'
+import useTranslateSummary from 'hooks/useTranslateSummary'
 import { useActiveWeb3React } from '../../hooks'
 import { TYPE, ExternalLink } from '../Shared'
 import { getExplorerLink, getExplorerName } from '../../utils'
@@ -22,6 +23,7 @@ const StyledIcon = styled.div<{ removeAfterMs: number | null }>`
       animation: ${({ removeAfterMs }) => (removeAfterMs ? removeAfterMs + 100 : '')}ms linear 0s infinite
         strokeDashArrayMove;
     }
+
     @keyframes strokeDashArrayMove {
       0% {
         stroke-dasharray: 166;
@@ -49,6 +51,7 @@ export default function TransactionPopup({
   const theme = useContext(ThemeContext)
 
   const { t } = useTranslation()
+  const translateSummary = useTranslateSummary()
 
   return (
     <RowNoFlex>
@@ -65,7 +68,7 @@ export default function TransactionPopup({
       </div>
       <AutoColumn gap="8px">
         <Body fontWeight={500} style={{ fontWeight: 500 }}>
-          {summary ?? `${t('hash')}: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}
+          {summary ? translateSummary(summary) : `${t('hash')}: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}
         </Body>
         {chainId && (
           <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>

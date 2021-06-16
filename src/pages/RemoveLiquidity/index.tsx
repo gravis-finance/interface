@@ -160,8 +160,7 @@ const RemoveLiquidity = ({
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.LIQUIDITY],
-    chainId && ROUTER_ADDRESS[chainId],
-    t
+    chainId && ROUTER_ADDRESS[chainId]
   )
   async function onAttemptToApprove() {
     if (!pairContract || !pair || !library) throw new Error('missing dependencies')
@@ -367,9 +366,9 @@ const RemoveLiquidity = ({
           setAttemptingTxn(false)
 
           addTransaction(response, {
-            summary: `${t('remove')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${currencyA?.symbol} ${t(
-              'and'
-            )} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
+            summary: `{{remove}} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+              currencyA?.symbol
+            } {{and}} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
           })
 
           setTxHash(response.hash)
