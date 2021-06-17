@@ -545,7 +545,7 @@ const Swap = () => {
           </StyledCardBody>
         </Wrapper>
       </AppBody>
-      <AdvancedSwapDetailsDropdown trade={trade} />
+      <AdvancedSwapDetailsDropdown trade={trade} pair={pair} />
     </CardWrapper>
   )
 }
