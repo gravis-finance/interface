@@ -1,6 +1,6 @@
 import React from 'react'
-import { Trade, TradeType } from '@gravis.finance/sdk'
-import { Card, CardBody, Text } from '@gravis.finance/uikit'
+import { Pair, Trade, TradeType } from '@gravis.finance/sdk'
+import { Card, CardBody, getNetworkForAnalytics, Text, urlSearchLanguageParam, Button } from '@gravis.finance/uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { Field } from '../../state/swap/actions'
@@ -84,6 +84,13 @@ const StyledText = styled(Text)`
   }
 `
 
+const StyledButton = styled(Button)`
+  margin-top: 0.5rem;
+`
+StyledButton.defaultProps = {
+  variant: 'dark',
+}
+
 function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
   const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
@@ -132,13 +139,26 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
 
 export interface AdvancedSwapDetailsProps {
   trade?: Trade
+  pair?: Pair | null
 }
 
-export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
+export function AdvancedSwapDetails({ trade, pair }: AdvancedSwapDetailsProps) {
   const [allowedSlippage] = useUserSlippageTolerance()
 
   const showRoute = Boolean(trade && trade.route.path.length > 2)
   const { t } = useTranslation()
+
+  const pairAnalyticsUrl = React.useMemo(() => {
+    if (!pair) return ''
+    const { chainId, address } = pair.liquidityToken
+    return `${process.env.REACT_APP_INFO_URL}/pair/${address}?network=${getNetworkForAnalytics(
+      chainId
+    )}&${urlSearchLanguageParam}=${t('language')}`
+  }, [pair, t])
+
+  const goToPairAnalytics = React.useCallback(() => {
+    window.open(pairAnalyticsUrl, '_blank')
+  }, [pairAnalyticsUrl])
 
   return (
     <AutoColumn gap="md">
@@ -157,6 +177,9 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
                   <QuestionHelper text={t('errorMessages.routingThroughTokens')} />
                 </RowFixed>
                 <SwapRoute trade={trade} />
+                {!!pairAnalyticsUrl && (
+                  <StyledButton onClick={goToPairAnalytics}>{t('View pair analytics')}</StyledButton>
+                )}
               </AutoColumn>
             </StyledRouteContainer>
           )}
