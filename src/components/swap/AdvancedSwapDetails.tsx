@@ -178,7 +178,7 @@ export function AdvancedSwapDetails({ trade, pair }: AdvancedSwapDetailsProps) {
                 </RowFixed>
                 <SwapRoute trade={trade} />
                 {!!pairAnalyticsUrl && (
-                  <StyledButton onClick={goToPairAnalytics}>{t('View pair analytics')}</StyledButton>
+                  <StyledButton onClick={goToPairAnalytics}>{t('viewPairAnalytics')}</StyledButton>
                 )}
               </AutoColumn>
             </StyledRouteContainer>
