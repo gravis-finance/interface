@@ -103,6 +103,10 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
     return undefined
   }
   try {
+    // fix the issue with fraction length
+    const fraction = value.split('.')[1]
+    if (fraction?.length > currency.decimals) return undefined
+
     const typedValueParsed = parseUnits(value, currency.decimals).toString()
     if (typedValueParsed !== '0') {
       return currency instanceof Token
@@ -217,7 +221,7 @@ export function useDerivedSwapInfo(): {
   ]
 
   if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
-    inputError = t('errorMessages.insufficientBalance', {balance: amountIn.currency.symbol})
+    inputError = t('errorMessages.insufficientBalance', { balance: amountIn.currency.symbol })
   }
 
   return {
@@ -384,9 +388,8 @@ export function useDefaultsFromURLSearch():
   const { chainId } = useActiveWeb3React()
   const dispatch = useDispatch<AppDispatch>()
   const parsedQs = useParsedQueryString()
-  const [result, setResult] = useState<
-    { inputCurrencyId: string | undefined; outputCurrencyId: string | undefined } | undefined
-  >()
+  const [result, setResult] =
+    useState<{ inputCurrencyId: string | undefined; outputCurrencyId: string | undefined } | undefined>()
 
   useEffect(() => {
     if (!chainId) return
