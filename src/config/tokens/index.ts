@@ -9,8 +9,8 @@ const DEFAULT_LIST: { [chainId in ChainId]: any } = {
   [ChainId.BSCTESTNET]: bscTokens,
   [ChainId.HECOMAINNET]: hecoTokens,
   [ChainId.HECOTESTNET]: hecoTokens,
-  [ChainId.MATICMAINNET]:  maticTokens,
-  [ChainId.MATICTESTNET]:  maticTokens,
+  [ChainId.MATICMAINNET]: maticTokens,
+  [ChainId.MATICTESTNET]: maticTokens,
 }
 
 export default DEFAULT_LIST

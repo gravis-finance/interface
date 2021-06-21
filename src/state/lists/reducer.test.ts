@@ -81,6 +81,33 @@ describe('list reducer', () => {
       })
     })
 
+    it('clear current list if refetch option was provided', () => {
+      store = createStore(reducer, {
+        byUrl: {
+          'fake-url': {
+            error: null,
+            current: STUB_TOKEN_LIST,
+            pendingUpdate: null,
+            loadingRequestId: null,
+          },
+        },
+        selectedListUrl: undefined,
+      })
+
+      store.dispatch(fetchTokenList.pending({ requestId: 'request-id', url: 'fake-url', refetch: true }))
+      expect(store.getState()).toEqual({
+        byUrl: {
+          'fake-url': {
+            error: null,
+            current: null,
+            loadingRequestId: 'request-id',
+            pendingUpdate: null,
+          },
+        },
+        selectedListUrl: undefined,
+      })
+    })
+
     describe('fulfilled', () => {
       it('saves the list', () => {
         store.dispatch(

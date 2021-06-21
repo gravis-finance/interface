@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft } from 'react-feather'
 import { usePopper } from 'react-popper'
 import { useDispatch, useSelector } from 'react-redux'
@@ -220,7 +220,20 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
     setListUrlInput(e.target.value)
     setAddError(null)
   }, [])
-  const fetchList = useFetchListCallback()
+  const { fetchList, refetch } = useFetchListCallback()
+
+  useEffect(() => {
+    if (!refetch && adding) return
+    setAddError(null)
+    fetchList(listUrlInput)
+      .then(() => {
+        setListUrlInput('')
+      })
+      .catch((error) => {
+        setAddError(error.message)
+        dispatch(removeList(listUrlInput))
+      })
+  }, [adding, dispatch, fetchList, listUrlInput, refetch])
 
   const handleAddList = useCallback(() => {
     if (adding) return

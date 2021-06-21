@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { CurrencyAmount, JSBI, Token, Trade, TokenAmount } from '@gravis.finance/sdk'
+import { CurrencyAmount, JSBI, Token, Trade, TokenAmount, ChainId } from '@gravis.finance/sdk'
 import { ArrowDown } from 'react-feather'
 import { CardBody, Button, Text, Flex } from '@gravis.finance/uikit'
 
@@ -136,7 +136,7 @@ const Swap = () => {
     setDismissTokenWarning(true)
   }, [])
 
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext) as any
 
   const [isExpertMode] = useExpertModeManager()
@@ -228,7 +228,7 @@ const Swap = () => {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(chainId as ChainId, currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
   // the callback to execute the swap
@@ -244,7 +244,7 @@ const Swap = () => {
   const { reserve0, reserve1 }: { reserve0?: TokenAmount; reserve1?: TokenAmount } =
     trade?.route?.path.length === 2 && !!pair ? pair : {}
 
-  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee } = computeTradePriceBreakdown(chainId as ChainId, trade)
 
   const handleSwap = useCallback(() => {
     if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {

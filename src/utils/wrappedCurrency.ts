@@ -1,8 +1,17 @@
-import { ChainId, Currency, CurrencyAmount, ETHER, Token, TokenAmount, WETH } from '@gravis.finance/sdk'
+import {
+  ChainId,
+  Currency,
+  CurrencyAmount,
+  isEther,
+  Token,
+  TokenAmount,
+  WETH,
+  BASE_CURRENCIES,
+} from '@gravis.finance/sdk'
 
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
   // eslint-disable-next-line no-nested-ternary
-  return chainId && currency === ETHER ? WETH[chainId] : currency instanceof Token ? currency : undefined
+  return chainId && isEther(currency) ? WETH[chainId] : currency instanceof Token ? currency : undefined
 }
 
 export function wrappedCurrencyAmount(
@@ -13,7 +22,7 @@ export function wrappedCurrencyAmount(
   return token && currencyAmount ? new TokenAmount(token, currencyAmount.raw) : undefined
 }
 
-export function unwrappedToken(token: Token): Currency {
-  if (token.equals(WETH[token.chainId])) return ETHER
+export function unwrappedToken(token: Token, chainId: ChainId): Currency {
+  if (token.equals(WETH[token.chainId])) return BASE_CURRENCIES[chainId]
   return token
 }

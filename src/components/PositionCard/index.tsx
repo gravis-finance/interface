@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { JSBI, Pair, Percent } from '@gravis.finance/sdk'
+import { ChainId, JSBI, Pair, Percent } from '@gravis.finance/sdk'
 import {
   Button,
   Card as UIKitCard,
@@ -73,11 +73,11 @@ interface PositionCardProps {
 }
 
 export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCardProps) {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
-  const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0)
-  const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1)
+  const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0, chainId as ChainId)
+  const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1, chainId as ChainId)
 
   const [showMore, setShowMore] = useState(false)
 
@@ -171,10 +171,10 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
 }
 
 export default function FullPositionCard({ pair }: PositionCardProps) {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
-  const currency0 = unwrappedToken(pair.token0)
-  const currency1 = unwrappedToken(pair.token1)
+  const currency0 = unwrappedToken(pair.token0, chainId as ChainId)
+  const currency1 = unwrappedToken(pair.token1, chainId as ChainId)
   const { t } = useTranslation()
 
   const liquidityAddress = pair.liquidityToken.address
@@ -236,7 +236,9 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
           <AutoColumn gap="8px" triggerMobile>
             <FixedHeightRow background>
               <RowFixed>
-                <Text color="#909090">{t('pooled')} {currency0.symbol}:</Text>
+                <Text color="#909090">
+                  {t('pooled')} {currency0.symbol}:
+                </Text>
               </RowFixed>
               {token0Deposited ? (
                 <RowFixed>
@@ -252,7 +254,9 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
 
             <FixedHeightRow>
               <RowFixed>
-                <Text color="#909090">{t('pooled')} {currency1.symbol}:</Text>
+                <Text color="#909090">
+                  {t('pooled')} {currency1.symbol}:
+                </Text>
               </RowFixed>
               {token1Deposited ? (
                 <RowFixed>

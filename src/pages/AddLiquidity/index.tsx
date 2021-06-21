@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@gravis.finance/sdk'
+import { Currency, currencyEquals, isEther, TokenAmount, WETH, ChainId } from '@gravis.finance/sdk'
 import { BorderedAddIcon, Button, CardBody, Text, Text as UIKitText } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { RouteComponentProps } from 'react-router-dom'
@@ -134,7 +134,7 @@ export default function AddLiquidity({
     (accumulator, field) => {
       return {
         ...accumulator,
-        [field]: maxAmountSpend(currencyBalances[field]),
+        [field]: maxAmountSpend(chainId as ChainId, currencyBalances[field]),
       }
     },
     {}
@@ -199,8 +199,8 @@ export default function AddLiquidity({
     let method: (...args: any) => Promise<TransactionResponse>
     let args: Array<string | string[] | number>
     let value: BigNumber | null
-    if (currencyA === ETHER || currencyB === ETHER) {
-      const tokenBIsETH = currencyB === ETHER
+    if (isEther(currencyA) || isEther(currencyB)) {
+      const tokenBIsETH = isEther(currencyB)
       estimate = router.estimateGas.addLiquidityETH
       method = router.addLiquidityETH
       args = [

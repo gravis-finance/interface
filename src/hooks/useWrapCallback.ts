@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, ETHER, WETH } from '@gravis.finance/sdk'
+import { ChainId, Currency, currencyEquals, isEther, WETH } from '@gravis.finance/sdk'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
@@ -29,7 +29,10 @@ export default function useWrapCallback(
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
 
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
-  const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue])
+  const inputAmount = useMemo(
+    () => tryParseAmount(chainId as ChainId, typedValue, inputCurrency),
+    [inputCurrency, typedValue, chainId]
+  )
   const addTransaction = useTransactionAdder()
 
   return useMemo(() => {
@@ -37,7 +40,7 @@ export default function useWrapCallback(
 
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount)
 
-    if (inputCurrency === ETHER && currencyEquals(WETH[chainId], outputCurrency)) {
+    if (isEther(inputCurrency) && currencyEquals(WETH[chainId], outputCurrency)) {
       return {
         wrapType: WrapType.WRAP,
         execute:
@@ -54,7 +57,7 @@ export default function useWrapCallback(
         inputError: sufficientBalance ? undefined : 'Insufficient BNB balance',
       }
     }
-    if (currencyEquals(WETH[chainId], inputCurrency) && outputCurrency === ETHER) {
+    if (currencyEquals(WETH[chainId], inputCurrency) && isEther(outputCurrency)) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:

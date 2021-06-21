@@ -6,7 +6,7 @@ const hecoNodes = [process.env.REACT_APP_HECO_NODE_1]
 const maticNodes = [process.env.REACT_APP_MATIC_NODE_1, process.env.REACT_APP_MATIC_NODE_2]
 
 // Array of available nodes to connect to
-export const nodes: { [chainId in ChainId]: any }= {
+export const nodes: { [chainId in ChainId]: any } = {
   [ChainId.MAINNET]: bscNodes,
   [ChainId.BSCTESTNET]: bscNodes,
   [ChainId.HECOMAINNET]: hecoNodes,

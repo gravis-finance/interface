@@ -1,9 +1,10 @@
-import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from '@gravis.finance/sdk'
+import { Currency, CurrencyAmount, currencyEquals, isEther, BASE_CURRENCIES, Token } from '@gravis.finance/sdk'
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
 import { FixedSizeList } from 'react-window'
 import styled from 'styled-components'
 import { Text } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
+import useNetwork from 'hooks/useNetwork'
 import { useActiveWeb3React } from '../../hooks'
 import { useSelectedTokenList, WrappedTokenInfo } from '../../state/lists/hooks'
 import { useRemoveUserAddedToken } from '../../state/user/hooks'
@@ -21,7 +22,7 @@ import { isTokenOnList } from '../../utils'
 const { main: Main } = TYPE
 
 function currencyKey(currency: Currency): string {
-  return currency instanceof Token ? currency.address : currency === ETHER ? 'ETHER' : ''
+  return currency instanceof Token ? currency.address : isEther(currency) ? 'ETHER' : ''
 }
 
 const StyledBalanceText = styled(Text)`
@@ -116,20 +117,23 @@ function CurrencyRow({
     >
       <CurrencyLogo currency={currency} size="24px" />
       <Column>
-        <Text title={currency.name} style={{ display: 'flex'}}>{currency.symbol} {!isOnSelectedList && customAdded && !(currency instanceof WrappedTokenInfo) ? (
-          <Main fontWeight={500}>
-            <LinkStyledButton
-              onClick={(event) => {
-                event.stopPropagation()
-                if (chainId && currency instanceof Token) removeToken(chainId.toString(), currency.address)
-              }}
-            >
-              ({t('remove')})
-            </LinkStyledButton>
-          </Main>
-        ) : null}</Text>
+        <Text title={currency.name} style={{ display: 'flex' }}>
+          {currency.symbol}{' '}
+          {!isOnSelectedList && customAdded && !(currency instanceof WrappedTokenInfo) ? (
+            <Main fontWeight={500}>
+              <LinkStyledButton
+                onClick={(event) => {
+                  event.stopPropagation()
+                  if (chainId && currency instanceof Token) removeToken(chainId.toString(), currency.address)
+                }}
+              >
+                ({t('remove')})
+              </LinkStyledButton>
+            </Main>
+          ) : null}
+        </Text>
         <FadedSpan>
-           {/* {!isOnSelectedList && !customAdded && !(currency instanceof WrappedTokenInfo) ? (
+          {/* {!isOnSelectedList && !customAdded && !(currency instanceof WrappedTokenInfo) ? (
             <Main fontWeight={500}>
               Found by address
               <LinkStyledButton
@@ -169,7 +173,11 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
-  const itemData = useMemo(() => (showETH ? [ETHER, ...currencies] : [...currencies]), [currencies, showETH])
+  const { network } = useNetwork()
+  const itemData = useMemo(
+    () => (showETH ? [BASE_CURRENCIES[network], ...currencies] : [...currencies]),
+    [currencies, showETH, network]
+  )
 
   const Row = useCallback(
     ({ data, index, style }) => {
