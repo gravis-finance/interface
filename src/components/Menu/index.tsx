@@ -5,13 +5,15 @@ import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
 import useAuth from 'hooks/useAuth'
 import { useCurrencyBalance } from 'state/wallet/hooks'
-import { ETHER, ChainId } from '@gravis.finance/sdk'
+import { BASE_CURRENCIES, ChainId } from '@gravis.finance/sdk'
 import { getExplorerLink, getExplorerName } from 'utils'
 import { useActiveWeb3React } from 'hooks'
 import i18next from '../../i18n'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
-const UikitMenu = lazy(() => import('@gravis.finance/uikit/dist/esm/widgets/Menu').then(({ Menu }) => ({ default: Menu })))
+const UikitMenu = lazy(() =>
+  import('@gravis.finance/uikit/dist/esm/widgets/Menu').then(({ Menu }) => ({ default: Menu }))
+)
 
 const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
   const { t } = useTranslation()
@@ -20,7 +22,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   const { chainId } = useActiveWeb3React()
   const { login, logout } = useAuth()
   const { isDark, toggleTheme } = useTheme()
-  const balance = useCurrencyBalance(account as string, ETHER)
+  const balance = useCurrencyBalance(account as string, BASE_CURRENCIES[chainId as ChainId])
   const explorerName = getExplorerName(chainId as ChainId)
   const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
   const [selectedLanguage, setSelectedLanguage] = useState('')
@@ -64,15 +66,21 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       items: [
         {
           label: t('mainMenu.analytics.overview'),
-          href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
+          href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(
+            chainId
+          )}&${urlSearchLanguageParam}=${t('language')}`,
         },
         {
           label: t('mainMenu.analytics.tokens'),
-          href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
+          href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(
+            chainId
+          )}&${urlSearchLanguageParam}=${t('language')}`,
         },
         {
           label: t('mainMenu.analytics.pairs'),
-          href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
+          href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(
+            chainId
+          )}&${urlSearchLanguageParam}=${t('language')}`,
         },
       ],
     },
@@ -108,8 +116,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         },
         {
           label: t('mainMenu.tokenomics'),
-          href:
-            'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
+          href: 'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
         },
       ],
     },

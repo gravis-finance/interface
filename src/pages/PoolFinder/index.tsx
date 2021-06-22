@@ -1,4 +1,4 @@
-import { Currency, ETHER, JSBI, TokenAmount } from '@gravis.finance/sdk'
+import { Currency, BASE_CURRENCIES, JSBI, TokenAmount, ChainId } from '@gravis.finance/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, ChevronDownIcon, CardBody, Text, BorderedAddIcon } from '@gravis.finance/uikit'
@@ -36,12 +36,12 @@ const StyledAddIcon = styled.div`
 `
 
 export default function PoolFinder() {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
 
-  const [currency0, setCurrency0] = useState<Currency | null>(ETHER)
+  const [currency0, setCurrency0] = useState<Currency | null>(BASE_CURRENCIES[chainId as ChainId])
   const [currency1, setCurrency1] = useState<Currency | null>(null)
   const { t } = useTranslation()
 

@@ -3,23 +3,29 @@ import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import { Provider } from 'react-redux'
 import { ModalProvider } from '@gravis.finance/uikit'
 
-import { NetworkContextName } from 'config/settings'
+import { NetworkContextNames } from 'config/settings'
 import store from './state'
 import getLibrary from './utils/getLibrary'
 import { ThemeContextProvider } from './ThemeContext'
 
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
+const Web3BSCProviderNetwork = createWeb3ReactRoot(NetworkContextNames.BSC)
+const Web3HECOProviderNetwork = createWeb3ReactRoot(NetworkContextNames.HECO)
+const Web3MATICProviderNetwork = createWeb3ReactRoot(NetworkContextNames.MATIC)
 
 const Providers: React.FC = ({ children }) => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <Web3ProviderNetwork getLibrary={getLibrary}>
-        <Provider store={store}>
-          <ThemeContextProvider>
-            <ModalProvider>{children}</ModalProvider>
-          </ThemeContextProvider>
-        </Provider>
-      </Web3ProviderNetwork>
+      <Web3BSCProviderNetwork getLibrary={getLibrary}>
+        <Web3HECOProviderNetwork getLibrary={getLibrary}>
+          <Web3MATICProviderNetwork getLibrary={getLibrary}>
+            <Provider store={store}>
+              <ThemeContextProvider>
+                <ModalProvider>{children}</ModalProvider>
+              </ThemeContextProvider>
+            </Provider>
+          </Web3MATICProviderNetwork>
+        </Web3HECOProviderNetwork>
+      </Web3BSCProviderNetwork>
     </Web3ReactProvider>
   )
 }

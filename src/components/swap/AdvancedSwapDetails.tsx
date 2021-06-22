@@ -3,6 +3,7 @@ import { Pair, Trade, TradeType } from '@gravis.finance/sdk'
 import { Card, CardBody, getNetworkForAnalytics, Text, urlSearchLanguageParam, Button } from '@gravis.finance/uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import useNetwork from 'hooks/useNetwork'
 import { Field } from '../../state/swap/actions'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from '../../utils/prices'
@@ -92,7 +93,8 @@ StyledButton.defaultProps = {
 }
 
 function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
-  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
+  const { network } = useNetwork()
+  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(network, trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
   const { t } = useTranslation()

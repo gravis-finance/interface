@@ -16,7 +16,7 @@ export default function Updater(): null {
 
   const isWindowVisible = useIsWindowVisible()
 
-  const fetchList = useFetchListCallback()
+  const { fetchList, refetch } = useFetchListCallback()
 
   const fetchAllListsCallback = useCallback(() => {
     if (!isWindowVisible) return
@@ -33,11 +33,11 @@ export default function Updater(): null {
     Object.keys(lists).forEach((listUrl) => {
       const list = lists[listUrl]
 
-      if (!list.current && !list.loadingRequestId && !list.error) {
+      if ((!list.current && !list.loadingRequestId && !list.error) || refetch) {
         fetchList(listUrl).catch((error) => console.error('list added fetching error', error))
       }
     })
-  }, [dispatch, fetchList, library, lists])
+  }, [dispatch, fetchList, lists, refetch])
 
   // automatically update lists if versions are minor/patch
   useEffect(() => {

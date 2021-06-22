@@ -1,4 +1,4 @@
-import { Currency, ETHER, Token, ChainId } from '@gravis.finance/sdk'
+import { Currency, BASE_CURRENCIES, Token, ChainId } from '@gravis.finance/sdk'
 import { useActiveWeb3React } from 'hooks'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
@@ -49,7 +49,7 @@ export default function CurrencyLogo({
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
 
   const srcs: string[] = useMemo(() => {
-    if (currency === ETHER) return []
+    if (currency === BASE_CURRENCIES[chainId as ChainId]) return []
 
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
@@ -59,9 +59,9 @@ export default function CurrencyLogo({
       return [`/images/coins/${currency?.symbol ?? 'token'}.png`, getTokenLogoURL(currency.address)]
     }
     return []
-  }, [currency, uriLocations])
+  }, [currency, uriLocations, chainId])
 
-  if (currency === ETHER) {
+  if (currency === BASE_CURRENCIES[chainId as ChainId]) {
     return <StyledEthereumLogo src={chainId && BaseLogo[chainId]} size={size} style={style} />
   }
 

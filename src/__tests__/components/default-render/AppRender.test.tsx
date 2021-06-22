@@ -1,13 +1,10 @@
 import App from 'pages/App'
 import ReactDOM from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import Providers from 'Providers'
 import { ethers } from 'ethers'
 import React from 'react'
-import ListsUpdater from 'state/lists/updater'
-import ApplicationUpdater from 'state/application/updater'
-import TransactionUpdater from 'state/transactions/updater'
-import MulticallUpdater from 'state/multicall/updater'
-import ToastListener from 'components/ToastListener'
+import Updaters from 'Updaters'
 import GlobalStyle from 'style/Global'
 
 describe('default render of App', () => {
@@ -16,17 +13,13 @@ describe('default render of App', () => {
     window.ethereum = provider
     const div = document.createElement('div')
     ReactDOM.render(
-      <Providers>
-        <>
-          <ListsUpdater />
-          <ApplicationUpdater />
-          <TransactionUpdater />
-          <MulticallUpdater />
-          <ToastListener />
-        </>
-        <GlobalStyle />
-        <App />
-      </Providers>,
+      <Router>
+        <Providers>
+          <Updaters />
+          <GlobalStyle />
+          <App />
+        </Providers>
+      </Router>,
       div
     )
     ReactDOM.unmountComponentAtNode(div)

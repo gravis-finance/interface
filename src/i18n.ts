@@ -14,7 +14,7 @@ i18next
       useSuspense: true,
     },
     fallbackLng: 'en',
-    preload: [ getLanguageSearchParam() as string],
+    preload: [getLanguageSearchParam() as string],
     // keySeparator: false,
     interpolation: { escapeValue: false },
     lng: getLanguageSearchParam(),

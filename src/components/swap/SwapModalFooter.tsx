@@ -2,6 +2,7 @@ import { Trade, TradeType } from '@gravis.finance/sdk'
 import React, { useMemo, useState } from 'react'
 import { Text, Button, SwapIcon } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
+import useNetwork from 'hooks/useNetwork'
 import { Field } from '../../state/swap/actions'
 import {
   computeSlippageAdjustedAmounts,
@@ -28,12 +29,16 @@ export default function SwapModalFooter({
   swapErrorMessage: string | undefined
   disabledConfirm: boolean
 }) {
+  const { network } = useNetwork()
   const [showInverted, setShowInverted] = useState<boolean>(false)
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
-    allowedSlippage,
-    trade,
-  ])
-  const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
+  const slippageAdjustedAmounts = useMemo(
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
+    [allowedSlippage, trade]
+  )
+  const { priceImpactWithoutFee, realizedLPFee } = useMemo(
+    () => computeTradePriceBreakdown(network, trade),
+    [trade, network]
+  )
   const severity = warningSeverity(priceImpactWithoutFee)
   const { t } = useTranslation()
 
@@ -66,12 +71,7 @@ export default function SwapModalFooter({
             <Text fontSize="11px" color="rgba(255, 255, 255, 0.5)">
               {trade.tradeType === TradeType.EXACT_INPUT ? t('minimumReceived') : t('maximumSold')}
             </Text>
-            <QuestionHelper
-              text={t('questionHelperMessages.transactionWillRevert')}
-              big
-              empty
-              disableHover
-            />
+            <QuestionHelper text={t('questionHelperMessages.transactionWillRevert')} big empty disableHover />
           </RowFixed>
           <RowFixed>
             <Text fontSize="11px" color="#009CE1">
@@ -91,12 +91,7 @@ export default function SwapModalFooter({
             <Text fontSize="11px" color="rgba(255, 255, 255, 0.5)">
               {t('priceImpact')}
             </Text>
-            <QuestionHelper
-              text={t('questionHelperMessages.differenceBetweenMarket')}
-              big
-              empty
-              disableHover
-            />
+            <QuestionHelper text={t('questionHelperMessages.differenceBetweenMarket')} big empty disableHover />
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} modal />
         </RowBetween>
@@ -105,12 +100,7 @@ export default function SwapModalFooter({
             <Text fontSize="11px" color="rgba(255, 255, 255, 0.5)">
               {t('liquidityProviderFee')}
             </Text>
-            <QuestionHelper
-              text={t('questionHelperMessages.feeTreasury')}
-              big
-              empty
-              disableHover
-            />
+            <QuestionHelper text={t('questionHelperMessages.feeTreasury')} big empty disableHover />
           </RowFixed>
           <Text fontSize="11px" color="#009CE1">
             {realizedLPFee ? `${realizedLPFee?.toSignificant(6)} ${trade.inputAmount.currency.symbol}` : '-'}
@@ -128,7 +118,7 @@ export default function SwapModalFooter({
           data-id="confirm-swap-or-send"
           fullwidth
         >
-          {severity > 2 ? t('swapAnyway') :  t('confirmSwap')}
+          {severity > 2 ? t('swapAnyway') : t('confirmSwap')}
         </Button>
 
         {swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}

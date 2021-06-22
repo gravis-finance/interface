@@ -1,5 +1,5 @@
 import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Currency, ETHER, Token } from '@gravis.finance/sdk'
+import { Currency, BASE_CURRENCIES, Token, ChainId } from '@gravis.finance/sdk'
 import { Text, CloseIcon, IconButton, AddIcon, Button } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
@@ -66,11 +66,11 @@ const StyledAddCustomToken = styled.div`
   top: 15px;
   right: 40px;
   cursor: pointer;
-  
+
   * {
     cursor: pointer;
   }
-  
+
   > *:last-child {
     position: absolute;
     left: -5px;
@@ -175,7 +175,7 @@ export function CurrencySearch({
       if (e.key === 'Enter') {
         const s = searchQuery.toLowerCase().trim()
         if (s === 'bnb') {
-          handleCurrencySelect(ETHER)
+          handleCurrencySelect(BASE_CURRENCIES[chainId as ChainId])
         } else if (filteredSortedTokens.length > 0) {
           if (
             filteredSortedTokens[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||
@@ -186,7 +186,7 @@ export function CurrencySearch({
         }
       }
     },
-    [filteredSortedTokens, handleCurrencySelect, searchQuery]
+    [filteredSortedTokens, handleCurrencySelect, searchQuery, chainId]
   )
 
   const selectedListInfo = useSelectedListInfo()
@@ -200,12 +200,7 @@ export function CurrencySearch({
           <RowBetween>
             <Text style={{ display: 'flex', alignItems: 'center', fontSize: '18px', letterSpacing: '-0.3px' }} bold>
               {t('selectToken')}
-              <QuestionHelper
-                text={t('questionHelperMessages.findTokenBySearching')}
-                empty
-                bordered={false}
-                big
-              />
+              <QuestionHelper text={t('questionHelperMessages.findTokenBySearching')} empty bordered={false} big />
             </Text>
             <IconButton buttonType="close" buttonSize="40px" onClick={onDismiss} data-id="modal-close-icon">
               <CloseIcon />
@@ -225,9 +220,7 @@ export function CurrencySearch({
             {/* TODO Remove display: none */}
             <StyledAddCustomToken onClick={addCustomTokenHandler} data-id="add-custom-token-button">
               <AddIcon />
-              <QuestionHelper
-                text={t('questionHelperMessages.addCustomToken')}
-              />
+              <QuestionHelper text={t('questionHelperMessages.addCustomToken')} />
             </StyledAddCustomToken>
             <StyledRemoveIcon onClick={handleRemove} data-id="clear-search-button">
               {searchQuery.length > 0 && <CloseIcon />}
@@ -249,10 +242,14 @@ export function CurrencySearch({
         {filteredSortedTokens.length === 0 && (
           <NothingFoundContainer>
             <div>
-              <Text>{t('nothingFound')}
+              <Text>
+                {t('nothingFound')}
                 {/* . Use Add Custom Token feature. */}
               </Text>
-              <Button onClick={addCustomTokenHandler}><AddIcon style={{ marginRight: '8px' }}/>{t('addToken')}</Button>
+              <Button onClick={addCustomTokenHandler}>
+                <AddIcon style={{ marginRight: '8px' }} />
+                {t('addToken')}
+              </Button>
             </div>
           </NothingFoundContainer>
         )}

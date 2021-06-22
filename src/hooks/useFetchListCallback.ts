@@ -1,24 +1,26 @@
 import { nanoid } from '@reduxjs/toolkit'
 import { ChainId } from '@gravis.finance/sdk'
 import { TokenList } from '@uniswap/token-lists'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getNetworkLibrary, NETWORK_CHAIN_ID } from '../connectors'
+import useNetwork from './useNetwork'
 import { AppDispatch } from '../state'
 import { fetchTokenList } from '../state/lists/actions'
 import getTokenList from '../utils/getTokenList'
 import resolveENSContentHash from '../utils/resolveENSContentHash'
 import { useActiveWeb3React } from './index'
 
-export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> {
+export function useFetchListCallback(): { fetchList: (listUrl: string) => Promise<TokenList>; refetch: boolean } {
   const { chainId, library } = useActiveWeb3React()
   const dispatch = useDispatch<AppDispatch>()
+  const { network, networkLibrary } = useNetwork()
+  const [lastChainId, setLastChaindId] = useState<any>()
+  const refetch = chainId !== lastChainId
 
   const ensResolver = useCallback(
     (ensName: string) => {
       if (!library || chainId !== ChainId.MAINNET) {
-        if (NETWORK_CHAIN_ID === ChainId.MAINNET) {
-          const networkLibrary = getNetworkLibrary()
+        if (network === ChainId.MAINNET) {
           if (networkLibrary) {
             return resolveENSContentHash(ensName, networkLibrary)
           }
@@ -27,15 +29,15 @@ export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> 
       }
       return resolveENSContentHash(ensName, library)
     },
-    [chainId, library]
+    [chainId, library, network, networkLibrary]
   )
-
-  return useCallback(
+  const fetchList = useCallback(
     async (listUrl: string) => {
       const requestId = nanoid()
-      dispatch(fetchTokenList.pending({ requestId, url: listUrl }))
+      dispatch(fetchTokenList.pending({ requestId, url: listUrl, refetch }))
       return getTokenList(chainId as ChainId, listUrl, ensResolver)
         .then((tokenList) => {
+          setLastChaindId(chainId)
           dispatch(fetchTokenList.fulfilled({ url: listUrl, tokenList, requestId }))
           return tokenList
         })
@@ -45,8 +47,12 @@ export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> 
           throw error
         })
     },
-    [chainId, dispatch, ensResolver]
+    [chainId, dispatch, ensResolver, refetch]
   )
+  return {
+    fetchList,
+    refetch,
+  }
 }
 
 export default useFetchListCallback

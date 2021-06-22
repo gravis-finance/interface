@@ -3,7 +3,7 @@ import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
-import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@gravis.finance/sdk'
+import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, isEther } from '@gravis.finance/sdk'
 import { ROUTER_ADDRESS, ROUTER_ABI } from 'config/contracts'
 import { TokenAddressMap } from '../state/lists/hooks'
 
@@ -40,7 +40,7 @@ const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
   [ChainId.HECOMAINNET]: 'viewOnHecoInfo',
   [ChainId.HECOTESTNET]: 'viewOnHecoInfo',
   [ChainId.MATICMAINNET]: 'MaticInfo',
-  [ChainId.MATICTESTNET]: 'MaticInfo'
+  [ChainId.MATICTESTNET]: 'MaticInfo',
 }
 
 export const getExplorerName = (chainId: ChainId) => {
@@ -124,6 +124,6 @@ export function escapeRegExp(string: string): string {
 }
 
 export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
-  if (currency === ETHER) return true
+  if (isEther(currency)) return true
   return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
 }

@@ -1,6 +1,6 @@
 import { JSBI, Percent } from '@gravis.finance/sdk'
 
-export const NetworkContextName = 'NETWORK'
+export const NetworkContextNames = { BSC: 'BSC', HECO: 'HECO', MATIC: 'MATIC' }
 
 // default allowed slippage, in bips
 export const INITIAL_ALLOWED_SLIPPAGE = 80

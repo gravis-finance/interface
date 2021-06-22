@@ -140,9 +140,7 @@ export function AddRemoveTabs({ adding }: { adding: boolean }) {
           <HistoryLink to="/pool" style={{ height: '24px' }}>
             <ArrowBackIcon width="24px" height="24px" />
           </HistoryLink>
-          <ActiveText>
-            {adding ? t('addLiquidity') : t('removeLiquidity')}
-          </ActiveText>
+          <ActiveText>{adding ? t('addLiquidity') : t('removeLiquidity')}</ActiveText>
         </Flex>
         <QuestionHelper
           text={adding ? t('questionHelperMessages.addLiquidity') : t('questionHelperMessages.removeTokens')}
