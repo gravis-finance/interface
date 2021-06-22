@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import { Heading, IconButton, Text, Flex, useModal } from '@gravis.finance/uikit'
+import { Heading, IconButton, Text, Flex, useModal, NetworkSwitch } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import SettingsModal from './SettingsModal'
 import RecentTransactionsModal from './RecentTransactionsModal'
@@ -107,6 +107,7 @@ const PageHeader = ({ title, description, children }: PageHeaderProps) => {
             </Text>
           )}
         </Details>
+        <NetworkSwitch asIcon style={{ marginRight: 16 }} />
         <StyledIcon margin={16} title={t('settings')}>
           <IconButton variant="text" onClick={onPresentSettings} data-id="setting-button">
             <CogIcon />
