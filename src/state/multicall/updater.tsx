@@ -155,11 +155,6 @@ export default function Updater(): null {
         fetchingBlockNumber: latestBlockNumber,
       })
     )
-    dispatch(
-      updateMulticallFetchSuccess({
-        fetched: false,
-      })
-    )
 
     cancellations.current = {
       blockNumber: latestBlockNumber,

@@ -102,7 +102,7 @@
     "test": "dotenv -e .env.production jest --watch",
     "test:dev": "dotenv -e .env.development jest --watch",
     "eject": "react-scripts eject",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
     "integration-test": "start-server-and-test start 3000 cy:run",
