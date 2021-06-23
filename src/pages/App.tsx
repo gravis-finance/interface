@@ -104,11 +104,7 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
 
   const loadingNetworkModal = React.useMemo(
     () => (
-      <Modal
-        hideCloseButton
-        styledModalContent={{ padding: 110 }}
-        title="Please, confirm network change"
-      >
+      <Modal hideCloseButton styledModalContent={{ padding: 110 }} title="Please, confirm network change">
         <Spinner />
       </Modal>
     ),
@@ -133,10 +129,8 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
   useEffect(() => {
     if (!account) return
     if (chainId !== providerChainId)
-      if(deboucedShowErrorModal)
-        openErrorModal()
-      else
-        openLoadingNetworkModal()
+      if (deboucedShowErrorModal) openErrorModal()
+      else openLoadingNetworkModal()
     else {
       setShowErrorModal(false)
       onDismissLoadingNetworkModal()
@@ -164,15 +158,15 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
     }
   }, [debouncedIsMouseOuted, chainId, providerChainId]) // eslint-disable-line
 
-
   // redirect to supported chain id
   if (!chainId || supportedChains?.indexOf(chainId) === -1) {
     return (
       <Redirect
         to={{
           ...location,
-          search: `?network=${localStorage.getItem('chainId') || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
-            }`,
+          search: `?network=${
+            localStorage.getItem('chainId') || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
+          }`,
         }}
       />
     )
