@@ -12,8 +12,8 @@ import {
   Call,
   errorFetchingMulticallResults,
   fetchingMulticallResults,
-  parseCallKey,
-  updateMulticallResults,
+  parseCallKey, updateMulticallFetchSuccess,
+  updateMulticallResults
 } from './actions'
 
 // chunk calls so we do not exceed the gas limit
@@ -155,6 +155,11 @@ export default function Updater(): null {
         fetchingBlockNumber: latestBlockNumber,
       })
     )
+    dispatch(
+      updateMulticallFetchSuccess({
+        fetched: false,
+      })
+    )
 
     cancellations.current = {
       blockNumber: latestBlockNumber,
@@ -186,6 +191,11 @@ export default function Updater(): null {
             )
 
             console.info('Success to fetch multicall chunk', chunk, chainId)
+            dispatch(
+              updateMulticallFetchSuccess({
+                fetched: true,
+              })
+            )
           })
           .catch((error: any) => {
             if (error instanceof CancelledError) {
