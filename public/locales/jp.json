@@ -288,6 +288,8 @@
   "language": "jp",
   "inPool": "インプール",
   "viewPairAnalytics": "View pair analytics",
+  "provideSecondToken": "第二のトークンを提供",
+  "readingBlockchain": "Reading blockchain...",
 
   "time": {
     "time": "時間",

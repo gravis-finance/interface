@@ -288,6 +288,8 @@
   "language": "en",
   "inPool": "in pool",
   "viewPairAnalytics": "View pair analytics",
+  "provideSecondToken": "Provide second token",
+  "readingBlockchain": "Reading blockchain...",
 
   "time": {
     "time": "Time",

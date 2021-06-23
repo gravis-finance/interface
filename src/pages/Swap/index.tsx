@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { CurrencyAmount, JSBI, Token, Trade, TokenAmount, ChainId } from '@gravis.finance/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, Trade } from '@gravis.finance/sdk'
 import { ArrowDown } from 'react-feather'
-import { CardBody, Button, Text, Flex } from '@gravis.finance/uikit'
+import { Button, CardBody, Flex, Text } from '@gravis.finance/uikit'
 
 import AddressInputPanel from 'components/AddressInputPanel'
 import Card from 'components/Card'
@@ -38,6 +38,7 @@ import { ReactComponent as ExchangeIcon } from '../../assets/svg/exchange-icon.s
 import GravisSpinner from '../../components/GravisSpinner'
 import { usePair } from '../../data/Reserves'
 import TokenInPoolValue from './TokenInPoolValue'
+import { getMulticallFetchedState } from '../../state/multicall/hooks'
 
 const { main: Main } = TYPE
 
@@ -324,6 +325,8 @@ const Swap = () => {
     [onCurrencySelection]
   )
 
+  const fetchedBlock = getMulticallFetchedState()
+
   return (
     <CardWrapper>
       <TokenWarningModal
@@ -454,12 +457,21 @@ const Swap = () => {
                     {wrapInputError ??
                       (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}
                   </Button>
-                ) : (!currencyBalances.INPUT || !currencyBalances.OUTPUT) &&
+                ) : (currencies.INPUT && !currencies.OUTPUT && formattedAmounts[Field.INPUT]) ?
+                    <Card style={{ textAlign: 'center' }}>
+                      <Main style={{ color: '#909090' }}>{t('provideSecondToken')}</Main>
+                    </Card>
+                  : (!currencyBalances.INPUT || !currencyBalances.OUTPUT) &&
                   (formattedAmounts[Field.INPUT] || formattedAmounts[Field.OUTPUT]) ? (
                   <SpinnerContainer>
                     <GravisSpinner />
                   </SpinnerContainer>
-                ) : noRoute && userHasSpecifiedInputOutput ? (
+                )
+                    : !fetchedBlock && formattedAmounts[Field.INPUT] ?
+                      <Card style={{ textAlign: 'center' }}>
+                        <Main style={{ color: '#909090' }}>{t('readingBlockchain')}</Main>
+                      </Card>
+                    : noRoute && userHasSpecifiedInputOutput ? (
                   <Card style={{ textAlign: 'center' }}>
                     <Main style={{ color: '#909090' }}>{t('insufficientLiquidityForThisTrade')}</Main>
                   </Card>
