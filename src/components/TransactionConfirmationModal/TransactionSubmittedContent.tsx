@@ -1,8 +1,9 @@
 import { ChainId } from '@gravis.finance/sdk'
 import React from 'react'
 import styled from 'styled-components'
-import { Button, HourGlassIcon, LinkExternal } from '@gravis.finance/uikit'
+import { Button, LinkExternal } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
+import loaderGif from 'assets/images/loader.gif'
 import { AutoColumn } from '../Column'
 import { getExplorerLink, getExplorerName } from '../../utils'
 import { Wrapper, Section, ConfirmedIcon, ContentHeader } from './helpers'
@@ -17,6 +18,10 @@ const StyledSection = styled(Section)`
   padding: 0 0 24px 0;
 `
 
+const AnimatedLoader = styled.img`
+  
+`
+
 const TransactionSubmittedContent = ({ onDismiss, chainId, hash }: TransactionSubmittedContentProps) => {
   const { t } = useTranslation()
 
@@ -25,7 +30,7 @@ const TransactionSubmittedContent = ({ onDismiss, chainId, hash }: TransactionSu
       <StyledSection>
         <ContentHeader onDismiss={onDismiss}>{t('transactionSubmitted')}</ContentHeader>
         <ConfirmedIcon>
-          <HourGlassIcon />
+          <AnimatedLoader src={loaderGif} alt=""/>
         </ConfirmedIcon>
         <AutoColumn gap="8px" justify="center">
           {chainId && hash && (
