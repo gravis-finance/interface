@@ -5,6 +5,7 @@ import {
   fetchingMulticallResults,
   removeMulticallListeners,
   updateMulticallResults,
+  updateMulticallFetchSuccess
 } from './actions'
 import reducer, { MulticallState } from './reducer'
 
@@ -43,6 +44,7 @@ describe('multicall reducer', () => {
           },
         },
         callResults: {},
+        fetched: false
       })
     })
   })
@@ -60,7 +62,7 @@ describe('multicall reducer', () => {
           chainId: 1,
         })
       )
-      expect(store.getState()).toEqual({ callResults: {}, callListeners: {} })
+      expect(store.getState()).toEqual({ callResults: {}, callListeners: {}, fetched: false })
     })
     it('removes listeners', () => {
       store.dispatch(
@@ -88,6 +90,7 @@ describe('multicall reducer', () => {
       expect(store.getState()).toEqual({
         callResults: {},
         callListeners: { 1: { [`${DAI_ADDRESS}-0x`]: {} } },
+        fetched: false
       })
     })
   })
@@ -112,6 +115,7 @@ describe('multicall reducer', () => {
             },
           },
         },
+        fetched: false
       })
     })
     it('updates old data', () => {
@@ -142,6 +146,7 @@ describe('multicall reducer', () => {
             },
           },
         },
+        fetched: false
       })
     })
     it('ignores late updates', () => {
@@ -172,6 +177,7 @@ describe('multicall reducer', () => {
             },
           },
         },
+        fetched: false
       })
     })
   })
@@ -190,6 +196,7 @@ describe('multicall reducer', () => {
             [`${DAI_ADDRESS}-0x0`]: { fetchingBlockNumber: 2 },
           },
         },
+        fetched: false
       })
     })
 
@@ -214,6 +221,7 @@ describe('multicall reducer', () => {
             [`${DAI_ADDRESS}-0x0`]: { fetchingBlockNumber: 3 },
           },
         },
+        fetched: false
       })
     })
 
@@ -238,6 +246,7 @@ describe('multicall reducer', () => {
             [`${DAI_ADDRESS}-0x0`]: { fetchingBlockNumber: 2 },
           },
         },
+        fetched: false
       })
     })
   })
@@ -255,6 +264,7 @@ describe('multicall reducer', () => {
         callResults: {
           1: {},
         },
+        fetched: false
       })
     })
     it('updates block number if we were fetching', () => {
@@ -282,6 +292,7 @@ describe('multicall reducer', () => {
             },
           },
         },
+        fetched: false
       })
     })
     it('does nothing if not errored on latest block', () => {
@@ -305,6 +316,7 @@ describe('multicall reducer', () => {
             [`${DAI_ADDRESS}-0x0`]: { fetchingBlockNumber: 3 },
           },
         },
+        fetched: false
       })
     })
   })
