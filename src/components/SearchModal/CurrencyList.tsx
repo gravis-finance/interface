@@ -1,8 +1,8 @@
 import { Currency, CurrencyAmount, currencyEquals, isEther, BASE_CURRENCIES, Token } from '@gravis.finance/sdk'
-import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
+import React, { CSSProperties, MouseEventHandler, MutableRefObject, useCallback, useMemo } from 'react'
 import { FixedSizeList } from 'react-window'
 import styled from 'styled-components'
-import { Text } from '@gravis.finance/uikit'
+import { Text, AddIcon, ButtonBase, Tooltip } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import useNetwork from 'hooks/useNetwork'
 import { useActiveWeb3React } from '../../hooks'
@@ -18,6 +18,8 @@ import { MouseoverTooltip } from '../Tooltip'
 import { FadedSpan, MenuItem } from './styleds'
 import Loader from '../Loader'
 import { isTokenOnList } from '../../utils'
+import { registerToken } from '../../utils/wallet'
+import useCurrencyImageSrcs from '../../hooks/useCurrencyImageSrcs'
 
 const { main: Main } = TYPE
 
@@ -45,6 +47,15 @@ const Tag = styled.div`
   justify-self: flex-end;
   margin-right: 4px;
 `
+
+const AddButton = styled(ButtonBase)`
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+`
+AddButton.defaultProps = { children: <AddIcon /> }
 
 function Balance({ balance }: { balance: CurrencyAmount }) {
   return <StyledBalanceText title={balance.toExact()}>{balance.toSignificant(4)}</StyledBalanceText>
@@ -103,8 +114,17 @@ function CurrencyRow({
   const isOnSelectedList = isTokenOnList(selectedTokenList, currency)
   const customAdded = useIsUserAddedToken(currency)
   const balance = useCurrencyBalance(account ?? undefined, currency)
-
+  const isWrappedCurrency = currency instanceof WrappedTokenInfo
   const removeToken = useRemoveUserAddedToken()
+  const logoSrcs = useCurrencyImageSrcs(currency)
+
+  const onAddCurrencyToMetamask: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation()
+    const tokenInfo = currency as WrappedTokenInfo
+    if (tokenInfo.symbol) {
+      registerToken(tokenInfo.address, tokenInfo.symbol, tokenInfo.decimals, logoSrcs[0] || '')
+    }
+  }
 
   // only show add or remove buttons if not on selected list
   return (
@@ -117,9 +137,9 @@ function CurrencyRow({
     >
       <CurrencyLogo currency={currency} size="24px" />
       <Column>
-        <Text title={currency.name} style={{ display: 'flex' }}>
-          {currency.symbol}{' '}
-          {!isOnSelectedList && customAdded && !(currency instanceof WrappedTokenInfo) ? (
+        <Text style={{ display: 'flex' }}>
+          <span title={currency.name}>{currency.symbol} </span>
+          {!isOnSelectedList && customAdded && !isWrappedCurrency ? (
             <Main fontWeight={500}>
               <LinkStyledButton
                 onClick={(event) => {
@@ -131,6 +151,11 @@ function CurrencyRow({
               </LinkStyledButton>
             </Main>
           ) : null}
+          {isWrappedCurrency && (
+            <Tooltip placement="right" title={t('addToMetamask')}>
+              <AddButton ml={2} onClick={onAddCurrencyToMetamask} />
+            </Tooltip>
+          )}
         </Text>
         <FadedSpan>
           {/* {!isOnSelectedList && !customAdded && !(currency instanceof WrappedTokenInfo) ? (
