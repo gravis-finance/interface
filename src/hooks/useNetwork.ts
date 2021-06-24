@@ -27,7 +27,7 @@ const useNetwork = () => {
       : parseInt(network)
 
   useEffect(() => {
-    if (network && (window as any).ethereum.networkVersion !== network)
+    if (network && (window as any).ethereum?.networkVersion !== network)
       setupNetwork(network)
   }, [network])
 
