@@ -1,14 +1,15 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react'
+import React, { Suspense, lazy, useEffect, useRef, useCallback } from 'react'
 import { Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { getNetworkId, NetworkSwitchError, NotFound, useModal, Modal } from '@gravis.finance/uikit'
+import { getNetworkId, NetworkSwitchError, NotFound, useModal, Modal, Button } from '@gravis.finance/uikit'
+import { useTranslation } from 'react-i18next'
 
 import backgroundImage from 'assets/svg/trade-background.svg'
 import useEagerConnect from 'hooks/useEagerConnect'
 
 import { setupNetwork } from 'utils/wallet'
 import { useActiveWeb3React } from 'hooks'
-import { useDebounce } from 'use-debounce'
+import useToast from 'hooks/useToast'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import Menu from '../components/Menu'
@@ -80,6 +81,7 @@ const supportedChains = isProduction ? ['56', '128', '137'] : ['97', '256', '800
 
 const DefaultRoute = ({ ...props }: RouteProps) => {
   useEagerConnect()
+  const { t } = useTranslation()
   const provider: any = (window as WindowChain).ethereum
   const loginBlockVisible = true
   const location = useLocation()
@@ -87,9 +89,15 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
   const chainId = getNetworkId()
   const [providerChainId, setProviderChainId] = React.useState<string>(provider?.networkVersion)
   const isSupportedChain = React.useMemo(() => supportedChains.indexOf(providerChainId) !== -1, [providerChainId])
+  const { toastWarning } = useToast()
+
   const handleChangeNetwork = React.useCallback(() => {
-    setupNetwork(chainId)
-  }, [chainId])
+    setupNetwork(chainId).then((result) => {
+      if (!result) {
+        toastWarning(t('You have a pending action in the wallet.'))
+      }
+    })
+  }, [chainId, t, toastWarning])
 
   const errorModal = React.useMemo(
     () => (
@@ -102,23 +110,28 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
     [isSupportedChain, handleChangeNetwork]
   )
 
-  const loadingNetworkModal = React.useMemo(
-    () => (
-      <Modal hideCloseButton styledModalContent={{ padding: 110 }} title="Please, confirm network change">
-        <Spinner />
-      </Modal>
-    ),
-    []
-  )
-
   // useModal hook run update every time any modal is open.
   // don't add openModal and onDismiss to useEffect deps as it cause bugs
-  const [openLoadingNetworkModal, onDismissLoadingNetworkModal] = useModal(loadingNetworkModal, false)
   const [openErrorModal, onDismissErrorModal] = useModal(errorModal, false)
-  const [isMouseOuted, setIsMouseOuted] = useState(false)
-  const [debouncedIsMouseOuted] = useDebounce(isMouseOuted, 500)
-  const [showErrorModal, setShowErrorModal] = useState(false)
-  const [deboucedShowErrorModal] = useDebounce(showErrorModal, 1000)
+
+  const handleConfirm = useCallback(() => {
+    if (chainId !== providerChainId) {
+      openErrorModal()
+    }
+  }, [chainId, providerChainId]) // eslint-disable-line
+
+  const loadingNetworkModal = React.useMemo(
+    () => (
+      <Modal hideCloseButton styledModalContent={{ padding: 30, display: 'flex', alignItems: 'center' }} title="Please, confirm network change">
+        <Spinner width="120px" />
+        <Button marginTop="30px" onClick={handleConfirm}>{t('Continue')}</Button>
+      </Modal>
+    ),
+    [t, handleConfirm]
+  )
+
+  const [openLoadingNetworkModal, onDismissLoadingNetworkModal] = useModal(loadingNetworkModal, false)
+
   React.useEffect(() => {
     const handleChange = (newChainId) => {
       setProviderChainId(parseInt(newChainId, 16).toString())
@@ -126,37 +139,19 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
     provider?.on('chainChanged', handleChange)
   }, [provider]) // eslint-disable-line
 
+  const timeoutId = useRef<any>()
+
   useEffect(() => {
     if (!account) return
-    if (chainId !== providerChainId)
-      if (deboucedShowErrorModal) openErrorModal()
-      else openLoadingNetworkModal()
-    else {
-      setShowErrorModal(false)
+    if (chainId !== providerChainId) {
+      openLoadingNetworkModal()
+      timeoutId.current = setTimeout(() => openErrorModal(), 10000)
+    } else {
+      clearTimeout(timeoutId.current)
       onDismissLoadingNetworkModal()
       onDismissErrorModal()
     }
-  }, [account, chainId, providerChainId, deboucedShowErrorModal]) // eslint-disable-line
-
-  // this construction was added for cancel metamask handling
-  useEffect(() => {
-    const handleMouseOut = () => {
-      setIsMouseOuted(true)
-    }
-    const handleMouseOver = () => {
-      if (chainId !== providerChainId && debouncedIsMouseOuted) {
-        setShowErrorModal(true)
-      }
-      setIsMouseOuted(false)
-    }
-
-    document.addEventListener('mouseleave', handleMouseOut)
-    document.addEventListener('mouseover', handleMouseOver)
-    return () => {
-      document.removeEventListener('mouseleave', handleMouseOut)
-      document.removeEventListener('mouseover', handleMouseOver)
-    }
-  }, [debouncedIsMouseOuted, chainId, providerChainId]) // eslint-disable-line
+  }, [account, chainId, providerChainId]) // eslint-disable-line
 
   // redirect to supported chain id
   if (!chainId || supportedChains?.indexOf(chainId) === -1) {
@@ -164,9 +159,8 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
       <Redirect
         to={{
           ...location,
-          search: `?network=${
-            localStorage.getItem('chainId') || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
-          }`,
+          search: `?network=${localStorage.getItem('chainId') || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
+            }`,
         }}
       />
     )
