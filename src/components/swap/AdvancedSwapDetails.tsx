@@ -74,7 +74,7 @@ const StyledRouteContainer = styled.div`
   background-color: #292929;
   border-radius: 6px;
   border: none;
-  padding: 12px 6px;
+  padding: 12px 6px 30px 6px;
 `
 
 const StyledText = styled(Text)`
