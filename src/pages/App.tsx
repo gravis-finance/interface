@@ -184,7 +184,7 @@ export default function App() {
     <Suspense fallback={<PageLoader />}>
       <AppWrapper>
         <Web3ReactManager>
-          <Menu loginBlockVisible={false}>
+          <Menu loginBlockVisible>
             <Switch>
               <DefaultRoute exact path="/" component={() => <Redirect to="/swap" />} />
               <DefaultRoute exact strict path="/swap" component={Swap} />
