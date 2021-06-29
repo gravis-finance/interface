@@ -92,12 +92,34 @@ StyledButton.defaultProps = {
   variant: 'dark',
 }
 
-function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
+function TradeSummary({
+  trade,
+  allowedSlippage,
+  pair,
+  showRoute,
+}: {
+  trade: Trade
+  allowedSlippage: number
+  pair?: Pair | null
+  showRoute?: boolean
+}) {
   const { network } = useNetwork()
   const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(network, trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
   const { t } = useTranslation()
+
+  const pairAnalyticsUrl = React.useMemo(() => {
+    if (!pair || showRoute) return ''
+    const { chainId, address } = pair.liquidityToken
+    return `${process.env.REACT_APP_INFO_URL}/pair/${address}?network=${getNetworkForAnalytics(
+      chainId
+    )}&${urlSearchLanguageParam}=${t('language')}`
+  }, [showRoute, pair, t])
+
+  const goToPairAnalytics = React.useCallback(() => {
+    window.open(pairAnalyticsUrl, '_blank')
+  }, [pairAnalyticsUrl])
 
   return (
     <Card>
@@ -134,6 +156,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
           </StyledText>
         </RowBetween>
+        {!!pairAnalyticsUrl && <StyledButton onClick={goToPairAnalytics}>{t('viewPairAnalytics')}</StyledButton>}
       </CardBody>
     </Card>
   )
@@ -150,24 +173,12 @@ export function AdvancedSwapDetails({ trade, pair }: AdvancedSwapDetailsProps) {
   const showRoute = Boolean(trade && trade.route.path.length > 2)
   const { t } = useTranslation()
 
-  const pairAnalyticsUrl = React.useMemo(() => {
-    if (!pair) return ''
-    const { chainId, address } = pair.liquidityToken
-    return `${process.env.REACT_APP_INFO_URL}/pair/${address}?network=${getNetworkForAnalytics(
-      chainId
-    )}&${urlSearchLanguageParam}=${t('language')}`
-  }, [pair, t])
-
-  const goToPairAnalytics = React.useCallback(() => {
-    window.open(pairAnalyticsUrl, '_blank')
-  }, [pairAnalyticsUrl])
-
   return (
     <AutoColumn gap="md">
       {trade && (
         <>
           <StyledTradeSummary>
-            <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
+            <TradeSummary trade={trade} pair={pair} showRoute={showRoute} allowedSlippage={allowedSlippage} />
           </StyledTradeSummary>
           {showRoute && (
             <StyledRouteContainer>
@@ -179,9 +190,6 @@ export function AdvancedSwapDetails({ trade, pair }: AdvancedSwapDetailsProps) {
                   <QuestionHelper text={t('errorMessages.routingThroughTokens')} />
                 </RowFixed>
                 <SwapRoute trade={trade} />
-                {!!pairAnalyticsUrl && (
-                  <StyledButton onClick={goToPairAnalytics}>{t('viewPairAnalytics')}</StyledButton>
-                )}
               </AutoColumn>
             </StyledRouteContainer>
           )}
