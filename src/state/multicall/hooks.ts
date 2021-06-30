@@ -255,3 +255,10 @@ export function useSingleCallResult(
     return toCallState(result, contract?.interface, fragment, latestBlockNumber)
   }, [result, contract, fragment, latestBlockNumber])
 }
+
+export function getMulticallFetchedState() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useSelector<AppState, AppState['multicall']['fetched']>(
+    (state) => state.multicall.fetched
+  )
+}

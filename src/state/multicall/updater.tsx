@@ -12,8 +12,8 @@ import {
   Call,
   errorFetchingMulticallResults,
   fetchingMulticallResults,
-  parseCallKey,
-  updateMulticallResults,
+  parseCallKey, updateMulticallFetchSuccess,
+  updateMulticallResults
 } from './actions'
 
 // chunk calls so we do not exceed the gas limit
@@ -129,9 +129,10 @@ export default function Updater(): null {
     return outdatedListeningKeys(state.callResults, listeningKeys, chainId, latestBlockNumber)
   }, [chainId, state.callResults, listeningKeys, latestBlockNumber])
 
-  const serializedOutdatedCallKeys = useMemo(() => JSON.stringify(unserializedOutdatedCallKeys.sort()), [
-    unserializedOutdatedCallKeys,
-  ])
+  const serializedOutdatedCallKeys = useMemo(
+    () => JSON.stringify(unserializedOutdatedCallKeys.sort()),
+    [unserializedOutdatedCallKeys]
+  )
 
   useEffect(() => {
     if (!latestBlockNumber || !chainId || !multicallContract) return
@@ -185,6 +186,11 @@ export default function Updater(): null {
             )
 
             console.info('Success to fetch multicall chunk', chunk, chainId)
+            dispatch(
+              updateMulticallFetchSuccess({
+                fetched: true,
+              })
+            )
           })
           .catch((error: any) => {
             if (error instanceof CancelledError) {

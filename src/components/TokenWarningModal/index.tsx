@@ -13,7 +13,6 @@ import CurrencyLogo from '../Logos/CurrencyLogo'
 import { AutoRow, RowBetween } from '../Row'
 import { AutoColumn } from '../Column'
 
-
 const Modal = lazy(() => import('../Modal'))
 const { main: Main, blue: Blue } = TYPE
 
@@ -112,11 +111,10 @@ export default function TokenWarningModal({
             <StyledWarningIcon />
             <Text color="failure">{t('tokenImported')}</Text>
           </AutoRow>
+          <Text>{t('errorMessages.importTokenWarning')}</Text>
           <Text>
-            {t('errorMessages.importTokenWarning')}
-          </Text>
-          <Text>
-            {t('errorMessages.importTokenWarningPurchase')}<strong>{t('errorMessages.youMaybeUnable')}</strong>
+            {t('errorMessages.importTokenWarningPurchase')}
+            <strong>{t('errorMessages.youMaybeUnable')}</strong>
           </Text>
           {tokens.map((token) => {
             return <TokenWarningCard key={token.address} token={token} />

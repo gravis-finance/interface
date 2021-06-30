@@ -1,18 +1,21 @@
-import React, { Suspense, lazy } from 'react'
-import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
+import React, { Suspense, lazy, useEffect, useRef, useCallback } from 'react'
+import { Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { getNetworkId, NetworkSwitchError, NotFound, useModal } from '@gravis.finance/uikit'
+import { getNetworkId, NetworkSwitchError, NotFound, useModal, Modal, Button } from '@gravis.finance/uikit'
+import { useTranslation } from 'react-i18next'
 
 import backgroundImage from 'assets/svg/trade-background.svg'
 import useEagerConnect from 'hooks/useEagerConnect'
 
 import { setupNetwork } from 'utils/wallet'
 import { useActiveWeb3React } from 'hooks'
+import useToast from 'hooks/useToast'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import Menu from '../components/Menu'
 import PageLoader from '../components/PageLoader'
 import Web3ReactManager from '../components/Web3ReactManager'
+import Spinner from '../components/GravisSpinner'
 
 const Pool = lazy(() => import('./Pool'))
 const PoolFinder = lazy(() => import('./PoolFinder'))
@@ -75,28 +78,25 @@ const BodyWrapper = styled.div`
 
 const isProduction = process.env.REACT_APP_NODE_ENV === 'production'
 const supportedChains = isProduction ? ['56', '128', '137'] : ['97', '256', '80001']
-const provider: any = (window as WindowChain).ethereum
 
 const DefaultRoute = ({ ...props }: RouteProps) => {
   useEagerConnect()
-
-  const loginBlockVisible = true
+  const { t } = useTranslation()
+  const provider: any = (window as WindowChain).ethereum
   const location = useLocation()
   const { account } = useActiveWeb3React()
   const chainId = getNetworkId()
   const [providerChainId, setProviderChainId] = React.useState<string>(provider?.networkVersion)
   const isSupportedChain = React.useMemo(() => supportedChains.indexOf(providerChainId) !== -1, [providerChainId])
-
-  React.useEffect(() => {
-    const handleChange = (newChainId) => {
-      setProviderChainId(parseInt(newChainId, 16).toString())
-    }
-    provider?.on('chainChanged', handleChange)
-  }, [])
+  const { toastWarning } = useToast()
 
   const handleChangeNetwork = React.useCallback(() => {
-    setupNetwork(chainId)
-  }, [chainId])
+    setupNetwork(chainId).then((result) => {
+      if (!result) {
+        toastWarning(t('You have a pending action in the wallet.'))
+      }
+    })
+  }, [chainId, t, toastWarning])
 
   const errorModal = React.useMemo(
     () => (
@@ -111,16 +111,52 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
 
   // useModal hook run update every time any modal is open.
   // don't add openModal and onDismiss to useEffect deps as it cause bugs
-  const [openModal, onDismiss] = useModal(errorModal, false)
+  const [openErrorModal, onDismissErrorModal] = useModal(errorModal, false)
+
+  const handleConfirm = useCallback(() => {
+    if (chainId !== providerChainId) {
+      openErrorModal()
+    }
+  }, [chainId, providerChainId]) // eslint-disable-line
+
+  const loadingNetworkModal = React.useMemo(
+    () => (
+      <Modal
+        hideCloseButton
+        styledModalContent={{ padding: 30, display: 'flex', alignItems: 'center' }}
+        title="Please, confirm network change"
+      >
+        <Spinner width="120px" />
+        <Button marginTop="30px" onClick={handleConfirm}>
+          {t('Continue')}
+        </Button>
+      </Modal>
+    ),
+    [t, handleConfirm]
+  )
+
+  const [openLoadingNetworkModal, onDismissLoadingNetworkModal] = useModal(loadingNetworkModal, false)
 
   React.useEffect(() => {
+    const handleChange = (newChainId) => {
+      setProviderChainId(parseInt(newChainId, 16).toString())
+    }
+    provider?.on('chainChanged', handleChange)
+  }, [provider]) // eslint-disable-line
+
+  const timeoutId = useRef<any>()
+
+  useEffect(() => {
     if (!account) return
     if (chainId !== providerChainId) {
-      openModal()
+      openLoadingNetworkModal()
+      timeoutId.current = setTimeout(() => openErrorModal(), 10000)
     } else {
-      onDismiss()
+      clearTimeout(timeoutId.current)
+      onDismissLoadingNetworkModal()
+      onDismissErrorModal()
     }
-  }, [providerChainId, chainId, account]) // eslint-disable-line
+  }, [account, chainId, providerChainId]) // eslint-disable-line
 
   // redirect to supported chain id
   if (!chainId || supportedChains?.indexOf(chainId) === -1) {
@@ -137,20 +173,18 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
   }
 
   return (
-    <Menu loginBlockVisible={loginBlockVisible}>
-      <BodyWrapper>
-        <Route {...props} />
-      </BodyWrapper>
-    </Menu>
+    <BodyWrapper>
+      <Route {...props} />
+    </BodyWrapper>
   )
 }
 
 export default function App() {
   return (
-    <Router>
-      <Suspense fallback={<PageLoader />}>
-        <AppWrapper>
-          <Web3ReactManager>
+    <Suspense fallback={<PageLoader />}>
+      <AppWrapper>
+        <Web3ReactManager>
+          <Menu loginBlockVisible>
             <Switch>
               <DefaultRoute exact path="/" component={() => <Redirect to="/swap" />} />
               <DefaultRoute exact strict path="/swap" component={Swap} />
@@ -166,14 +200,12 @@ export default function App() {
               <DefaultRoute exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
               <DefaultRoute exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
               <Route>
-                <Menu loginBlockVisible={false}>
-                  <NotFound redirectURL={process.env.REACT_APP_HOME_URL} />
-                </Menu>
+                <NotFound redirectURL={process.env.REACT_APP_HOME_URL} />
               </Route>
             </Switch>
-          </Web3ReactManager>
-        </AppWrapper>
-      </Suspense>
-    </Router>
+          </Menu>
+        </Web3ReactManager>
+      </AppWrapper>
+    </Suspense>
   )
 }

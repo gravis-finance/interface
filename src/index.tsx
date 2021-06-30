@@ -1,15 +1,12 @@
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { ResetCSS } from '@gravis.finance/uikit'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import GlobalStyle from './style/Global'
 import App from './pages/App'
-import ApplicationUpdater from './state/application/updater'
-import ListsUpdater from './state/lists/updater'
-import MulticallUpdater from './state/multicall/updater'
-import TransactionUpdater from './state/transactions/updater'
-import ToastListener from './components/ToastListener'
 import Providers from './Providers'
+import Updaters from './Updaters'
 import './i18n'
 import Popups from './components/Popups'
 
@@ -28,20 +25,16 @@ if (process.env.REACT_APP_NODE_ENV === 'production') {
 }
 
 ReactDOM.render(
-  <StrictMode>
-    <Providers>
-      <>
-        <ListsUpdater />
-        <ApplicationUpdater />
-        <TransactionUpdater />
-        <MulticallUpdater />
-        <ToastListener />
-      </>
-      <ResetCSS />
-      <GlobalStyle />
-      <Popups />
-      <App />
-    </Providers>
-  </StrictMode>,
+  <Router>
+    <StrictMode>
+      <Providers>
+        <Updaters />
+        <ResetCSS />
+        <GlobalStyle />
+        <Popups />
+        <App />
+      </Providers>
+    </StrictMode>
+  </Router>,
   document.getElementById('root')
 )

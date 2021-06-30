@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { CurrencyAmount, JSBI, Token, Trade, TokenAmount } from '@gravis.finance/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, Trade } from '@gravis.finance/sdk'
 import { ArrowDown } from 'react-feather'
-import { CardBody, Button, Text, Flex } from '@gravis.finance/uikit'
+import { Button, CardBody, Flex, Text } from '@gravis.finance/uikit'
 
 import AddressInputPanel from 'components/AddressInputPanel'
 import Card from 'components/Card'
@@ -38,6 +38,7 @@ import { ReactComponent as ExchangeIcon } from '../../assets/svg/exchange-icon.s
 import GravisSpinner from '../../components/GravisSpinner'
 import { usePair } from '../../data/Reserves'
 import TokenInPoolValue from './TokenInPoolValue'
+import { getMulticallFetchedState } from '../../state/multicall/hooks'
 
 const { main: Main } = TYPE
 
@@ -136,7 +137,7 @@ const Swap = () => {
     setDismissTokenWarning(true)
   }, [])
 
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext) as any
 
   const [isExpertMode] = useExpertModeManager()
@@ -155,7 +156,7 @@ const Swap = () => {
     wrapType,
     execute: onWrap,
     inputError: wrapInputError,
-  } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue, t)
+  } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   //   const { address: recipientAddress } = useENSAddress(recipient)
   const trade = showWrap ? undefined : v2Trade
@@ -228,7 +229,7 @@ const Swap = () => {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(chainId as ChainId, currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
   // the callback to execute the swap
@@ -244,7 +245,7 @@ const Swap = () => {
   const { reserve0, reserve1 }: { reserve0?: TokenAmount; reserve1?: TokenAmount } =
     trade?.route?.path.length === 2 && !!pair ? pair : {}
 
-  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee } = computeTradePriceBreakdown(chainId as ChainId, trade)
 
   const handleSwap = useCallback(() => {
     if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
@@ -323,6 +324,8 @@ const Swap = () => {
     },
     [onCurrencySelection]
   )
+
+  const fetchedBlock = getMulticallFetchedState()
 
   return (
     <CardWrapper>
@@ -454,12 +457,21 @@ const Swap = () => {
                     {wrapInputError ??
                       (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}
                   </Button>
-                ) : (!currencyBalances.INPUT || !currencyBalances.OUTPUT) &&
+                ) : (currencies.INPUT && !currencies.OUTPUT && formattedAmounts[Field.INPUT]) ?
+                    <Card style={{ textAlign: 'center' }}>
+                      <Main style={{ color: '#909090' }}>{t('provideSecondToken')}</Main>
+                    </Card>
+                  : (!currencyBalances.INPUT || !currencyBalances.OUTPUT) &&
                   (formattedAmounts[Field.INPUT] || formattedAmounts[Field.OUTPUT]) ? (
                   <SpinnerContainer>
                     <GravisSpinner />
                   </SpinnerContainer>
-                ) : noRoute && userHasSpecifiedInputOutput ? (
+                )
+                    : !fetchedBlock && formattedAmounts[Field.INPUT] ?
+                      <Card style={{ textAlign: 'center' }}>
+                        <Main style={{ color: '#909090' }}>{t('readingBlockchain')}</Main>
+                      </Card>
+                    : noRoute && userHasSpecifiedInputOutput ? (
                   <Card style={{ textAlign: 'center' }}>
                     <Main style={{ color: '#909090' }}>{t('insufficientLiquidityForThisTrade')}</Main>
                   </Card>
@@ -545,7 +557,7 @@ const Swap = () => {
           </StyledCardBody>
         </Wrapper>
       </AppBody>
-      <AdvancedSwapDetailsDropdown trade={trade} />
+      <AdvancedSwapDetailsDropdown trade={trade} pair={pair} />
     </CardWrapper>
   )
 }

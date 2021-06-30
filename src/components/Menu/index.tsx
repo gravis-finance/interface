@@ -5,13 +5,15 @@ import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
 import useAuth from 'hooks/useAuth'
 import { useCurrencyBalance } from 'state/wallet/hooks'
-import { ETHER, ChainId } from '@gravis.finance/sdk'
+import { BASE_CURRENCIES, ChainId } from '@gravis.finance/sdk'
 import { getExplorerLink, getExplorerName } from 'utils'
 import { useActiveWeb3React } from 'hooks'
 import i18next from '../../i18n'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
-const UikitMenu = lazy(() => import('@gravis.finance/uikit/dist/esm/widgets/Menu').then(({ Menu }) => ({ default: Menu })))
+const UikitMenu = lazy(() =>
+  import('@gravis.finance/uikit/dist/esm/widgets/Menu').then(({ Menu }) => ({ default: Menu }))
+)
 
 const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
   const { t } = useTranslation()
@@ -20,7 +22,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   const { chainId } = useActiveWeb3React()
   const { login, logout } = useAuth()
   const { isDark, toggleTheme } = useTheme()
-  const balance = useCurrencyBalance(account as string, ETHER)
+  const balance = useCurrencyBalance(account as string, BASE_CURRENCIES[chainId as ChainId])
   const explorerName = getExplorerName(chainId as ChainId)
   const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
   const [selectedLanguage, setSelectedLanguage] = useState('')
@@ -30,90 +32,98 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
     return result
   }
 
-  const links: MenuEntry[] = [
-    {
-      label: t('mainMenu.home'),
-      icon: 'HomeIcon',
-      href: `${process.env.REACT_APP_HOME_URL}?${urlSearchLanguageParam}=${t('language')}`,
-    },
-    {
-      label: t('mainMenu.trade'),
-      icon: 'TradeIcon',
-      items: [
-        {
-          label: t('swap'),
-          href: '/swap',
-        },
-        {
-          label: t('mainMenu.liquidity'),
-          href: '/pool',
-        },
-        {
-          label: t('mainMenu.migrate'),
-          href: '/migrate',
-        },
-        // {
-        //   label: 'Migrate',
-        //   href: '/migrate',
-        // },
-      ],
-    },
-    {
-      label: t('mainMenu.analytics.analytics'),
-      icon: 'InfoIcon',
-      items: [
-        {
-          label: t('mainMenu.analytics.overview'),
-          href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
-        },
-        {
-          label: t('mainMenu.analytics.tokens'),
-          href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
-        },
-        {
-          label: t('mainMenu.analytics.pairs'),
-          href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
-        },
-      ],
-    },
-    {
-      label: t('mainMenu.ino.ino'),
-      icon: 'BigBangIcon',
-      items: [
-        {
-          label: t('mainMenu.ino.bbRound'),
-          href: `${process.env.REACT_APP_BIG_BANG_URL}?${urlSearchLanguageParam}=${t('language')}`,
-        },
-      ],
-    },
-    {
-      label: t('mainMenu.more'),
-      icon: 'MoreIcon',
-      items: [
-        // {
-        //   label: 'Audits',
-        //   href: '/audits',
-        // },
-        {
-          label: t('mainMenu.github'),
-          href: 'https://github.com/gravis-finance',
-        },
-        {
-          label: t('mainMenu.blog'),
-          href: 'https://gravis-finance.medium.com/',
-        },
-        {
-          label: t('mainMenu.pitchDeck'),
-          href: t('presentationLink'),
-        },
-        {
-          label: t('mainMenu.tokenomics'),
-          href:
-            'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
-        },
-      ],
-    },
-  ]
+  const links: MenuEntry[] = React.useMemo(
+    () => [
+      {
+        label: t('mainMenu.home'),
+        icon: 'HomeIcon',
+        href: `${process.env.REACT_APP_HOME_URL}?${urlSearchLanguageParam}=${t('language')}`,
+      },
+      {
+        label: t('mainMenu.trade'),
+        icon: 'TradeIcon',
+        items: [
+          {
+            label: t('swap'),
+            href: '/swap',
+          },
+          {
+            label: t('mainMenu.liquidity'),
+            href: '/pool',
+          },
+          {
+            label: t('mainMenu.migrate'),
+            href: '/migrate',
+          },
+          // {
+          //   label: 'Migrate',
+          //   href: '/migrate',
+          // },
+        ],
+      },
+      {
+        label: t('mainMenu.analytics.analytics'),
+        icon: 'InfoIcon',
+        items: [
+          {
+            label: t('mainMenu.analytics.overview'),
+            href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(
+              chainId
+            )}&${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: t('mainMenu.analytics.tokens'),
+            href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(
+              chainId
+            )}&${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: t('mainMenu.analytics.pairs'),
+            href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(
+              chainId
+            )}&${urlSearchLanguageParam}=${t('language')}`,
+          },
+        ],
+      },
+      {
+        label: t('mainMenu.ino.ino'),
+        icon: 'BigBangIcon',
+        items: [
+          {
+            label: t('mainMenu.ino.bbRound'),
+            href: `${process.env.REACT_APP_BIG_BANG_URL}?${urlSearchLanguageParam}=${t('language')}`,
+          },
+        ],
+      },
+      {
+        label: t('mainMenu.more'),
+        icon: 'MoreIcon',
+        items: [
+          // {
+          //   label: 'Audits',
+          //   href: '/audits',
+          // },
+          {
+            label: t('mainMenu.github'),
+            href: 'https://github.com/gravis-finance',
+          },
+          {
+            label: t('mainMenu.blog'),
+            href: 'https://gravis-finance.medium.com/',
+          },
+          {
+            label: t('mainMenu.pitchDeck'),
+            href: t('presentationLink'),
+          },
+          {
+            label: t('mainMenu.tokenomics'),
+            href: 'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
+          },
+        ],
+      },
+    ],
+    [t, chainId]
+  )
 
   useEffect(() => {
     i18next.changeLanguage(selectedLanguage.toLowerCase())
@@ -121,7 +131,9 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
 
   // useBalance().then((result)=>console.log(result))
 
-  const [transactionsHistoryModal] = useModal(<RecentTransactionsModal />)
+  const transactionsHistoryModalComponent = React.useMemo(() => <RecentTransactionsModal />, [])
+
+  const [transactionsHistoryModal] = useModal(transactionsHistoryModalComponent)
 
   return (
     <UikitMenu

@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount } from '@gravis.finance/sdk'
+import { Currency, CurrencyAmount, JSBI, Pair, Percent, TokenAmount, ChainId } from '@gravis.finance/sdk'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -82,7 +82,7 @@ export function useDerivedBurnInfo(
   // user specified a specific amount of liquidity tokens
   else if (independentField === Field.LIQUIDITY) {
     if (pair?.liquidityToken) {
-      const independentAmount = tryParseAmount(typedValue, pair.liquidityToken)
+      const independentAmount = tryParseAmount(chainId as ChainId, typedValue, pair.liquidityToken)
       if (independentAmount && userLiquidity && !independentAmount.greaterThan(userLiquidity)) {
         percentToRemove = new Percent(independentAmount.raw, userLiquidity.raw)
       }
@@ -90,7 +90,7 @@ export function useDerivedBurnInfo(
   }
   // user specified a specific amount of token a or b
   else if (tokens[independentField]) {
-    const independentAmount = tryParseAmount(typedValue, tokens[independentField])
+    const independentAmount = tryParseAmount(chainId as ChainId, typedValue, tokens[independentField])
     const liquidityValue = liquidityValues[independentField]
     if (independentAmount && liquidityValue && !independentAmount.greaterThan(liquidityValue)) {
       percentToRemove = new Percent(independentAmount.raw, liquidityValue.raw)

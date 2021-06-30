@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { useActiveWeb3React } from 'hooks'
 import { getExplorerLink } from 'utils'
+import useTranslateSummary from 'hooks/useTranslateSummary'
 import { isTransactionRecent, useAllTransactions } from 'state/transactions/hooks'
 import { TransactionDetails } from 'state/transactions/reducer'
 import { useTranslation } from 'react-i18next'
@@ -13,9 +14,11 @@ const StyledWrapper = styled.div`
   max-width: 450px;
   width: 100%;
   z-index: inherit;
+
   > * {
     background: #292929;
   }
+
   > div > div:last-child {
     max-height: 472px;
     overflow-y: auto;
@@ -52,6 +55,7 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
   const { account, chainId } = useActiveWeb3React()
   const allTransactions = useAllTransactions()
   const { t } = useTranslation()
+  const translateSummary = useTranslateSummary()
 
   // Logic taken from Web3Status/index.tsx line 175
   const sortedRecentTransactions = useMemo(() => {
@@ -96,7 +100,7 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
                   >
                     <Flex>
                       {icon}
-                      {summary ?? hash}
+                      {summary ? translateSummary(summary) : hash}
                     </Flex>
                   </LinkExternal>
                 </Flex>

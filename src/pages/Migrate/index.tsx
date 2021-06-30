@@ -3,21 +3,20 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
-import { CurrencyAmount } from '@gravis.finance/sdk'
-import { Heading, CardBody, Button, Flex, getNetworkId } from '@gravis.finance/uikit'
+import { ChainId, CurrencyAmount } from '@gravis.finance/sdk'
+import { Button, CardBody, Flex, getNetworkId, Heading } from '@gravis.finance/uikit'
 import { AutoColumn } from 'components/Column'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import CardNav from 'components/CardNav'
 import { useTranslation } from 'react-i18next'
 import { RowBetween } from 'components/Row'
-import AdvancedSwapDetailsDropdown from 'components/swap/AdvancedSwapDetailsDropdown'
 import { BottomGrouping, Wrapper } from 'components/swap/styleds'
 import { useActiveWeb3React } from 'hooks'
 import { useVampireContract } from 'hooks/useContract'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { Field } from 'state/swap/actions'
-import { useMigrateInfo, useMigrateActionHandlers, useSwapState } from 'state/swap/hooks'
+import { useMigrateActionHandlers, useMigrateInfo, useSwapState } from 'state/swap/hooks'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { WrappedTokenInfo } from 'state/lists/hooks'
@@ -26,6 +25,8 @@ import { useToken } from 'hooks/Tokens'
 import { Dots } from '../Pool/styleds'
 import AppBody from '../AppBody'
 import ComingSoon from './ComingSoon'
+import TransactionConfirmationModal, { TransactionErrorContent } from '../../components/TransactionConfirmationModal'
+import { useAllTransactions, useTransactionAdder } from '../../state/transactions/hooks'
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -56,6 +57,10 @@ const StyledFlex = styled(Flex)`
       }
     }
   }
+`
+
+const StyledButton = styled(Button)`
+    width: 200px;
 `
 
 function useTokenAddress(props) {
@@ -132,7 +137,7 @@ function Migrate() {
 
   const isValid = !migrateInputError
 
-  const { wrapType } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue, t)
+  const { wrapType } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
 
   const trade = v2Trade
@@ -167,7 +172,7 @@ function Migrate() {
   // check whether the user has approved the router on the input token
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.INPUT],
-    chainId && VAMPIRE_ADDRESS[chainId], t
+    chainId && VAMPIRE_ADDRESS[chainId]
   )
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -179,27 +184,46 @@ function Migrate() {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
+  const [isConfirmationModalOpen, setConfirmationModalOpen] = useState(false)
+  const [txHash, setTxHash] = useState('')
+  const [attemptingTxn, setAttemptingTxn] = useState(true)
+  const [migrateErrorMessage, setMigrateErrorMessage] = useState('Unexpected error')
+
+  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(chainId as ChainId, currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
+  const addTransaction = useTransactionAdder()
+
+  const transaction = useAllTransactions()
+
+  useEffect(() => {
+    if(transaction[txHash])
+      setAttemptingTxn(false)
+  }, [transaction, txHash])
+
   const handleMigrate = () => {
+    setAttemptingTxn(true)
     const tokenAmount = BigNumber.from(parsedAmounts[Field.INPUT]?.raw.toString())
     const activeToken: any = currencies[Field.INPUT]
 
     const numOfActiveToken = lpList.findIndex((item) => item.address === activeToken?.address).toString()
     const args = [numOfActiveToken, tokenAmount]
-
+    setConfirmationModalOpen(true)
     vampire.estimateGas
       .deposit(...args, { from: account })
       .then((estimatedGasLimit) => {
         vampire
           .deposit(...args, { from: account, gasLimit: estimatedGasLimit })
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           .then((resp) => {
-            // setTxHash(resp.hash);
+            addTransaction(resp, {
+              summary: `${t('mainMenu.migrate')} ${activeToken.symbol}`
+            })
+            setTxHash(resp.hash);
           })
           .catch((err) => {
             console.error(err)
+            setAttemptingTxn(false)
+            setMigrateErrorMessage(err.message)
           })
       })
       .catch((err) => console.error(err))
@@ -227,6 +251,15 @@ function Migrate() {
     <CardWrapper>
       <CardNav activeIndex={2} />
       <AppBody>
+        <TransactionConfirmationModal
+          isOpen={isConfirmationModalOpen}
+          onDismiss={()=>setConfirmationModalOpen(false)}
+          hash={txHash}
+          attemptingTxn={attemptingTxn}
+          pendingText={`${t('mainMenu.migrate')} ${currencies[Field.INPUT]?.symbol}`}
+        >
+          <TransactionErrorContent onDismiss={()=>setConfirmationModalOpen(false)} message={migrateErrorMessage} />
+        </TransactionConfirmationModal>
         {isVampiringAvailableHardCoded ? (
           <Wrapper id="swap-page">
             <StyledCardHeader>
@@ -257,30 +290,30 @@ function Migrate() {
                     ) : (
                       <AutoColumn gap="sm">
                         {approval === ApprovalState.UNKNOWN && (
-                          <Button onClick={handleMigrate} disabled fullwidth style={{ whiteSpace: 'pre' }}>
+                          <StyledButton onClick={handleMigrate} disabled fullwidth style={{ whiteSpace: 'pre' }}>
                             {currencies[Field.INPUT] ? t('enterAmount') : t('chooseToken')}
-                          </Button>
+                          </StyledButton>
                         )}
                         {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
                           <RowBetween>
-                            <Button onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>
+                            <StyledButton onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>
                               {approval === ApprovalState.PENDING ? (
                                 <Dots>Approving {currencies[Field.INPUT]?.symbol}</Dots>
                               ) : (
                                 `Approve ${currencies[Field.INPUT]?.symbol}`
                               )}
-                            </Button>
+                            </StyledButton>
                           </RowBetween>
                         )}
                         {approval === ApprovalState.APPROVED && (
-                          <Button
+                          <StyledButton
                             onClick={handleMigrate}
                             disabled={!isValid || approval !== ApprovalState.APPROVED}
                             variant={parsedAmounts[Field.INPUT] ? 'primary' : 'danger'}
                             fullwidth
                           >
                             {migrateInputError ?? 'Migrate'}
-                          </Button>
+                          </StyledButton>
                         )}
                       </AutoColumn>
                     )}
@@ -295,7 +328,6 @@ function Migrate() {
           </StyledCardHeader>
         )}
       </AppBody>
-      <AdvancedSwapDetailsDropdown trade={trade} />
     </CardWrapper>
   )
 }
