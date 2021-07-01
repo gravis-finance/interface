@@ -6,6 +6,7 @@ import {
   removeMulticallListeners,
   toCallKey,
   updateMulticallResults,
+  updateMulticallFetchSuccess
 } from './actions'
 
 export interface MulticallState {
@@ -28,11 +29,13 @@ export interface MulticallState {
         fetchingBlockNumber?: number
       }
     }
-  }
+  },
+  fetched: boolean
 }
 
 const initialState: MulticallState = {
   callResults: {},
+  fetched: false
 }
 
 export default createReducer(initialState, (builder) =>
@@ -107,5 +110,8 @@ export default createReducer(initialState, (builder) =>
           blockNumber,
         }
       })
+    })
+    .addCase(updateMulticallFetchSuccess, (state, { payload: {fetched } }) => {
+      state.fetched = fetched
     })
 )

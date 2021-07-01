@@ -287,6 +287,11 @@
   "presentationLink": "http://gateway.pinata.cloud/ipfs/QmS3gYhCphkyDN1GWg3TTqKFdJUCGXTKiGpi6BhSupjpJb/Gravis_presentation_JP.pdf",
   "language": "jp",
   "inPool": "インプール",
+  "viewPairAnalytics": "View pair analytics",
+  "provideSecondToken": "第二のトークンを提供",
+  "readingBlockchain": "Reading blockchain...",
+  "comingSoon": "ﾂづ慊つｷﾂ。",
+  "addToMetamask": "Add to Metamask",
 
   "time": {
     "time": "時間",

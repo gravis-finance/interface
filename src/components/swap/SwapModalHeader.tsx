@@ -6,6 +6,7 @@ import { Button, Text, ColoredArrowDownIcon } from '@gravis.finance/uikit'
 
 import { AlertTriangle } from 'react-feather'
 
+import useNetwork from 'hooks/useNetwork'
 import { Field } from '../../state/swap/actions'
 import { TYPE } from '../Shared'
 import { isAddress, shortenAddress } from '../../utils'
@@ -54,11 +55,12 @@ export default function SwapModalHeader({
   showAcceptChanges: boolean
   onAcceptChanges: () => void
 }) {
-  const slippageAdjustedAmounts = useMemo(() => computeSlippageAdjustedAmounts(trade, allowedSlippage), [
-    trade,
-    allowedSlippage,
-  ])
-  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
+  const slippageAdjustedAmounts = useMemo(
+    () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
+    [trade, allowedSlippage]
+  )
+  const { network } = useNetwork()
+  const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(network, trade), [trade, network])
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   const theme = useContext(ThemeContext)

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, Percent, WETH, ChainId } from '@gravis.finance/sdk'
+import { Currency, currencyEquals, isEther, Percent, WETH, ChainId } from '@gravis.finance/sdk'
 import { BorderedAddIcon, Button, Flex, Text, BorderedArrowDownIcon } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'react-feather'
@@ -160,8 +160,7 @@ const RemoveLiquidity = ({
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.LIQUIDITY],
-    chainId && ROUTER_ADDRESS[chainId],
-    t
+    chainId && ROUTER_ADDRESS[chainId]
   )
   async function onAttemptToApprove() {
     if (!pairContract || !pair || !library) throw new Error('missing dependencies')
@@ -263,8 +262,8 @@ const RemoveLiquidity = ({
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsETH = currencyB === ETHER
-    const oneCurrencyIsETH = currencyA === ETHER || currencyBIsETH
+    const currencyBIsETH = isEther(currencyB)
+    const oneCurrencyIsETH = isEther(currencyA) || currencyBIsETH
     const deadlineFromNow = Math.ceil(Date.now() / 1000) + deadline
 
     if (!tokenA || !tokenB) throw new Error('could not wrap')
@@ -367,9 +366,9 @@ const RemoveLiquidity = ({
           setAttemptingTxn(false)
 
           addTransaction(response, {
-            summary: `${t('remove')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${currencyA?.symbol} ${t(
-              'and'
-            )} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
+            summary: `{{remove}} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+              currencyA?.symbol
+            } {{and}} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
           })
 
           setTxHash(response.hash)
@@ -393,7 +392,7 @@ const RemoveLiquidity = ({
     [onUserInput]
   )
 
-  const oneCurrencyIsETH = currencyA === ETHER || currencyB === ETHER
+  const oneCurrencyIsETH = isEther(currencyA) || isEther(currencyB)
   const oneCurrencyIsWETH = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WETH[chainId], currencyA)) ||
@@ -673,8 +672,8 @@ const RemoveLiquidity = ({
                         <RowBetween style={{ justifyContent: 'flex-end' }}>
                           {oneCurrencyIsETH ? (
                             <StyledReceived
-                              to={`/remove/${currencyA === ETHER ? WETH[chainId].address : currencyIdA}/${
-                                currencyB === ETHER ? WETH[chainId].address : currencyIdB
+                              to={`/remove/${isEther(currencyA) ? WETH[chainId].address : currencyIdA}/${
+                                isEther(currencyB) ? WETH[chainId].address : currencyIdB
                               }`}
                               data-id="receive-button"
                             >

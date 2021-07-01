@@ -3,9 +3,8 @@ import { useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
-import { NetworkContextName } from 'config/settings'
-import { network } from '../../connectors'
-import { useEagerConnect, useInactiveListener } from '../../hooks'
+import useNetwork from '../../hooks/useNetwork'
+import useEagerConnect, { useInactiveListener } from '../../hooks'
 import GravisSpinner from '../GravisSpinner'
 
 const MessageWrapper = styled.div`
@@ -22,17 +21,18 @@ const Message = styled.h2`
 export default function Web3ReactManager({ children }: { children: JSX.Element }) {
   const { t } = useTranslation()
   const { active } = useWeb3React()
-  const { active: networkActive, error: networkError, activate: activateNetwork } = useWeb3React(NetworkContextName)
+  const { network, networkConnectors, networkContextName } = useNetwork()
+  const { active: networkActive, error: networkError, activate: activateNetwork } = useWeb3React(networkContextName)
 
   // try to eagerly connect to an injected provider, if it exists and has granted access already
   const triedEager = useEagerConnect()
 
   // after eagerly trying injected, if the network connect ever isn't active or in an error state, activate itd
   useEffect(() => {
-    if (triedEager && !networkActive && !networkError && !active) {
-      activateNetwork(network)
+    if (triedEager && !networkError && networkConnectors[network]) {
+      activateNetwork(networkConnectors[network])
     }
-  }, [triedEager, networkActive, networkError, activateNetwork, active])
+  }, [triedEager, networkActive, networkError, activateNetwork, active, networkConnectors, network])
 
   // when there's no account connected, react to logins (broadly speaking) on the injected provider, if it exists
   useInactiveListener(!triedEager)

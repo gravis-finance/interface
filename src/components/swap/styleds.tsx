@@ -72,10 +72,6 @@ export const StyledBalanceMaxMini = styled.button`
   :hover {
     background-color: ${({ theme }) => theme.colors.tertiary};
   }
-  :focus {
-    background-color: ${({ theme }) => theme.colors.tertiary};
-    outline: none;
-  }
 `
 
 export const TruncatedText = styled(Text)`

@@ -1,8 +1,9 @@
 import React from 'react'
-import { Trade, TradeType } from '@gravis.finance/sdk'
-import { Card, CardBody, Text } from '@gravis.finance/uikit'
+import { Pair, Trade, TradeType } from '@gravis.finance/sdk'
+import { Card, CardBody, getNetworkForAnalytics, Text, urlSearchLanguageParam, Button } from '@gravis.finance/uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import useNetwork from 'hooks/useNetwork'
 import { Field } from '../../state/swap/actions'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from '../../utils/prices'
@@ -73,7 +74,7 @@ const StyledRouteContainer = styled.div`
   background-color: #292929;
   border-radius: 6px;
   border: none;
-  padding: 12px 6px;
+  padding: 12px 6px 30px 6px;
 `
 
 const StyledText = styled(Text)`
@@ -84,11 +85,41 @@ const StyledText = styled(Text)`
   }
 `
 
-function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
-  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
+const StyledButton = styled(Button)`
+  margin-top: 0.5rem;
+`
+StyledButton.defaultProps = {
+  variant: 'dark',
+}
+
+function TradeSummary({
+  trade,
+  allowedSlippage,
+  pair,
+  showRoute,
+}: {
+  trade: Trade
+  allowedSlippage: number
+  pair?: Pair | null
+  showRoute?: boolean
+}) {
+  const { network } = useNetwork()
+  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(network, trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
   const { t } = useTranslation()
+
+  const pairAnalyticsUrl = React.useMemo(() => {
+    if (!pair || showRoute) return ''
+    const { chainId, address } = pair.liquidityToken
+    return `${process.env.REACT_APP_INFO_URL}/pair/${address}?network=${getNetworkForAnalytics(
+      chainId
+    )}&${urlSearchLanguageParam}=${t('language')}`
+  }, [showRoute, pair, t])
+
+  const goToPairAnalytics = React.useCallback(() => {
+    window.open(pairAnalyticsUrl, '_blank')
+  }, [pairAnalyticsUrl])
 
   return (
     <Card>
@@ -125,6 +156,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
           </StyledText>
         </RowBetween>
+        {!!pairAnalyticsUrl && <StyledButton onClick={goToPairAnalytics}>{t('viewPairAnalytics')}</StyledButton>}
       </CardBody>
     </Card>
   )
@@ -132,9 +164,10 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
 
 export interface AdvancedSwapDetailsProps {
   trade?: Trade
+  pair?: Pair | null
 }
 
-export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
+export function AdvancedSwapDetails({ trade, pair }: AdvancedSwapDetailsProps) {
   const [allowedSlippage] = useUserSlippageTolerance()
 
   const showRoute = Boolean(trade && trade.route.path.length > 2)
@@ -145,7 +178,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
       {trade && (
         <>
           <StyledTradeSummary>
-            <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
+            <TradeSummary trade={trade} pair={pair} showRoute={showRoute} allowedSlippage={allowedSlippage} />
           </StyledTradeSummary>
           {showRoute && (
             <StyledRouteContainer>

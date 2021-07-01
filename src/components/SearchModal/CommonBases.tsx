@@ -1,9 +1,10 @@
 import React from 'react'
 import { Text } from '@gravis.finance/uikit'
 
-import { ChainId, Currency, currencyEquals, ETHER, Token } from '@gravis.finance/sdk'
+import { ChainId, Currency, currencyEquals, BASE_CURRENCIES, Token } from '@gravis.finance/sdk'
 import styled from 'styled-components'
 
+import useNetwork from 'hooks/useNetwork'
 import { SUGGESTED_BASES } from '../../constants'
 import { AutoColumn } from '../Column'
 import QuestionHelper from '../QuestionHelper'
@@ -35,6 +36,8 @@ export default function CommonBases({
   selectedCurrency?: Currency | null
   onSelect: (currency: Currency) => void
 }) {
+  const { network } = useNetwork()
+  const ETHER = BASE_CURRENCIES[network]
   return (
     <AutoColumn gap="md">
       <AutoRow>

@@ -5,16 +5,17 @@ import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect'
-import { NetworkContextName } from 'config/settings'
-import { injected } from '../connectors'
+import { injected } from 'connectors'
+import useNetwork from './useNetwork'
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
+  const { networkContextName } = useNetwork()
   const context = useWeb3ReactCore<Web3Provider>()
-  const contextNetwork = useWeb3ReactCore<Web3Provider>(NetworkContextName)
+  const contextNetwork = useWeb3ReactCore<Web3Provider>(networkContextName)
   return context.active ? context : contextNetwork
 }
 
-export function useEagerConnect() {
+export default function useEagerConnect() {
   const { activate, active } = useWeb3ReactCore() // specifically using useWeb3ReactCore because of what this hook does
   const [tried, setTried] = useState(false)
 

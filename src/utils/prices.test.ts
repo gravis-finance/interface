@@ -11,7 +11,7 @@ describe('prices', () => {
 
   describe('computeTradePriceBreakdown', () => {
     it('returns undefined for undefined', () => {
-      expect(computeTradePriceBreakdown(undefined)).toEqual({
+      expect(computeTradePriceBreakdown(ChainId.MAINNET, undefined)).toEqual({
         priceImpactWithoutFee: undefined,
         realizedLPFee: undefined,
       })
@@ -20,7 +20,13 @@ describe('prices', () => {
     it('correct realized lp fee for single hop', () => {
       expect(
         computeTradePriceBreakdown(
-          new Trade(new Route([pair12], token1), new TokenAmount(token1, JSBI.BigInt(1000)), TradeType.EXACT_INPUT)
+          ChainId.MAINNET,
+          new Trade(
+            new Route([pair12], token1),
+            new TokenAmount(token1, JSBI.BigInt(1000)),
+            TradeType.EXACT_INPUT,
+            ChainId.MAINNET
+          )
         ).realizedLPFee
       ).toEqual(new TokenAmount(token1, JSBI.BigInt(2)))
     })
@@ -28,10 +34,12 @@ describe('prices', () => {
     it('correct realized lp fee for double hop', () => {
       expect(
         computeTradePriceBreakdown(
+          ChainId.MAINNET,
           new Trade(
             new Route([pair12, pair23], token1),
             new TokenAmount(token1, JSBI.BigInt(1000)),
-            TradeType.EXACT_INPUT
+            TradeType.EXACT_INPUT,
+            ChainId.MAINNET
           )
         ).realizedLPFee
       ).toEqual(new TokenAmount(token1, JSBI.BigInt(4)))

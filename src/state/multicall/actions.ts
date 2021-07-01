@@ -54,3 +54,6 @@ export const updateMulticallResults = createAction<{
     [callKey: string]: string | null
   }
 }>('multicall/updateMulticallResults')
+export const updateMulticallFetchSuccess = createAction<{
+  fetched: boolean
+}>('multicall/updateMulticallFetchSuccess')

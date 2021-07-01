@@ -1,4 +1,14 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Pair, Percent, Price, TokenAmount } from '@gravis.finance/sdk'
+import {
+  ChainId,
+  Currency,
+  CurrencyAmount,
+  isEther,
+  JSBI,
+  Pair,
+  Percent,
+  Price,
+  TokenAmount,
+} from '@gravis.finance/sdk'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -67,11 +77,15 @@ export function useDerivedMintInfo(
   }
 
   // amounts
-  const independentAmount: CurrencyAmount | undefined = tryParseAmount(typedValue, currencies[independentField])
+  const independentAmount: CurrencyAmount | undefined = tryParseAmount(
+    chainId as ChainId,
+    typedValue,
+    currencies[independentField]
+  )
   const dependentAmount: CurrencyAmount | undefined = useMemo(() => {
     if (noLiquidity) {
       if (otherTypedValue && currencies[dependentField]) {
-        return tryParseAmount(otherTypedValue, currencies[dependentField])
+        return tryParseAmount(chainId as ChainId, otherTypedValue, currencies[dependentField])
       }
       return undefined
     }
@@ -83,9 +97,11 @@ export function useDerivedMintInfo(
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
         const dependentTokenAmount =
           dependentField === Field.CURRENCY_B
-            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
-            : pair.priceOf(tokenB).quote(wrappedIndependentAmount)
-        return dependentCurrency === ETHER ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount
+            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount, chainId as ChainId)
+            : pair.priceOf(tokenB).quote(wrappedIndependentAmount, chainId as ChainId)
+        return isEther(dependentCurrency)
+          ? CurrencyAmount.ether(dependentTokenAmount.raw, chainId as ChainId)
+          : dependentTokenAmount
       }
       return undefined
     }
@@ -151,11 +167,11 @@ export function useDerivedMintInfo(
   const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts
 
   if (currencyAAmount && currencyBalances?.[Field.CURRENCY_A]?.lessThan(currencyAAmount)) {
-    error = t('errorMessages.insufficientBalance', {balance: currencies[Field.CURRENCY_A]?.symbol})
+    error = t('errorMessages.insufficientBalance', { balance: currencies[Field.CURRENCY_A]?.symbol })
   }
 
   if (currencyBAmount && currencyBalances?.[Field.CURRENCY_B]?.lessThan(currencyBAmount)) {
-    error = t('errorMessages.insufficientBalance', {balance: currencies[Field.CURRENCY_B]?.symbol})
+    error = t('errorMessages.insufficientBalance', { balance: currencies[Field.CURRENCY_B]?.symbol })
   }
 
   return {
@@ -173,9 +189,7 @@ export function useDerivedMintInfo(
   }
 }
 
-export function useMintActionHandlers(
-  noLiquidity: boolean | undefined
-): {
+export function useMintActionHandlers(noLiquidity: boolean | undefined): {
   onFieldAInput: (typedValue: string) => void
   onFieldBInput: (typedValue: string) => void
 } {

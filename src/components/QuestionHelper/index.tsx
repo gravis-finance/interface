@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from 'react'
-import { HelpIcon, FilledHelp, BigHelpIcon } from '@gravis.finance/uikit'
+import React from 'react'
+import { HelpIcon, FilledHelp, BigHelpIcon, Tooltip } from '@gravis.finance/uikit'
 import styled from 'styled-components'
-import Tooltip from '../Tooltip'
 
 const QuestionWrapper = styled.div<{ bordered?: boolean; big?: boolean; empty?: boolean; disableHover?: boolean }>`
   display: flex;
@@ -48,12 +47,20 @@ const QuestionWrapper = styled.div<{ bordered?: boolean; big?: boolean; empty?: 
     ${({ empty }) => (empty ? 'background: transparent; border: none; box-shadow: none;' : '')}
 `
 
+const StyledTooltip = styled(Tooltip)`
+  width: 228px;
+`
+
+const hiddenIconStyles: React.CSSProperties = {
+  position: 'absolute',
+  width: 0,
+  height: 0,
+}
+
 export default function QuestionHelper({
   text,
-  bordered,
   big,
-  empty,
-  disableHover,
+  ...restProps
 }: {
   text: string
   bordered?: boolean
@@ -61,29 +68,27 @@ export default function QuestionHelper({
   empty?: boolean
   disableHover?: boolean
 }) {
-  const [show, setShow] = useState<boolean>(false)
-  const [isMouseOver, setIsMouseOver] = useState(false)
-
-  const open = useCallback(() => setShow(true), [setShow])
-  const close = useCallback(() => setShow(false), [setShow])
+  const [isMouseOver, setIsMouseOver] = React.useState(false)
 
   return (
     <span style={{ marginLeft: 4 }}>
-      <Tooltip text={text} show={show}>
+      <StyledTooltip title={text}>
         <QuestionWrapper
-          onClick={open}
-          onMouseEnter={open}
-          onMouseLeave={close}
-          bordered={bordered}
           big={big}
-          empty={empty}
-          disableHover={disableHover}
+          {...restProps}
+          onMouseOver={() => setIsMouseOver(true)}
+          onMouseLeave={() => setIsMouseOver(false)}
         >
-          {!isMouseOver && !big && <HelpIcon onMouseOver={() => setIsMouseOver(true)} />}
-          {isMouseOver && !big && <FilledHelp onMouseLeave={() => setIsMouseOver(false)} />}
-          {big && <BigHelpIcon />}
+          {!big ? (
+            <>
+              <HelpIcon style={isMouseOver ? hiddenIconStyles : undefined} />
+              <FilledHelp style={isMouseOver ? undefined : hiddenIconStyles} />
+            </>
+          ) : (
+            <BigHelpIcon />
+          )}
         </QuestionWrapper>
-      </Tooltip>
+      </StyledTooltip>
     </span>
   )
 }

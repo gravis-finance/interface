@@ -139,7 +139,10 @@ export function useSwapCallback(
                 return contract.callStatic[methodName](...args, options)
                   .then((result) => {
                     console.info('Unexpected successful call after failed estimate gas', call, gasError, result)
-                    return { call, error: new Error('Unexpected issue with estimating the gas. Please try again.') }
+                    return {
+                      call,
+                      error: new Error('Unexpected issue with estimating the gas. Please try again.'),
+                    }
                   })
                   .catch((callError) => {
                     console.info('Call threw error', call, callError)
@@ -188,11 +191,11 @@ export function useSwapCallback(
             const inputAmount = trade.inputAmount.toSignificant(3)
             const outputAmount = trade.outputAmount.toSignificant(3)
 
-            const base = `${t('swap')} ${inputAmount} ${inputSymbol} ${t('for')} ${outputAmount} ${outputSymbol}`
+            const base = `{{swap}} ${inputAmount} ${inputSymbol} {{for}} ${outputAmount} ${outputSymbol}`
             const withRecipient =
               recipient === account
                 ? base
-                : `${base} ${t('to')} ${
+                : `${base} {{to}} ${
                     recipientAddressOrName && isAddress(recipientAddressOrName)
                       ? shortenAddress(recipientAddressOrName)
                       : recipientAddressOrName
