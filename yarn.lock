@@ -2197,10 +2197,10 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
   integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
 
-"@gravis.finance/sdk@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.11.tgz#17f53822a383e5097e077a22cc38d0fc49ab4e3d"
-  integrity sha512-0yU5F8eFOElWWn0Z2cI5NtaVpceqgHo+SxmhzA60bbhOTZuh1SderjWxkLYA0zJmBP00CxjMSSonnDDvVhx4vw==
+"@gravis.finance/sdk@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.12.tgz#43e5c17fed3a02d1f2c2897306717603ef5239d5"
+  integrity sha512-CrnuZSFrxJ/ON9yE2FZd4J4jKG/C9IKOxW4wQdhwughCi8zEf/F6wV3wPHsA/WHhWW1tN36oxAh9RuZqRnlgpg==
   dependencies:
     "@pancakeswap-libs/pancake-swap-core" "^0.1.0"
     big.js "^5.2.2"
@@ -2223,10 +2223,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/uikit@1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.2.7.tgz#a8a14c5b5f42aba29530f8457c8dab1496835225"
-  integrity sha512-o7fMHAgHOlO337VvuTePtQaXHsaANjc6X7GX6SRE2wuMBgj9707HgDEZ8dA4L+HLePRkCchnk1NgmcztnlHCCQ==
+"@gravis.finance/uikit@1.2.14":
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.2.14.tgz#8a389ccba0cd08b66e95a5d382c4f71ecd1a7b1c"
+  integrity sha512-01/z69gYffLQrytM58jfsDhHWnTURy/D1u46Wn/PFq3IuOTCtWTsC1ANNN4urHx7E9afvUiU9t9O6fAHK1K+Wg==
   dependencies:
     "@gravis.finance/sdk" "^1.0.9"
     "@popperjs/core" "^2.9.2"
