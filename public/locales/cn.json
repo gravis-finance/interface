@@ -331,6 +331,8 @@
   "estimation": "估计",
   "place": "地方",
   "provideSecondToken": "提供第二个代币",
+  "pendingActionInWallet": "You have a pending action in the wallet.",
+  "confirmNetworkChange": "Please, confirm network change",
 
   "time": {
     "time": "时间",

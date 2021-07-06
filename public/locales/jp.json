@@ -292,6 +292,8 @@
   "readingBlockchain": "Reading blockchain...",
   "comingSoon": "ﾂづ慊つｷﾂ。",
   "addToMetamask": "Add to Metamask",
+  "pendingActionInWallet": "You have a pending action in the wallet.",
+  "confirmNetworkChange": "Please, confirm network change",
 
   "time": {
     "time": "時間",

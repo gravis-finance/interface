@@ -93,7 +93,7 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
   const handleChangeNetwork = React.useCallback(() => {
     setupNetwork(chainId).then((result) => {
       if (!result) {
-        toastWarning(t('You have a pending action in the wallet.'))
+        toastWarning(t('pendingActionInWallet'))
       }
     })
   }, [chainId, t, toastWarning])
@@ -124,11 +124,11 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
       <Modal
         hideCloseButton
         styledModalContent={{ padding: 30, display: 'flex', alignItems: 'center' }}
-        title="Please, confirm network change"
+        title={t('confirmNetworkChange')}
       >
         <Spinner width="120px" />
         <Button marginTop="30px" onClick={handleConfirm}>
-          {t('Continue')}
+          {t('continue')}
         </Button>
       </Modal>
     ),
