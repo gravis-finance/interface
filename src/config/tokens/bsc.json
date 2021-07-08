@@ -11,12 +11,12 @@
   "keywords": ["gravis", "default"],
   "tokens": [
     {
-      "name": "XXX1 Swap",
-      "symbol": "XXX1",
-      "address": "0xB42A8e21f983A56d1e8D1b8f83CE51A9Eb0241FC",
+      "name": "GRAVIS X TOKEN",
+      "symbol": "GRVX",
+      "address": "0x4634099fb4ae08a086Ae69e680964795854f29F5",
       "chainId": 97,
       "decimals": 18,
-      "logoURI": "/images/coins/ETH.png"
+      "logoURI": "/images/coins/GRVX.png"
     },
     {
       "name": "USDT",

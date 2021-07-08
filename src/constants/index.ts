@@ -25,12 +25,12 @@ export const TEST_BSC_WBNB = new Token(
   'WBNB',
   'Wrapped BNB'
 )
-export const TEST_BSC_XXX1 = new Token(
+export const TEST_BSC_GRVX = new Token(
   ChainId.BSCTESTNET,
-  '0xB42A8e21f983A56d1e8D1b8f83CE51A9Eb0241FC',
+  '0x4634099fb4ae08a086Ae69e680964795854f29F5',
   18,
-  'XXX1',
-  'XXX1'
+  'GRVX',
+  'GRVX'
 )
 export const TEST_BSC_USDT = new Token(
   ChainId.BSCTESTNET,
