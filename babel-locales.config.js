@@ -16,6 +16,7 @@ module.exports = {
         localesPath: './public/locales',
         unknownKeys: {
           't(`${getExplorerName(chainId)}`)': ['viewOnBscscan', 'viewOnHecoInfo', 'MaticInfo'],
+          't(key)': ['approve', 'wrap', 'unwrap', 'to', 'add', 'and', 'mainMenu.migrate', 'remove'],
         },
       },
     ],
