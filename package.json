@@ -112,7 +112,7 @@
     "cy:run:dev": "cypress run",
     "pup-test:dev": "jest --config tests/jest.config.ts",
     "analyze": "node ./scripts/bundle-analyze",
-    "locales": "babel --extensions \".tsx\" --config-file ./babel-locales.config.js ./src"
+    "locales": "babel --extensions \".tsx\",\".ts\"  --config-file ./babel-locales.config.js ./src"
   },
   "browserslist": {
     "production": [
