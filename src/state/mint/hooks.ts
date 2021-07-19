@@ -8,8 +8,9 @@ import {
   Percent,
   Price,
   TokenAmount,
+  InsufficientInputAmountError,
 } from '@gravis.finance/sdk'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { PairState, usePair } from '../../data/Reserves'
@@ -126,16 +127,19 @@ export function useDerivedMintInfo(
   }, [chainId, currencyA, noLiquidity, pair, parsedAmounts])
 
   // liquidity minted
+  const liquidityMintedError = useRef<Error | undefined>()
   const liquidityMinted = useMemo(() => {
     const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts
     const [tokenAmountA, tokenAmountB] = [
       wrappedCurrencyAmount(currencyAAmount, chainId),
       wrappedCurrencyAmount(currencyBAmount, chainId),
     ]
+    liquidityMintedError.current = undefined
     if (pair && totalSupply && tokenAmountA && tokenAmountB) {
       try {
         return pair.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB)
       } catch (e) {
+        liquidityMintedError.current = e
         // eslint-disable-next-line no-console
         console.log(e)
       }
@@ -160,7 +164,11 @@ export function useDerivedMintInfo(
     error = error ?? t('errorMessages.invalidPair')
   }
 
-  if (!parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
+  if (
+    !parsedAmounts[Field.CURRENCY_A] ||
+    !parsedAmounts[Field.CURRENCY_B] ||
+    liquidityMintedError.current instanceof InsufficientInputAmountError
+  ) {
     error = error ?? t('enterAmount')
   }
 
