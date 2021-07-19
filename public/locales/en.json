@@ -21,7 +21,9 @@
     "github": "GitHub",
     "blog": "Blog",
     "pitchDeck": "Pitch Deck",
-    "tokenomics": "Tokenomics"
+    "tokenomics": "Tokenomics",
+    "NFTFarming": "NFT Farming",
+    "nftmarket": "NFT Market"
   },
   "language": "en",
   "swap": "Swap",
@@ -187,5 +189,9 @@
   "deposited": "Deposited",
   "rates": "Rates",
   "createPoolAndSupply": "Create Pool & Supply",
-  "confirmSupply": "Confirm Supply"
+  "confirmSupply": "Confirm Supply",
+  "buyNFT": "Buy NFT",
+  "sellNFT": "Sell NFT",
+  "sendNFT": "Send NFT",
+  "NFTFarming": "NFT Farming"
 }

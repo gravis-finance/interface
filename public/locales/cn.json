@@ -21,7 +21,9 @@
     "github": "GitHub",
     "blog": "博客",
     "pitchDeck": "简报",
-    "tokenomics": "代币经济学"
+    "tokenomics": "代币经济学",
+    "NFTFarming": "NFT农业",
+    "nftmarket": "NFT市场"
   },
   "language": "cn",
   "swap": "兑换",
@@ -187,5 +189,9 @@
   "deposited": "存入",
   "rates": "比率",
   "createPoolAndSupply": "创建/添加池",
-  "confirmSupply": "确认供应"
+  "confirmSupply": "确认供应",
+  "buyNFT": "购买NFT",
+  "sellNFT": "卖掉NFT",
+  "sendNFT": "发送NFT",
+  "NFTFarming": "NFT农业"
 }
