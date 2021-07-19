@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, isEther, TokenAmount, WETH, ChainId } from '@gravis.finance/sdk'
-import { BorderedAddIcon, Button, CardBody, Text, Text as UIKitText } from '@gravis.finance/uikit'
+import { BorderedAddIcon, Button, CardBody, Text, Text as UIKitText, useModal } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { RouteComponentProps } from 'react-router-dom'
 import Card from 'components/Card'
@@ -37,6 +37,7 @@ import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { PoolPriceBar } from './PoolPriceBar'
 import GravisSpinner from '../../components/GravisSpinner'
 import ProgressSteps from '../../components/ProgressSteps'
+import { TransactionErrorModal } from '../../components/TransactionErrorModal'
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -122,6 +123,8 @@ export default function AddLiquidity({
   const [allowedSlippage] = useUserSlippageTolerance() // custom from users
   const [txHash, setTxHash] = useState<string>('')
   const { t } = useTranslation()
+
+  const [transactionErrorModal] = useModal(<TransactionErrorModal />)
 
   // get formatted amounts
   const formattedAmounts = {
@@ -235,23 +238,33 @@ export default function AddLiquidity({
         method(...args, {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit),
-        }).then((response) => {
-          setAttemptingTxn(false)
-
-          addTransaction(response, {
-            summary: `{{add}} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
-              currencies[Field.CURRENCY_A]?.symbol
-            } {{and}} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
-          })
-
-          setTxHash(response.hash)
         })
+          .then((response) => {
+            setAttemptingTxn(false)
+
+            addTransaction(response, {
+              summary: `{{add}} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+                currencies[Field.CURRENCY_A]?.symbol
+              } {{and}} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
+            })
+
+            setTxHash(response.hash)
+          })
+          .catch((e) => {
+            setAttemptingTxn(false)
+            // we only care if the error is something _other_ than the user rejected the tx
+            if (e?.code !== 4001) {
+              console.error(e)
+              transactionErrorModal()
+            }
+          })
       )
       .catch((e) => {
         setAttemptingTxn(false)
         // we only care if the error is something _other_ than the user rejected the tx
         if (e?.code !== 4001) {
           console.error(e)
+          transactionErrorModal()
         }
       })
   }
