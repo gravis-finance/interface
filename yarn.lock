@@ -1027,7 +1027,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.14.5"
 
-"@babel/plugin-transform-typescript@^7.12.1":
+"@babel/plugin-transform-typescript@^7.12.1", "@babel/plugin-transform-typescript@^7.14.5":
   version "7.14.6"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.14.6.tgz#6e9c2d98da2507ebe0a883b100cde3c7279df36c"
   integrity sha512-XlTdBq7Awr4FYIzqhmYY80WN0V0azF74DMPyFqVHBvf81ZUgc4X7ZOpx6O8eLDK6iM5cCQzeyJw0ynTaefixRA==
@@ -1245,6 +1245,15 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.10.4"
     "@babel/plugin-transform-typescript" "^7.12.1"
+
+"@babel/preset-typescript@^7.14.5":
+  version "7.14.5"
+  resolved "https://registry.yarnpkg.com/@babel/preset-typescript/-/preset-typescript-7.14.5.tgz#aa98de119cf9852b79511f19e7f44a2d379bcce0"
+  integrity sha512-u4zO6CdbRKbS9TypMqrlGH7sd2TAJppZwn3c/ZRLeO/wGsbddxgbPDUZVNrie3JWYLQ9vpineKlsrWFvO6Pwkw==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.14.5"
+    "@babel/helper-validator-option" "^7.14.5"
+    "@babel/plugin-transform-typescript" "^7.14.5"
 
 "@babel/runtime-corejs3@^7.10.2":
   version "7.14.6"
@@ -2197,10 +2206,10 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
   integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
 
-"@gravis.finance/sdk@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.11.tgz#17f53822a383e5097e077a22cc38d0fc49ab4e3d"
-  integrity sha512-0yU5F8eFOElWWn0Z2cI5NtaVpceqgHo+SxmhzA60bbhOTZuh1SderjWxkLYA0zJmBP00CxjMSSonnDDvVhx4vw==
+"@gravis.finance/sdk@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.12.tgz#43e5c17fed3a02d1f2c2897306717603ef5239d5"
+  integrity sha512-CrnuZSFrxJ/ON9yE2FZd4J4jKG/C9IKOxW4wQdhwughCi8zEf/F6wV3wPHsA/WHhWW1tN36oxAh9RuZqRnlgpg==
   dependencies:
     "@pancakeswap-libs/pancake-swap-core" "^0.1.0"
     big.js "^5.2.2"
@@ -2223,10 +2232,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/uikit@1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.2.7.tgz#a8a14c5b5f42aba29530f8457c8dab1496835225"
-  integrity sha512-o7fMHAgHOlO337VvuTePtQaXHsaANjc6X7GX6SRE2wuMBgj9707HgDEZ8dA4L+HLePRkCchnk1NgmcztnlHCCQ==
+"@gravis.finance/uikit@1.2.25":
+  version "1.2.25"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.2.25.tgz#bc974488beee39be5da152bae07a45e645db0f80"
+  integrity sha512-vdywKOHytb8MD7PahQMqSIy7Oz9Q9nKD0ot1Heg2LCL3wi++fYl8+BMCKXNf23cRimH2oqEyzCKykShDh271eQ==
   dependencies:
     "@gravis.finance/sdk" "^1.0.9"
     "@popperjs/core" "^2.9.2"
@@ -5922,6 +5931,13 @@ babel-plugin-named-asset-import@^0.3.7:
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/babel-plugin-named-asset-import/-/babel-plugin-named-asset-import-0.3.7.tgz#156cd55d3f1228a5765774340937afc8398067dd"
   integrity sha512-squySRkf+6JGnvjoUtDEjSREJEBirnXi9NqP6rjSYsylxQxqBTz+pkmf395i9E2zsvmYUaI40BHo6SqZUdydlw==
+
+babel-plugin-parse-translation@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-parse-translation/-/babel-plugin-parse-translation-1.0.2.tgz#0c67593e4cd83f3a597a393d77c54a242b336553"
+  integrity sha512-XK+ZwkMExdkl7TIZG2pYA93UGRYjk0reN/YXwR7aGe191U5r6YjJTLjsntqBsopb+x2NtEMYM4ltEeeIctWnhQ==
+  dependencies:
+    glob "^7.1.7"
 
 babel-plugin-polyfill-corejs2@^0.2.2:
   version "0.2.2"
@@ -11467,7 +11483,7 @@ glob@^5.0.3:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@~7.1.6:
+glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.1.7, glob@~7.1.6:
   version "7.1.7"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.7.tgz#3b193e9233f01d42d0b3f78294bbeeb418f94a90"
   integrity sha512-OvD9ENzPLbegENnYP5UUfJIirTg4+XwMWGaQfQTY0JenxNvvIKP3U3/tAQSPIu/lHxXYSZmpXlUHeqAIdKzBLQ==
