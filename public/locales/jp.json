@@ -21,7 +21,9 @@
     "github": "GitHub",
     "blog": "ブログ",
     "pitchDeck": "ピッチデッキ",
-    "tokenomics": "トケノミクス"
+    "tokenomics": "トケノミクス",
+    "NFTFarming": "NFTファーミング",
+    "nftmarket": "NFTマーケット"
   },
   "language": "jp",
   "swap": "スワップ",
@@ -187,5 +189,9 @@
   "deposited": "預け済み",
   "rates": "レート",
   "createPoolAndSupply": "プールの作成と供給",
-  "confirmSupply": "供給の確認"
+  "confirmSupply": "供給の確認",
+  "buyNFT": "NFTを購入",
+  "sellNFT": "NFTを売る",
+  "sendNFT": "NFTの送信",
+  "NFTFarming": "NFTファーミング",
 }

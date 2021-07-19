@@ -96,6 +96,29 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         ],
       },
       {
+        label: t('mainMenu.nftmarket'),
+        icon: 'NFTMarketIcon',
+        items: [
+          {
+            label: t('buyNFT'),
+            href: `${process.env.REACT_APP_GMART_URL}/buy`,
+          },
+          {
+            label: t('sellNFT'),
+            href: `${process.env.REACT_APP_GMART_URL}/sell`,
+          },
+          {
+            label: t('sendNFT'),
+            href: `${process.env.REACT_APP_GMART_URL}/transfer`,
+          },
+        ]
+      },
+      {
+        label: t('mainMenu.NFTFarming'),
+        icon: 'NFTFarmingIcon',
+        href: process.env.REACT_APP_NFTFARMING_URL
+      },
+      {
         label: t('mainMenu.more'),
         icon: 'MoreIcon',
         items: [
