@@ -2219,10 +2219,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/sdk@^1.0.9":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.10.tgz#c1769412e5cfbd9fa04746d2ebd139601f42ad78"
-  integrity sha512-ABx0QsQMq7Vh5A6RvEMUsKRpSAIScF+vzJkfB3+9bjPFdP7H4esPtrI/SkP6VZFQl4wdK8jscqwCxWMdozaH8A==
+"@gravis.finance/sdk@^1.0.13":
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.14.tgz#26f1c6088bdb8998556321ec305eddc0917dfd34"
+  integrity sha512-fR/UujteY2RMnZGho9MBrnnQJwLHJ90A08SMI4JPzlRYIUMPeINFVHGWS9bGDpTYGWjEpAVDydJYQffe3xKoRQ==
   dependencies:
     "@pancakeswap-libs/pancake-swap-core" "^0.1.0"
     big.js "^5.2.2"
@@ -2232,12 +2232,12 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/uikit@1.2.25":
-  version "1.2.25"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.2.25.tgz#bc974488beee39be5da152bae07a45e645db0f80"
-  integrity sha512-vdywKOHytb8MD7PahQMqSIy7Oz9Q9nKD0ot1Heg2LCL3wi++fYl8+BMCKXNf23cRimH2oqEyzCKykShDh271eQ==
+"@gravis.finance/uikit@1.2.29":
+  version "1.2.29"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.2.29.tgz#94120d3451e32f29963f22a2ae9cf6a85a2fe2af"
+  integrity sha512-V7tpa5RWX3WtDg7vL7zrsk9+jm9f41EtTGC5FHPeRSJaJt8Mh3c3bia6A+bTbDFxKdTyj2+QgYAqddQTbZFtrw==
   dependencies:
-    "@gravis.finance/sdk" "^1.0.9"
+    "@gravis.finance/sdk" "^1.0.13"
     "@popperjs/core" "^2.9.2"
     "@types/lodash" "^4.14.162"
     "@types/styled-system" "^5.1.10"
