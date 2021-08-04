@@ -1,0 +1,26 @@
+stages:
+    - build
+    - deploy
+build:
+    stage: build
+    image: node:12-buster
+    tags: &b_runner 
+        - builder
+        - docker-executor
+    script:
+        - yarn global add dotenv-cli
+        - yarn install
+        - yarn build
+    artifacts:
+        expire_in: 1 week
+        paths:
+            - build
+deploy_develop:
+    stage: deploy
+    tags: 
+      - shell
+      - prod
+      - deploy-runner
+    when: manual
+    script:
+        - rsync -a ./build/* /var/www/swap-interface/build
