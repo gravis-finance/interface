@@ -102,16 +102,6 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         ],
       },
       {
-        label: t('mainMenu.ino.ino'),
-        icon: 'BigBangIcon',
-        items: [
-          {
-            label: t('mainMenu.ino.bbRound'),
-            href: `${process.env.REACT_APP_BIG_BANG_URL}?${urlSearchLanguageParam}=${t('language')}`,
-          },
-        ],
-      },
-      {
         label: t('mainMenu.nftmarket'),
         icon: 'NFTMarketIcon',
         items: [
