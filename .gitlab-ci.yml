@@ -22,4 +22,4 @@ deploy_develop:
       - dev
       - deploy-runner
     script:
-        - rsync -a ./build/* /var/www/swap-interface/stage
+        - rsync -a ./build/* /var/www/swap-interface-stage
