@@ -19,7 +19,8 @@ deploy_develop:
     stage: deploy
     tags: 
       - shell
-      - dev
+      - prod
       - deploy-runner
+    when: manual
     script:
-        - rsync -a ./build/* /var/www/swap-interface-stage
+        - rsync -a ./build/* /var/www/swap-interface/build
