@@ -10,7 +10,7 @@ build:
     script:
         - yarn global add dotenv-cli
         - yarn install
-        - yarn build:dev
+        - yarn build
     artifacts:
         expire_in: 1 week
         paths:
