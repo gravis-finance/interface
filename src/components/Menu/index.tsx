@@ -40,6 +40,22 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         href: `${process.env.REACT_APP_HOME_URL}?${urlSearchLanguageParam}=${t('language')}`,
       },
       {
+        label: t('mainMenu.asteroidMining'),
+        icon: 'AsteroidMiningIcon',
+        blink: true,
+        items: [
+          {
+            label: t('mainMenu.captainsIno'),
+            href: `${process.env.REACT_APP_CAPTAINS_URL}`
+          },
+          {
+            label: t('mainMenu.docs'),
+            href: 'https://docs.gravis.finance/-Mfs8idXX2JlhTmRjO0Y/',
+            external: true
+          }
+        ]
+      },
+      {
         label: t('mainMenu.trade'),
         icon: 'TradeIcon',
         items: [
