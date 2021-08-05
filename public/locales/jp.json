@@ -23,7 +23,9 @@
     "pitchDeck": "ピッチデッキ",
     "tokenomics": "トケノミクス",
     "NFTFarming": "NFTファーミング",
-    "nftmarket": "NFTマーケット"
+    "nftmarket": "NFTマーケット",
+    "captainsIno": "キャプテン INO",
+    "docs": "Docs"
   },
   "language": "jp",
   "swap": "スワップ",
@@ -193,5 +195,5 @@
   "buyNFT": "NFTを購入",
   "sellNFT": "NFTを売る",
   "sendNFT": "NFTの送信",
-  "NFTFarming": "NFTファーミング",
+  "NFTFarming": "NFTファーミング"
 }

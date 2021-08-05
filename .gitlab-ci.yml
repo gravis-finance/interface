@@ -22,4 +22,4 @@ deploy_develop:
       - dev
       - deploy-runner
     script:
-        - rsync -a ./build/* /var/www/swap-interface/dev
+        - rsync -a ./build/* /var/www/alium-swap-stage/build

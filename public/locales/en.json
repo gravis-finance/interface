@@ -23,7 +23,10 @@
     "pitchDeck": "Pitch Deck",
     "tokenomics": "Tokenomics",
     "NFTFarming": "NFT Farming",
-    "nftmarket": "NFT Market"
+    "nftmarket": "NFT Market",
+    "asteroidMining": "(A)steroid Mining",
+    "captainsIno": "Captains INO",
+    "docs": "Docs"
   },
   "language": "en",
   "swap": "Swap",
@@ -177,7 +180,7 @@
   "approved": "Approved",
   "priceImpactTooHigh": "Price Impact Too High",
   "removing": "Removing",
-  "youWillReceiveMessage": "YouWillReceive",
+  "youWillReceiveMessage": "You Will Receive",
   "outputEstimated": "Output is estimated. If the price changes by more than",
   "burned": "Burned",
   "confirm": "Confirm",
