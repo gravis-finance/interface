@@ -8,6 +8,7 @@ build:
         - builder
         - docker-executor
     script:
+        - yarn global add dotenv-cli
         - yarn install
         - yarn build:dev
     artifacts:
