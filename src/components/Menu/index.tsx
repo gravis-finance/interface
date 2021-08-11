@@ -50,7 +50,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           },
           {
             label: t('mainMenu.docs'),
-            href: 'https://docs.gravis.finance/-Mfs8idXX2JlhTmRjO0Y/',
+            href: 'https://docs.gravis.finance',
             external: true
           }
         ]
