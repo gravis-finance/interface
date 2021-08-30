@@ -3,6 +3,8 @@
   "viewOnHecoInfo": "Просмотр в HecoInfo",
   "MaticInfo": "Просмотр в Matic",
   "mainMenu": {
+    "buyLootBoxes": "Купить лутбоксы",
+    "hangar": "Ангар",
     "home": "Главная",
     "trade": "Биржа",
     "liquidity": "Ликвидность",

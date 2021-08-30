@@ -3,6 +3,9 @@
   "viewOnHecoInfo": "HecoInfoで見る",
   "MaticInfo": "Maticで見る",
   "mainMenu": {
+    "buyLootBoxes": "ルートボックスを購入する",
+    "hangar": "ハンガー",
+    "asteroidMining": "(A)steroid Mining",
     "home": "ホーム",
     "trade": "交換",
     "liquidity": "プール",
