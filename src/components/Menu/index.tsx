@@ -45,8 +45,16 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         blink: true,
         items: [
           {
-            label: t('mainMenu.captainsIno'),
-            href: `${process.env.REACT_APP_CAPTAINS_URL}?${urlSearchLanguageParam}=${t('language')}`
+            label: t('mainMenu.buyLootBoxes'),
+            href: `${process.env.REACT_APP_ASTEROID_MINING_URL}?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: t('mainMenu.hangar'),
+            href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: '(A)steroid pitch deck',
+            href: 'https://gateway.pinata.cloud/ipfs/QmWPNbXLtqh1gkXEe5BR5BLadGcz7sYAXjooSzrouBi9an'
           },
           {
             label: t('mainMenu.docs'),
@@ -71,36 +79,34 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
             label: t('mainMenu.migrate'),
             href: '/migrate',
           },
-          // {
-          //   label: 'Migrate',
-          //   href: '/migrate',
-          // },
-        ],
-      },
-      {
-        label: t('mainMenu.analytics.analytics'),
-        icon: 'InfoIcon',
-        items: [
           {
-            label: t('mainMenu.analytics.overview'),
-            href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(
-              chainId
-            )}&${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('mainMenu.analytics.tokens'),
-            href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(
-              chainId
-            )}&${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('mainMenu.analytics.pairs'),
-            href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(
-              chainId
-            )}&${urlSearchLanguageParam}=${t('language')}`,
+            label: t('mainMenu.analytics.analytics'),
+            href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
           },
         ],
       },
+      // {
+      //   label: t('mainMenu.analytics.analytics'),
+      //   icon: 'InfoIcon',
+      //   items: [
+      //     {
+      //       label: t('mainMenu.analytics.overview'),
+      //       href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
+      //     },
+      //     {
+      //       label: t('mainMenu.analytics.tokens'),
+      //       href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(
+      //         chainId
+      //       )}&${urlSearchLanguageParam}=${t('language')}`,
+      //     },
+      //     {
+      //       label: t('mainMenu.analytics.pairs'),
+      //       href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(
+      //         chainId
+      //       )}&${urlSearchLanguageParam}=${t('language')}`,
+      //     },
+      //   ],
+      // },
       {
         label: t('mainMenu.nftmarket'),
         icon: 'NFTMarketIcon',
