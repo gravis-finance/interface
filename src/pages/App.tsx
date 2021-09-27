@@ -104,6 +104,7 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
         isSupportedChain={isSupportedChain}
         isProduction={isProduction}
         changeNetwork={handleChangeNetwork}
+        networkSwitchItemCallback={(returnedChainId) => localStorage.setItem('chainId', returnedChainId)}
       />
     ),
     [isSupportedChain, handleChangeNetwork]
