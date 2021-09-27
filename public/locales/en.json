@@ -3,6 +3,8 @@
   "viewOnHecoInfo": "View on HecoInfo",
   "MaticInfo": "View on Matic",
   "mainMenu": {
+    "buyLootBoxes": "Buy Loot Boxes",
+    "hangar": "Hangar",
     "home": "Home",
     "trade": "Exchange",
     "liquidity": "Pool",
@@ -30,7 +32,7 @@
   },
   "language": "en",
   "swap": "Swap",
-  "presentationLink": "https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf",
+  "presentationLink": "https://gateway.pinata.cloud/ipfs/QmPyzebkCrP7C8R2WhHxnWcoGXoAb6T1dREZHAZkzCUt7F",
   "connect": "Connect",
   "account": "Account",
   "learnHowConnect": "Learn how to connect",

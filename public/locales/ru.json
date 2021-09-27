@@ -3,6 +3,8 @@
   "viewOnHecoInfo": "Просмотр в HecoInfo",
   "MaticInfo": "Просмотр в Matic",
   "mainMenu": {
+    "buyLootBoxes": "Купить лутбоксы",
+    "hangar": "Ангар",
     "home": "Главная",
     "trade": "Биржа",
     "liquidity": "Ликвидность",
@@ -32,7 +34,7 @@
   },
   "language": "ru",
   "swap": "Обменять",
-  "presentationLink": "https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf",
+  "presentationLink": "https://gateway.pinata.cloud/ipfs/QmPyzebkCrP7C8R2WhHxnWcoGXoAb6T1dREZHAZkzCUt7F",
   "connect": "Подключиться",
   "account": "Аккаунт",
   "learnHowConnect": "Изучите как подключиться",
@@ -62,8 +64,8 @@
   },
   "transactionDeadline": "Срок выполнения транзакции",
   "questionHelperMessages": {
-    "transactionRevertPending": "Ваша транзакция отменится, если цена изменится в неблагоприятную сторону более чем на этот процент.",
-    "transactionRevert": "Ваша транзакция отменится, если она находится в ожидании более указанного времени.",
+    "transactionRevertPending": "Ваша транзакция отменится, если она находится в ожидании более указанного времени.",
+    "transactionRevert": "Ваша транзакция отменится, если цена изменится в неблагоприятную сторону более чем на этот процент.",
     "findTokenBySearching": "Найдите токен с помощью поиска по его названию или символу или вставьте его адрес ниже.",
     "addCustomToken": "Добавьте пользовательский токен.",
     "transactionWillRevert": "Используйте этот инструмент для поиска пар, которые автоматически не отображаются в интерфейсе.",
