@@ -1,5 +1,5 @@
 import React, { lazy, useEffect, useState } from 'react'
-import { MenuEntry, urlSearchLanguageParam, useModal, getNetworkForAnalytics } from '@gravis.finance/uikit'
+import { MenuEntry, urlSearchLanguageParam, useModal } from '@gravis.finance/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
@@ -45,13 +45,25 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         blink: true,
         items: [
           {
-            label: t('mainMenu.captainsIno'),
-            href: `${process.env.REACT_APP_CAPTAINS_URL}?${urlSearchLanguageParam}=${t('language')}`
+            label: t('mainMenu.buyLootBoxes'),
+            href: `${process.env.REACT_APP_ASTEROID_MINING_URL}?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: t('mainMenu.hangar'),
+            href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: "Dashboard",
+            href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/dashboard?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: '(A)steroid pitch deck',
+            href: 'https://gateway.pinata.cloud/ipfs/QmWPNbXLtqh1gkXEe5BR5BLadGcz7sYAXjooSzrouBi9an'
           },
           {
             label: t('mainMenu.docs'),
             href: 'https://docs.gravis.finance',
-            external: true
+            external: true,
           }
         ]
       },
@@ -71,36 +83,36 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
             label: t('mainMenu.migrate'),
             href: '/migrate',
           },
-          // {
-          //   label: 'Migrate',
-          //   href: '/migrate',
-          // },
-        ],
-      },
-      {
-        label: t('mainMenu.analytics.analytics'),
-        icon: 'InfoIcon',
-        items: [
           {
-            label: t('mainMenu.analytics.overview'),
-            href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(
-              chainId
-            )}&${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('mainMenu.analytics.tokens'),
-            href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(
-              chainId
-            )}&${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('mainMenu.analytics.pairs'),
-            href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(
-              chainId
-            )}&${urlSearchLanguageParam}=${t('language')}`,
+            label: t('mainMenu.analytics.analytics'),
+            href: `${process.env.REACT_APP_INFO_URL}/home?&${urlSearchLanguageParam}=${t('language')}`,
           },
         ],
       },
+      // {
+      //   label: t('mainMenu.analytics.analytics'),
+      //   icon: 'InfoIcon',
+      //   items: [
+      //     {
+      //       label: t('mainMenu.analytics.overview'),
+      //       href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(
+      //         chainId
+      //       )}&${urlSearchLanguageParam}=${t('language')}`,
+      //     },
+      //     {
+      //       label: t('mainMenu.analytics.tokens'),
+      //       href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(
+      //         chainId
+      //       )}&${urlSearchLanguageParam}=${t('language')}`,
+      //     },
+      //     {
+      //       label: t('mainMenu.analytics.pairs'),
+      //       href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(
+      //         chainId
+      //       )}&${urlSearchLanguageParam}=${t('language')}`,
+      //     },
+      //   ],
+      // },
       {
         label: t('mainMenu.nftmarket'),
         icon: 'NFTMarketIcon',
@@ -135,23 +147,27 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           {
             label: t('mainMenu.github'),
             href: 'https://github.com/gravis-finance',
+            external: true,
           },
           {
             label: t('mainMenu.blog'),
             href: 'https://gravis-finance.medium.com/',
+            external: true,
           },
           {
             label: t('mainMenu.pitchDeck'),
             href: t('presentationLink'),
+            external: true,
           },
           {
             label: t('mainMenu.tokenomics'),
             href: 'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
+            external: true,
           },
         ],
       },
     ],
-    [t, chainId]
+    [t]
   )
 
   useEffect(() => {

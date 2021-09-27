@@ -12,7 +12,7 @@ An open source interface for Gravis -- NFT Focused Multi-chain DEX with cross-ch
 - Telegram(JP🇯🇵): [@gravis_finance_jp](https://t.me/gravis_finance_jp)
 - Email: [info@gravis.finance](mailto:info@gravis.finance)
 - Tokenomics: [v1.06](https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282)
-- Pitch Deck: [v1.11](https://gateway.pinata.cloud/ipfs/QmQyWnMBruL7n7vqyVYxNXQdpm5rffj9e1Wr2Q48LU9PvY/gravis_presentation.pdf)
+- Pitch Deck: [v1.11](https://gateway.pinata.cloud/ipfs/QmPyzebkCrP7C8R2WhHxnWcoGXoAb6T1dREZHAZkzCUt7F)
 
 - Pitch Deck(JP🇯🇵): [v1.11](https://gateway.pinata.cloud/ipfs/QmS3gYhCphkyDN1GWg3TTqKFdJUCGXTKiGpi6BhSupjpJb/Gravis_presentation_JP.pdf)
 
