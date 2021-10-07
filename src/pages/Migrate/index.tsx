@@ -83,7 +83,10 @@ function Migrate() {
   const [tokenList, setTokenList] = useState<any>([])
 
   const networkId = getNetworkId()
-  const isVampiringAvailable = [+networkId, chainId].every((id) => id === ChainId.BSCTESTNET || id === ChainId.MAINNET)
+  const isVampiringAvailable = [+networkId, chainId].every(
+    (id) =>
+      id === ChainId.BSCTESTNET || id === ChainId.MAINNET || id === ChainId.MATICTESTNET || id === ChainId.MATICMAINNET
+  )
   const { t } = useTranslation()
 
   useEffect(() => {
