@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
-import { ChainId, CurrencyAmount, isEther, Token } from '@gravis.finance/sdk'
+import { ChainId, Currency, CurrencyAmount } from '@gravis.finance/sdk'
 import { Button, CardBody, Flex, getNetworkId, Heading } from '@gravis.finance/uikit'
 import { AutoColumn } from 'components/Column'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
@@ -19,13 +19,14 @@ import { maxAmountSpend } from 'utils/maxAmountSpend'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { WrappedTokenInfo } from 'state/lists/hooks'
 import { VAMPIRE_ADDRESS } from 'config/contracts'
-import { useCurrency, useToken } from 'hooks/Tokens'
+import { useToken } from 'hooks/Tokens'
 import { Dots } from '../Pool/styleds'
 import AppBody from '../AppBody'
 import ComingSoon from './ComingSoon'
 import TransactionConfirmationModal, { TransactionErrorContent } from '../../components/TransactionConfirmationModal'
 import { useAllTransactions, useTransactionAdder } from '../../state/transactions/hooks'
 import { useCurrencyBalances } from '../../state/wallet/hooks'
+import getExhangeName from '../../utils/getExhangeName'
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -71,7 +72,7 @@ function useTokenAddress(props) {
       setTokenInfo(Info)
     }
   }, [Info])
-
+  // if (!(tokenInfo instanceof WrappedTokenInfo)) console.log(tokenInfo)
   return tokenInfo
 }
 
@@ -82,11 +83,12 @@ function Migrate() {
   const [tokenList, setTokenList] = useState<any>([])
 
   const networkId = getNetworkId()
-  const isVampiringAvailable = [+networkId, chainId].every((id) => id === ChainId.BSCTESTNET)
+  const isVampiringAvailable = [+networkId, chainId].every((id) => id === ChainId.BSCTESTNET || id === ChainId.MAINNET)
   const { t } = useTranslation()
 
   useEffect(() => {
     if (!isVampiringAvailable) return
+
     async function getLpTokens() {
       const tokens: Array<any> = await vampire?.lpTokensInfoLength().then(async (response: TransactionResponse) => {
         const length = +response.toString()
@@ -101,6 +103,7 @@ function Migrate() {
       })
       if (JSON.stringify(tokenList) !== JSON.stringify(tokens)) setTokenList(tokens)
     }
+
     getLpTokens()
   }, [isVampiringAvailable, tokenList, vampire])
 
@@ -108,8 +111,10 @@ function Migrate() {
     [...Array(n)].map((_, i) => ({
       left: useTokenAddress(tokenList[i]?.left),
       right: useTokenAddress(tokenList[i]?.right),
+      address: useTokenAddress(tokenList[i]?.address),
     }))
-  const filteredTokenInfo = useBaseTokenInfo(10).filter((item) => item.left !== undefined && item.right !== undefined)
+  // FIXME: HARDCODE 18
+  const filteredTokenInfo = useBaseTokenInfo(18).filter((item) => item.left !== undefined && item.right !== undefined)
 
   useEffect(() => {
     if (!isVampiringAvailable) return
@@ -117,22 +122,26 @@ function Migrate() {
       const id: any = chainId
       const info = new WrappedTokenInfo(
         {
-          name: `Gravis ${filteredTokenInfo[i]?.left?.name} / ${filteredTokenInfo[i]?.right?.name} LP Token`,
-          symbol: `${filteredTokenInfo[i]?.left?.symbol} / ${filteredTokenInfo[i]?.right?.symbol} LP`,
+          name: `${filteredTokenInfo[i]?.left?.name} / ${filteredTokenInfo[i]?.right?.name} LP Token`,
+          symbol: `${
+            filteredTokenInfo[i]?.address
+              ? `${getExhangeName(filteredTokenInfo[i]?.address?.name)}:`
+              : `${t('loading')}...`
+          } ${filteredTokenInfo[i]?.left?.symbol} / ${filteredTokenInfo[i]?.right?.symbol} LP`,
           address: tokenList[i].address,
           chainId: id,
           decimals: 18,
         },
-        []
+        [],
+        getExhangeName(filteredTokenInfo[i]?.address?.name)
       )
       return info
     })
     if (JSON.stringify(enrichedTokenInfo) !== JSON.stringify(lpList)) setLpList(enrichedTokenInfo)
-  }, [lpList, chainId, filteredTokenInfo, tokenList, isVampiringAvailable])
+  }, [t, lpList, chainId, filteredTokenInfo, tokenList, isVampiringAvailable])
 
   const [typedValue, setTypedValue] = React.useState('')
-  const [currencyId, setCurrencyId] = React.useState('')
-  const currency = useCurrency(currencyId)
+  const [currency, setCurrency] = useState<Currency | null>(null)
   const currencyBalance = useCurrencyBalances(account ?? undefined, [currency ?? undefined])[0]
   const parsedAmount = tryParseAmount(chainId as ChainId, typedValue, currency ?? undefined)
   let inputError: string | undefined
@@ -212,9 +221,12 @@ function Migrate() {
 
   const handleInputSelect = useCallback(
     (inputCurrency) => {
+      const changedInputCurrency = inputCurrency
+      // @ts-ignore
+      changedInputCurrency.symbol = inputCurrency.tokenInfo.name
+      setCurrency(changedInputCurrency)
       setApprovalSubmitted(false) // reset 2 step UI for approvals
       // onCurrencySelection(Field.INPUT, inputCurrency)
-      setCurrencyId(inputCurrency instanceof Token ? inputCurrency.address : isEther(inputCurrency) ? 'ETH' : '')
     },
     [setApprovalSubmitted]
   )
@@ -224,10 +236,6 @@ function Migrate() {
       setTypedValue(maxAmountInput.toExact())
     }
   }, [maxAmountInput])
-
-  // TODO Add normal check to vampirism
-
-  const isVampiringAvailableHardCoded = process.env.REACT_APP_NODE_ENV === 'development' && isVampiringAvailable
 
   return (
     <CardWrapper>
@@ -242,7 +250,7 @@ function Migrate() {
         >
           <TransactionErrorContent onDismiss={() => setConfirmationModalOpen(false)} message={migrateErrorMessage} />
         </TransactionConfirmationModal>
-        {isVampiringAvailableHardCoded ? (
+        {isVampiringAvailable ? (
           <Wrapper id="swap-page">
             <StyledCardHeader>
               <Heading color="text" style={{ fontSize: '18px', letterSpacing: '0.1px' }}>
@@ -271,18 +279,14 @@ function Migrate() {
                     ) : (
                       <AutoColumn gap="sm">
                         {approval === ApprovalState.UNKNOWN && (
-                          <StyledButton onClick={handleMigrate} disabled fullwidth style={{ whiteSpace: 'pre' }}>
+                          <StyledButton onClick={handleMigrate} disabled fullwidth>
                             {currency ? t('enterAmount') : t('chooseToken')}
                           </StyledButton>
                         )}
                         {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
                           <RowBetween>
                             <StyledButton onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>
-                              {approval === ApprovalState.PENDING ? (
-                                <Dots>Approving {currency?.symbol}</Dots>
-                              ) : (
-                                `Approve ${currency?.symbol}`
-                              )}
+                              {approval === ApprovalState.PENDING ? <Dots>Approving</Dots> : `Approve`}
                             </StyledButton>
                           </RowBetween>
                         )}

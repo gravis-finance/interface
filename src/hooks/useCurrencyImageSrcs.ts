@@ -25,9 +25,15 @@ export default function useCurrencyImageSrcs(currency) {
 
   return React.useMemo(() => {
     if (chainId && currency === BASE_CURRENCIES[chainId as ChainId]) return [BaseLogo[chainId]]
-
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
+        if (currency.lpTokenExchangeName) {
+          return [
+            currency?.lpTokenExchangeName
+              ? `${window.location.origin}/images/exchanges/${currency?.lpTokenExchangeName.toLowerCase()}.png`
+              : `${window.location.origin}/images/coins/${currency?.symbol ?? 'token'}.png`,
+          ]
+        }
         return [
           ...uriLocations,
           `${window.location.origin}/images/coins/${currency?.symbol ?? 'token'}.png`,
