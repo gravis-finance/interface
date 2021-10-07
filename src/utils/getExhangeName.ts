@@ -1,10 +1,5 @@
 const getExhangeName = (name) => {
-  switch (name) {
-    case 'Pancake LPs':
-      return 'Pancake'
-    default:
-      return undefined
-  }
+  return name?.slice(0, name.indexOf('LP')).trim()
 }
 
 export default getExhangeName
