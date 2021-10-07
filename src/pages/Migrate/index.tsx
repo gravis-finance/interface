@@ -72,7 +72,7 @@ function useTokenAddress(props) {
       setTokenInfo(Info)
     }
   }, [Info])
-
+  // if (!(tokenInfo instanceof WrappedTokenInfo)) console.log(tokenInfo)
   return tokenInfo
 }
 
@@ -113,7 +113,8 @@ function Migrate() {
       right: useTokenAddress(tokenList[i]?.right),
       address: useTokenAddress(tokenList[i]?.address),
     }))
-  const filteredTokenInfo = useBaseTokenInfo(10).filter((item) => item.left !== undefined && item.right !== undefined)
+  // FIXME: HARDCODE 18
+  const filteredTokenInfo = useBaseTokenInfo(18).filter((item) => item.left !== undefined && item.right !== undefined)
 
   useEffect(() => {
     if (!isVampiringAvailable) return
@@ -122,9 +123,11 @@ function Migrate() {
       const info = new WrappedTokenInfo(
         {
           name: `${filteredTokenInfo[i]?.left?.name} / ${filteredTokenInfo[i]?.right?.name} LP Token`,
-          symbol: `${getExhangeName(filteredTokenInfo[i]?.address?.name)}: ${filteredTokenInfo[i]?.left?.symbol} / ${
-            filteredTokenInfo[i]?.right?.symbol
-          } LP`,
+          symbol: `${
+            filteredTokenInfo[i]?.address
+              ? `${getExhangeName(filteredTokenInfo[i]?.address?.name)}:`
+              : `${t('loading')}...`
+          } ${filteredTokenInfo[i]?.left?.symbol} / ${filteredTokenInfo[i]?.right?.symbol} LP`,
           address: tokenList[i].address,
           chainId: id,
           decimals: 18,
@@ -135,7 +138,7 @@ function Migrate() {
       return info
     })
     if (JSON.stringify(enrichedTokenInfo) !== JSON.stringify(lpList)) setLpList(enrichedTokenInfo)
-  }, [lpList, chainId, filteredTokenInfo, tokenList, isVampiringAvailable])
+  }, [t, lpList, chainId, filteredTokenInfo, tokenList, isVampiringAvailable])
 
   const [typedValue, setTypedValue] = React.useState('')
   const [currency, setCurrency] = useState<Currency | null>(null)
@@ -276,18 +279,14 @@ function Migrate() {
                     ) : (
                       <AutoColumn gap="sm">
                         {approval === ApprovalState.UNKNOWN && (
-                          <StyledButton onClick={handleMigrate} disabled fullwidth style={{ whiteSpace: 'pre' }}>
+                          <StyledButton onClick={handleMigrate} disabled fullwidth>
                             {currency ? t('enterAmount') : t('chooseToken')}
                           </StyledButton>
                         )}
                         {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
                           <RowBetween>
                             <StyledButton onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>
-                              {approval === ApprovalState.PENDING ? (
-                                <Dots>Approving {currency?.symbol}</Dots>
-                              ) : (
-                                `Approve ${currency?.symbol}`
-                              )}
+                              {approval === ApprovalState.PENDING ? <Dots>Approving</Dots> : `Approve`}
                             </StyledButton>
                           </RowBetween>
                         )}

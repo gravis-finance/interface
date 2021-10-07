@@ -151,7 +151,7 @@ function CurrencyRow({
               </LinkStyledButton>
             </Main>
           ) : null}
-          {isWrappedCurrency && (
+          {isWrappedCurrency && !window.location.pathname.includes('migrate') && (
             <Tooltip placement="right" title={t('addToMetamask')}>
               <AddButton ml={2} onClick={onAddCurrencyToMetamask} />
             </Tooltip>

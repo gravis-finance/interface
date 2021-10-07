@@ -218,10 +218,12 @@ export function CurrencySearch({
               onKeyDown={handleEnter}
             />
             {/* TODO Remove display: none */}
-            <StyledAddCustomToken onClick={addCustomTokenHandler} data-id="add-custom-token-button">
-              <AddIcon />
-              <QuestionHelper text={t('questionHelperMessages.addCustomToken')} />
-            </StyledAddCustomToken>
+            {!window.location.pathname.includes('migrate') && (
+              <StyledAddCustomToken onClick={addCustomTokenHandler} data-id="add-custom-token-button">
+                <AddIcon />
+                <QuestionHelper text={t('questionHelperMessages.addCustomToken')} />
+              </StyledAddCustomToken>
+            )}
             <StyledRemoveIcon onClick={handleRemove} data-id="clear-search-button">
               {searchQuery.length > 0 && <CloseIcon />}
             </StyledRemoveIcon>
