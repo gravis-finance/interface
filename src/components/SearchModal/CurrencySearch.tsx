@@ -248,10 +248,12 @@ export function CurrencySearch({
                 {t('nothingFound')}
                 {/* . Use Add Custom Token feature. */}
               </Text>
-              <Button onClick={addCustomTokenHandler}>
-                <AddIcon style={{ marginRight: '8px' }} />
-                {t('addToken')}
-              </Button>
+              {!window.location.pathname.includes('migrate') && (
+                <Button onClick={addCustomTokenHandler}>
+                  <AddIcon style={{ marginRight: '8px' }} />
+                  {t('addToken')}
+                </Button>
+              )}
             </div>
           </NothingFoundContainer>
         )}
