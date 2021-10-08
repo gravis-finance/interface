@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
@@ -119,6 +119,24 @@ function Migrate() {
   // FIXME: HARDCODE 18
   const filteredTokenInfo = useBaseTokenInfo(18).filter((item) => item.left !== undefined && item.right !== undefined)
 
+  const contractAddressesWithConstantNames = useMemo(() => {
+    const addresses = [
+      '0x853Ee4b2A13f8a742d64C8F088bE7bA2131f670d',
+      '0xadbf1854e5883eb8aa7baf50705338739e558e5b',
+      '0x6e7a5fafcec6bb1e78bae2a1f0b612012bf14827',
+      '0x2cF7252e74036d1Da831d11089D326296e64a728',
+      '0xF6422B997c7F54D1c6a6e103bcb1499EeA0a7046',
+    ]
+    return addresses.map((address) => address.toLowerCase())
+  }, [])
+
+  const validateExchangeName = useCallback(
+    (tokenInfo) => {
+      if (contractAddressesWithConstantNames.includes(tokenInfo?.address?.address.toLowerCase())) return 'QuickSwap:'
+      return tokenInfo?.address ? `${getExhangeName(tokenInfo?.address?.name)}:` : `${t('loading')}...`
+    },
+    [t, contractAddressesWithConstantNames]
+  )
   useEffect(() => {
     if (!isVampiringAvailable) return
     const enrichedTokenInfo = tokenList.map((_, i) => {
@@ -126,22 +144,20 @@ function Migrate() {
       const info = new WrappedTokenInfo(
         {
           name: `${filteredTokenInfo[i]?.left?.name} / ${filteredTokenInfo[i]?.right?.name} LP Token`,
-          symbol: `${
-            filteredTokenInfo[i]?.address
-              ? `${getExhangeName(filteredTokenInfo[i]?.address?.name)}:`
-              : `${t('loading')}...`
-          } ${filteredTokenInfo[i]?.left?.symbol} / ${filteredTokenInfo[i]?.right?.symbol} LP`,
+          symbol: `${validateExchangeName(filteredTokenInfo[i])} ${filteredTokenInfo[i]?.left?.symbol} / ${
+            filteredTokenInfo[i]?.right?.symbol
+          } LP`,
           address: tokenList[i].address,
           chainId: id,
           decimals: 18,
         },
         [],
-        getExhangeName(filteredTokenInfo[i]?.address?.name)
+        validateExchangeName(filteredTokenInfo[i]).slice(0, validateExchangeName(filteredTokenInfo[i]).length - 1)
       )
       return info
     })
     if (JSON.stringify(enrichedTokenInfo) !== JSON.stringify(lpList)) setLpList(enrichedTokenInfo)
-  }, [t, lpList, chainId, filteredTokenInfo, tokenList, isVampiringAvailable])
+  }, [validateExchangeName, t, lpList, chainId, filteredTokenInfo, tokenList, isVampiringAvailable])
 
   const [typedValue, setTypedValue] = React.useState('')
   const [currency, setCurrency] = useState<Currency | null>(null)
@@ -201,6 +217,7 @@ function Migrate() {
 
     const numOfActiveToken = lpList.findIndex((item) => item.address === activeToken?.address).toString()
     const args = [numOfActiveToken, tokenAmount]
+
     setConfirmationModalOpen(true)
     vampire.estimateGas
       .deposit(...args, { from: account })
@@ -219,7 +236,11 @@ function Migrate() {
             setMigrateErrorMessage(err.message)
           })
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error(err)
+        setAttemptingTxn(false)
+        setMigrateErrorMessage(err.data.message)
+      })
   }
 
   const handleInputSelect = useCallback(
