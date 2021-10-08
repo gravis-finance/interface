@@ -23,7 +23,7 @@ deploy_develop:
         - develop
     tags: 
       - shell
-      - prod
+      - dev
       - deploy-runner
     script:
         - rsync -a ./build/* /var/www/swap-interface/dev
