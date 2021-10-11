@@ -196,8 +196,9 @@ function Migrate() {
 
   const [isConfirmationModalOpen, setConfirmationModalOpen] = useState(false)
   const [txHash, setTxHash] = useState('')
-  const [attemptingTxn, setAttemptingTxn] = useState(true)
+  const [attemptingTxn, setAttemptingTxn] = useState(false)
   const [migrateErrorMessage, setMigrateErrorMessage] = useState('Unexpected error')
+  const [isError, setIsError] = useState(false)
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(chainId as ChainId, currencyBalance)
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
@@ -207,8 +208,14 @@ function Migrate() {
   const transaction = useAllTransactions()
 
   useEffect(() => {
-    if (transaction[txHash]) setAttemptingTxn(false)
-  }, [transaction, txHash])
+    if (transaction[txHash] && !isError) {
+      setAttemptingTxn(false)
+    }
+    if (transaction[txHash]?.receipt && !isError) {
+      setConfirmationModalOpen(false)
+      setAttemptingTxn(false)
+    }
+  }, [transaction, txHash, isError])
 
   const handleMigrate = () => {
     setAttemptingTxn(true)
@@ -219,6 +226,7 @@ function Migrate() {
     const args = [numOfActiveToken, tokenAmount]
 
     setConfirmationModalOpen(true)
+    setIsError(false)
     vampire.estimateGas
       .deposit(...args, { from: account })
       .then((estimatedGasLimit) => {
@@ -234,12 +242,14 @@ function Migrate() {
             console.error(err)
             setAttemptingTxn(false)
             setMigrateErrorMessage(err.message)
+            setIsError(true)
           })
       })
       .catch((err) => {
         console.error(err)
         setAttemptingTxn(false)
         setMigrateErrorMessage(err.data.message)
+        setIsError(true)
       })
   }
 
@@ -317,7 +327,12 @@ function Migrate() {
                         {approval === ApprovalState.APPROVED && (
                           <StyledButton
                             onClick={handleMigrate}
-                            disabled={!isValid || approval !== ApprovalState.APPROVED}
+                            disabled={
+                              !isValid ||
+                              approval !== ApprovalState.APPROVED ||
+                              Number(typedValue) > Number(currencyBalance?.toSignificant(6)) ||
+                              attemptingTxn
+                            }
                             variant={parsedAmount ? 'primary' : 'danger'}
                             fullwidth
                           >
