@@ -110,6 +110,8 @@ function Migrate() {
     getLpTokens()
   }, [isVampiringAvailable, tokenList, vampire])
 
+  const [isLoading, setIsLoading] = useState(true)
+
   const useBaseTokenInfo = (n) =>
     [...Array(n)].map((_, i) => ({
       left: useTokenAddress(tokenList[i]?.left),
@@ -157,6 +159,7 @@ function Migrate() {
       return info
     })
     if (JSON.stringify(enrichedTokenInfo) !== JSON.stringify(lpList)) setLpList(enrichedTokenInfo)
+    if (enrichedTokenInfo.length > 0) setIsLoading(false)
   }, [validateExchangeName, t, lpList, chainId, filteredTokenInfo, tokenList, isVampiringAvailable])
 
   const [typedValue, setTypedValue] = React.useState('')
@@ -216,6 +219,13 @@ function Migrate() {
       setAttemptingTxn(false)
     }
   }, [transaction, txHash, isError])
+
+  useEffect(() => {
+    setCurrency(null)
+    setIsLoading(true)
+    setLpList(undefined)
+    setTokenList([])
+  }, [chainId])
 
   const handleMigrate = () => {
     setAttemptingTxn(true)
@@ -307,6 +317,7 @@ function Migrate() {
                     onMax={handleMaxInput}
                     onCurrencySelect={handleInputSelect}
                     currencyList={lpList}
+                    loading={isLoading}
                     id="swap-currency-input"
                   />
                 </AutoColumn>
