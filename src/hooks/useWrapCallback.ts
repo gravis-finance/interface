@@ -1,5 +1,6 @@
 import { ChainId, Currency, currencyEquals, isEther, WETH } from '@gravis.finance/sdk'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
@@ -27,6 +28,7 @@ export default function useWrapCallback(
   const { chainId, account } = useActiveWeb3React()
   const wethContract = useWETHContract()
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
+  const { t } = useTranslation()
 
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
   const inputAmount = useMemo(
@@ -48,7 +50,9 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` })
-                  addTransaction(txReceipt, { summary: `{{wrap)} ${inputAmount.toSignificant(6)} BNB {{to}} WBNB` })
+                  addTransaction(txReceipt, {
+                    summary: `${t('wrap')} ${inputAmount.toSignificant(6)} BNB ${t('to')} WBNB`,
+                  })
                 } catch (error) {
                   console.error('Could not deposit', error)
                 }
@@ -65,7 +69,9 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`)
-                  addTransaction(txReceipt, { summary: `{{unwrap}} ${inputAmount.toSignificant(6)} WBNB {{to}} BNB` })
+                  addTransaction(txReceipt, {
+                    summary: `${t('unwrap')} ${inputAmount.toSignificant(6)} WBNB ${t('to')} BNB`,
+                  })
                 } catch (error) {
                   console.error('Could not withdraw', error)
                 }
@@ -75,5 +81,5 @@ export default function useWrapCallback(
       }
     }
     return NOT_APPLICABLE
-  }, [wethContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction])
+  }, [t, wethContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction])
 }
