@@ -82,3 +82,4 @@ deploy_production:
     when: manual
     script:
         - rsync -a ./build/* /var/www/swap-interface/build
+
