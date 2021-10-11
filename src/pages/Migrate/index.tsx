@@ -330,7 +330,8 @@ function Migrate() {
                             disabled={
                               !isValid ||
                               approval !== ApprovalState.APPROVED ||
-                              Number(typedValue) > Number(currencyBalance?.toSignificant(6)) ||
+                              Number(typedValue.slice(0, currencyBalance?.toSignificant(6).length)) >
+                                Number(currencyBalance?.toSignificant(6)) ||
                               attemptingTxn
                             }
                             variant={parsedAmount ? 'primary' : 'danger'}
