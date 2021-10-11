@@ -248,7 +248,11 @@ function Migrate() {
       .catch((err) => {
         console.error(err)
         setAttemptingTxn(false)
-        setMigrateErrorMessage(err.data.message)
+        setMigrateErrorMessage(
+          err.data.message === 'execution reverted: ds-math-sub-underflow'
+            ? 'Migration unsuccessful. Please try another value.'
+            : err.data.message
+        )
         setIsError(true)
       })
   }
