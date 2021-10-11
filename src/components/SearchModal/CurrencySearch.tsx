@@ -21,6 +21,7 @@ import { filterTokens } from './filtering'
 import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
+import GravisSpinner from '../GravisSpinner'
 
 const { main: Main } = TYPE
 
@@ -34,6 +35,7 @@ interface CurrencySearchProps {
   onChangeList: () => void
   currencyList?: any
   addCustomTokenHandler?: () => void
+  loading?: boolean
 }
 
 const StyledRowBetween = styled.div`
@@ -92,6 +94,13 @@ const NothingFoundContainer = styled.div`
   }
 `
 
+const SpinnerContainer = styled.div`
+  width: 100%;
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+`
+
 export function CurrencySearch({
   selectedCurrency,
   onCurrencySelect,
@@ -102,6 +111,7 @@ export function CurrencySearch({
   onChangeList,
   currencyList,
   addCustomTokenHandler,
+  loading,
 }: CurrencySearchProps) {
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
@@ -240,8 +250,7 @@ export function CurrencySearch({
             </RowBetween>
           </StyledRowBetween>
         </PaddedColumn>
-        {/* TODO Remove display: none */}
-        {filteredSortedTokens.length === 0 && (
+        {filteredSortedTokens.length === 0 && !loading && (
           <NothingFoundContainer>
             <div>
               <Text>
@@ -258,21 +267,27 @@ export function CurrencySearch({
           </NothingFoundContainer>
         )}
 
-        <StyledCurrencyList>
-          <AutoSizer disableWidth>
-            {({ height }) => (
-              <CurrencyList
-                height={height}
-                showETH={showETH}
-                currencies={filteredSortedTokens}
-                onCurrencySelect={handleCurrencySelect}
-                otherCurrency={otherSelectedCurrency}
-                selectedCurrency={selectedCurrency}
-                fixedListRef={fixedList}
-              />
-            )}
-          </AutoSizer>
-        </StyledCurrencyList>
+        {loading ? (
+          <SpinnerContainer>
+            <GravisSpinner />
+          </SpinnerContainer>
+        ) : (
+          <StyledCurrencyList>
+            <AutoSizer disableWidth>
+              {({ height }) => (
+                <CurrencyList
+                  height={height}
+                  showETH={showETH}
+                  currencies={filteredSortedTokens}
+                  onCurrencySelect={handleCurrencySelect}
+                  otherCurrency={otherSelectedCurrency}
+                  selectedCurrency={selectedCurrency}
+                  fixedListRef={fixedList}
+                />
+              )}
+            </AutoSizer>
+          </StyledCurrencyList>
+        )}
 
         {null && (
           <>
