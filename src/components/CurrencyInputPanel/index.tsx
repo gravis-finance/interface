@@ -134,6 +134,7 @@ interface CurrencyInputPanelProps {
   showCommonBases?: boolean
   currencyList?: any
   customHeight?: number
+  loading?: boolean
 }
 
 export default function CurrencyInputPanel({
@@ -153,6 +154,7 @@ export default function CurrencyInputPanel({
   showCommonBases,
   currencyList,
   customHeight,
+  loading,
 }: CurrencyInputPanelProps) {
   const { t } = useTranslation()
 
@@ -261,6 +263,7 @@ export default function CurrencyInputPanel({
           otherSelectedCurrency={otherCurrency}
           showCommonBases={showCommonBases}
           currencyList={currencyList}
+          loading={loading}
         />
       )}
     </InputPanel>
