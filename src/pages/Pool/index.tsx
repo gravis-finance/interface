@@ -54,6 +54,7 @@ const StyledCardBody = styled.div<{ singleBlock?: boolean }>`
 
   > a {
     width: 173px;
+    text-align: center;
   }
 
   @media screen and (max-width: 461px) {

@@ -3,6 +3,8 @@
   "viewOnHecoInfo": "View on HecoInfo",
   "MaticInfo": "View on Matic",
   "mainMenu": {
+    "buyLootBoxes": "Buy Loot Boxes",
+    "hangar": "Hangar",
     "home": "Home",
     "trade": "Exchange",
     "liquidity": "Pool",

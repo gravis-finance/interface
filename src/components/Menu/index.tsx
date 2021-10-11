@@ -1,5 +1,5 @@
 import React, { lazy, useEffect, useState } from 'react'
-import { MenuEntry, urlSearchLanguageParam, useModal, getNetworkForAnalytics } from '@gravis.finance/uikit'
+import { MenuEntry, urlSearchLanguageParam, useModal } from '@gravis.finance/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
@@ -63,7 +63,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           {
             label: t('mainMenu.docs'),
             href: 'https://docs.gravis.finance',
-            external: true
+            external: true,
           }
         ]
       },
@@ -85,7 +85,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           },
           {
             label: t('mainMenu.analytics.analytics'),
-            href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
+            href: `${process.env.REACT_APP_INFO_URL}/home?&${urlSearchLanguageParam}=${t('language')}`,
           },
         ],
       },
@@ -95,7 +95,9 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       //   items: [
       //     {
       //       label: t('mainMenu.analytics.overview'),
-      //       href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(chainId)}&${urlSearchLanguageParam}=${t('language')}`,
+      //       href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(
+      //         chainId
+      //       )}&${urlSearchLanguageParam}=${t('language')}`,
       //     },
       //     {
       //       label: t('mainMenu.analytics.tokens'),
@@ -145,23 +147,27 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           {
             label: t('mainMenu.github'),
             href: 'https://github.com/gravis-finance',
+            external: true,
           },
           {
             label: t('mainMenu.blog'),
             href: 'https://gravis-finance.medium.com/',
+            external: true,
           },
           {
             label: t('mainMenu.pitchDeck'),
             href: t('presentationLink'),
+            external: true,
           },
           {
             label: t('mainMenu.tokenomics'),
             href: 'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
+            external: true,
           },
         ],
       },
     ],
-    [t, chainId]
+    [t]
   )
 
   useEffect(() => {

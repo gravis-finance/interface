@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
@@ -26,7 +26,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
 import { usePairContract } from '../../hooks/useContract'
 
-import { useTransactionAdder } from '../../state/transactions/hooks'
+import { useAllTransactions, useTransactionAdder } from '../../state/transactions/hooks'
 import { StyledInternalLink } from '../../components/Shared'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '../../utils'
 import { currencyId } from '../../utils/currencyId'
@@ -437,6 +437,18 @@ const RemoveLiquidity = ({
 
   const { chainId: chain } = useActiveWeb3React()
   const [receivedSymbol] = useState(chain === 56 || chain === 97 ? 'BNB' : 'HT')
+
+  const transaction = useAllTransactions()
+
+  useEffect(() => {
+    if (transaction[txHash]?.receipt) {
+      setShowConfirm(false)
+      setAttemptingTxn(false)
+      if (Number(parsedAmounts[Field.LIQUIDITY_PERCENT].toSignificant(6)) === 100) {
+        history.push('/pool')
+      }
+    }
+  }, [history, parsedAmounts, transaction, txHash])
 
   return (
     <>
