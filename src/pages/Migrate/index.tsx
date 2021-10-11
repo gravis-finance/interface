@@ -159,7 +159,11 @@ function Migrate() {
       return info
     })
     if (JSON.stringify(enrichedTokenInfo) !== JSON.stringify(lpList)) setLpList(enrichedTokenInfo)
-    if (enrichedTokenInfo.length > 0 && enrichedTokenInfo.every((info) => info.lpTokenExchangeName)) setIsLoading(false)
+    if (
+      enrichedTokenInfo.length > 0 &&
+      enrichedTokenInfo.every((info) => info.lpTokenExchangeName !== `${t('loading')}..`)
+    )
+      setIsLoading(false)
   }, [validateExchangeName, t, lpList, chainId, filteredTokenInfo, tokenList, isVampiringAvailable])
 
   const [typedValue, setTypedValue] = React.useState('')
