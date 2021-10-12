@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React, { MouseEventHandler, useMemo, useState } from 'react'
 import { ChainId, JSBI, Pair, Percent } from '@gravis.finance/sdk'
 import {
+  AddIcon,
+  ArrowDropDownIcon,
+  ArrowDropUpIcon,
   Button,
+  ButtonBase,
   Card as UIKitCard,
   CardBody,
+  ColoredCopyIcon,
   IconButton,
   Text,
-  ArrowDropUpIcon,
-  ArrowDropDownIcon,
-  ColoredCopyIcon,
+  Tooltip,
 } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { darken } from 'polished'
@@ -25,6 +28,7 @@ import CurrencyLogo from '../Logos/CurrencyLogo'
 import DoubleCurrencyLogo from '../Logos/DoubleLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
+import { registerToken } from '../../utils/wallet'
 
 interface FixedHeightProps {
   background?: boolean
@@ -65,6 +69,25 @@ const StyledUIKitCard = styled(UIKitCard)`
 const StyledCardBody = styled(CardBody)`
   padding: 24px;
 `
+
+const AddButton = styled(ButtonBase)`
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+
+    * {
+      transition: fill 200ms ease-in-out;
+    }
+
+    :hover {
+      * {
+        fill: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+`
+AddButton.defaultProps = { children: <AddIcon /> }
 
 interface PositionCardProps {
   pair: Pair
@@ -171,7 +194,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
 }
 
 export default function FullPositionCard({ pair }: PositionCardProps) {
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId, library } = useActiveWeb3React()
 
   const currency0 = unwrappedToken(pair.token0, chainId as ChainId)
   const currency1 = unwrappedToken(pair.token1, chainId as ChainId)
@@ -206,6 +229,16 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
     e.stopPropagation()
   }
 
+  const onAddCurrencyToMetamask: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation()
+    const { liquidityToken } = pair
+    if (liquidityToken.symbol) {
+      registerToken(liquidityToken.address, 'GravisLP', liquidityToken.decimals, '')
+    }
+  }
+
+  const isMetamask = useMemo(() => library?.connection?.url === 'metamask', [library])
+
   return (
     <HoverCard>
       <AutoColumn gap="12px">
@@ -223,6 +256,11 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
             <CopyButtonWrapper variant="text" onClick={handleAddressCopy} title={t('copyLPTokensAddress')}>
               <ColoredCopyIcon width="24px" height="24px" data-id="copy-button" />
             </CopyButtonWrapper>
+            {isMetamask && (
+              <Tooltip placement="right" title={t('addToMetamask')}>
+                <AddButton ml={2} onClick={onAddCurrencyToMetamask} />
+              </Tooltip>
+            )}
           </RowFixed>
           <RowFixed>
             {showMore ? (
