@@ -233,7 +233,7 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
     event.stopPropagation()
     const { liquidityToken } = pair
     if (liquidityToken.symbol) {
-      registerToken(liquidityToken.address, liquidityToken.symbol, liquidityToken.decimals, '')
+      registerToken(liquidityToken.address, 'GravisLP', liquidityToken.decimals, '')
     }
   }
 
