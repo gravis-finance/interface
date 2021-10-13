@@ -195,6 +195,9 @@ export function useDerivedSwapInfo(): {
     inputError = t('connectWallet')
   }
 
+  if (!parsedAmount && typedValue) {
+    inputError = inputError ?? t('invalidDecimals')
+  }
   if (!parsedAmount) {
     inputError = inputError ?? t('enterAmount')
   }
