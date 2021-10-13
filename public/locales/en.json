@@ -200,5 +200,6 @@
   "buyNFT": "Buy NFT",
   "sellNFT": "Sell NFT",
   "sendNFT": "Send NFT",
-  "NFTFarming": "NFT Farming"
+  "NFTFarming": "NFT Farming",
+  "invalidDecimals": "Invalid decimals"
 }

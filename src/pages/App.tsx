@@ -1,7 +1,16 @@
 import React, { Suspense, lazy, useEffect, useRef, useCallback } from 'react'
 import { Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { getNetworkId, NetworkSwitchError, NotFound, useModal, Modal, Button } from '@gravis.finance/uikit'
+import {
+  getNetworkId,
+  NetworkSwitchError,
+  NotFound,
+  useModal,
+  Modal,
+  Button,
+  NetworksConfigObject,
+  networksName,
+} from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 
 import backgroundImage from 'assets/svg/trade-background.svg'
@@ -181,6 +190,11 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
 }
 
 export default function App() {
+  useEffect(() => {
+    // @ts-ignore
+    NetworksConfigObject.networks = [networksName.BINANCE, networksName.POLYGON, networksName.HUOBI]
+  }, [])
+
   return (
     <Suspense fallback={<PageLoader />}>
       <AppWrapper>

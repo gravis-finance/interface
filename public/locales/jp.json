@@ -198,5 +198,6 @@
   "buyNFT": "NFTを購入",
   "sellNFT": "NFTを売る",
   "sendNFT": "NFTの送信",
-  "NFTFarming": "NFTファーミング"
+  "NFTFarming": "NFTファーミング",
+  "invalidDecimals": "小数点以下の値が無効です。"
 }

@@ -203,5 +203,6 @@
   "NFTFarming": "NFT Фарминг",
   "nftmarket": "NFT Маркет",
   "asteroidMining": "(A)steroid Mining",
-  "captainsIno": "Капитаны INO"
+  "captainsIno": "Капитаны INO",
+  "invalidDecimals": "Неверная разрядность"
 }
