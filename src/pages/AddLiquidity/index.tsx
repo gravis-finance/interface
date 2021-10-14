@@ -22,7 +22,7 @@ import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
 
-import { useTransactionAdder } from 'state/transactions/hooks'
+import { useAllTransactions, useTransactionAdder } from 'state/transactions/hooks'
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'utils'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
@@ -320,6 +320,12 @@ export default function AddLiquidity({
     if (approvalA === ApprovalState.APPROVED) setApprovalArray([approvalB === ApprovalState.APPROVED])
     if (approvalB === ApprovalState.APPROVED) setApprovalArray([approvalA === ApprovalState.APPROVED])
   }, [approvalA, approvalB])
+
+  const transactions = useAllTransactions()
+
+  useEffect(() => {
+    if (txHash) if (transactions[txHash]?.receipt) setShowConfirm(false)
+  }, [txHash, transactions])
 
   return (
     <CardWrapper>
