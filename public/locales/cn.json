@@ -193,5 +193,6 @@
   "buyNFT": "购买NFT",
   "sellNFT": "卖掉NFT",
   "sendNFT": "发送NFT",
-  "NFTFarming": "NFT农业"
+  "NFTFarming": "NFT农业",
+  "invalidDecimals": "无效小数"
 }
