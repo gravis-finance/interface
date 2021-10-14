@@ -132,9 +132,26 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         ]
       },
       {
-        label: t('mainMenu.NFTFarming'),
+        label: t('mainMenu.farming'),
         icon: 'NFTFarmingIcon',
-        href: `${process.env.REACT_APP_NFTFARMING_URL}?${urlSearchLanguageParam}=${t('language')}`
+        items: [
+          {
+            label: t('mainMenu.farms'),
+            href: `${process.env.REACT_APP_FARMING_URL}/farms?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: t('mainMenu.staking'),
+            href: `${process.env.REACT_APP_FARMING_URL}/staking?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          // {
+          //   label: t('mainMenu.farming.autoFarms'),
+          //   href: `/auto-farms`,
+          // },
+          {
+            label: t('mainMenu.NFTFarming'),
+            href: `${process.env.REACT_APP_NFTFARMING_URL}?${urlSearchLanguageParam}=${t('language')}`,
+          },
+        ],
       },
       {
         label: t('mainMenu.more'),
