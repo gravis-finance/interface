@@ -19,6 +19,14 @@
       "logoURI": "/images/coins/GRVX.png"
     },
     {
+      "name": "GRAVIS X TOKEN",
+      "symbol": "GRVX",
+      "address": "0xa349fd455a457467d31ca8db59052daebbbcc108",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "/images/coins/GRVX.png"
+    },
+    {
       "name": "USDT",
       "symbol": "USDT",
       "address": "0x1138ebb3101f557b28326a28b6f192c7fecc95f7",
