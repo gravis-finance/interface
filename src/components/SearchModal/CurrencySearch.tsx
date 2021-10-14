@@ -150,6 +150,9 @@ export function CurrencySearch({
       .filter((s) => s.length > 0)
     if (symbolMatch.length > 1) return sorted
 
+    if(filteredTokens.find(token=>token.symbol === 'GRVX'))
+      filteredTokens.unshift(...filteredTokens.splice(filteredTokens.findIndex(token=>token.symbol === 'GRVX'),1))
+
     return [
       ...(searchToken ? [searchToken] : []),
       // sort any exact symbol matches first
@@ -202,6 +205,12 @@ export function CurrencySearch({
   const selectedListInfo = useSelectedListInfo()
 
   const handleRemove = () => setSearchQuery('')
+
+  // useEffect(() => {
+  //   console.log('filteredSortedTokens', filteredSortedTokens.find(token=>token.symbol === 'GRVX'))
+  //   if(filteredSortedTokens.find(token=>token.symbol === 'GRVX'))
+  //     filteredSortedTokens.unshift(...filteredSortedTokens.splice(filteredSortedTokens.findIndex(token=>token.symbol === 'GRVX'),1))
+  // }, [filteredSortedTokens])
 
   return (
     <>
