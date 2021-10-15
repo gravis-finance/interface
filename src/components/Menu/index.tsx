@@ -53,19 +53,19 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
             href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar?${urlSearchLanguageParam}=${t('language')}`,
           },
           {
-            label: "Dashboard",
+            label: 'Dashboard',
             href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/dashboard?${urlSearchLanguageParam}=${t('language')}`,
           },
           {
             label: '(A)steroid pitch deck',
-            href: 'https://gateway.pinata.cloud/ipfs/QmWPNbXLtqh1gkXEe5BR5BLadGcz7sYAXjooSzrouBi9an'
+            href: 'https://gateway.pinata.cloud/ipfs/QmWPNbXLtqh1gkXEe5BR5BLadGcz7sYAXjooSzrouBi9an',
           },
           {
             label: t('mainMenu.docs'),
             href: 'https://docs.gravis.finance',
             external: true,
-          }
-        ]
+          },
+        ],
       },
       {
         label: t('mainMenu.farming'),
@@ -86,6 +86,11 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           {
             label: t('mainMenu.NFTFarming'),
             href: `${process.env.REACT_APP_NFTFARMING_URL}?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: t('mainMenu.audit'),
+            href: 'https://github.com/chainsulting/Smart-Contract-Security-Audits/blob/master/Gravis%20Finance/02_Smart%20Contract%20Audit_GravisFinance_Farm.pdf',
+            external: true,
           },
         ],
       },
@@ -151,7 +156,11 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
             label: t('sendNFT'),
             href: `${process.env.REACT_APP_GMART_URL}/transfer?${urlSearchLanguageParam}=${t('language')}`,
           },
-        ]
+          {
+            label: t('Activity'),
+            href: `${process.env.REACT_APP_GMART_URL}/activity?${urlSearchLanguageParam}=${t('language')}`,
+          },
+        ],
       },
       {
         label: t('mainMenu.more'),
