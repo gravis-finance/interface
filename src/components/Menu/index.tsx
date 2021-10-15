@@ -78,6 +78,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           {
             label: t('mainMenu.staking'),
             href: `${process.env.REACT_APP_FARMING_URL}/staking?${urlSearchLanguageParam}=${t('language')}`,
+            hot: true
           },
           // {
           //   label: t('mainMenu.farming.autoFarms'),
