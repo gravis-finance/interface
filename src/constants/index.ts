@@ -140,7 +140,7 @@ export const MATIC_USDC = new Token(
   ChainId.MATICMAINNET,
   '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
   18,
-  'USDS',
+  'USDC',
   'USDC Coin'
 )
 export const MATIC_USDT = new Token(
