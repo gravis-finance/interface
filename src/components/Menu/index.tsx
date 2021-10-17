@@ -78,6 +78,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           {
             label: t('mainMenu.staking'),
             href: `${process.env.REACT_APP_FARMING_URL}/staking?${urlSearchLanguageParam}=${t('language')}`,
+            hot: true
           },
           // {
           //   label: t('mainMenu.farming.autoFarms'),
@@ -86,6 +87,11 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           {
             label: t('mainMenu.NFTFarming'),
             href: `${process.env.REACT_APP_NFTFARMING_URL}?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: t('mainMenu.audit'),
+            href: 'https://github.com/chainsulting/Smart-Contract-Security-Audits/blob/master/Gravis%20Finance/02_Smart%20Contract%20Audit_GravisFinance_Farm.pdf',
+            external: true,
           },
         ],
       },
@@ -150,6 +156,10 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           {
             label: t('sendNFT'),
             href: `${process.env.REACT_APP_GMART_URL}/transfer?${urlSearchLanguageParam}=${t('language')}`,
+          },
+          {
+            label: t('Activity'),
+            href: `${process.env.REACT_APP_GMART_URL}/activity?${urlSearchLanguageParam}=${t('language')}`,
           },
         ],
       },

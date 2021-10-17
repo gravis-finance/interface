@@ -33,7 +33,8 @@
     "hangar": "Hangar",
     "farming": "Farming",
     "staking": "GRVX Staking",
-    "farms": "Farms"
+    "farms": "Farms",
+    "audit": "Audit"
   },
   "language": "en",
   "swap": "Swap",
@@ -204,5 +205,6 @@
   "sellNFT": "Sell NFT",
   "sendNFT": "Send NFT",
   "NFTFarming": "NFT Farming",
-  "invalidDecimals": "Invalid decimals"
+  "invalidDecimals": "Invalid decimals",
+  "Activity": "Activity"
 }

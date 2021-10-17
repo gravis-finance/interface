@@ -33,7 +33,8 @@
     "captainsIno": "Капитаны INO",
     "farming": "Фарминг",
     "staking": "Стейкинг GRVX",
-    "farms": "Фермы"
+    "farms": "Фермы",
+    "audit": "Аудит"
   },
   "language": "ru",
   "swap": "Обменять",
@@ -207,5 +208,6 @@
   "nftmarket": "NFT Маркет",
   "asteroidMining": "(A)steroid Mining",
   "captainsIno": "Капитаны INO",
-  "invalidDecimals": "Неверная разрядность"
+  "invalidDecimals": "Неверная разрядность",
+  "Audited": "Проверено"
 }
