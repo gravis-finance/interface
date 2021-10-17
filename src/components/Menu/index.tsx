@@ -53,19 +53,19 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
             href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar?${urlSearchLanguageParam}=${t('language')}`,
           },
           {
-            label: "Dashboard",
+            label: 'Dashboard',
             href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/dashboard?${urlSearchLanguageParam}=${t('language')}`,
           },
           {
             label: '(A)steroid pitch deck',
-            href: 'https://gateway.pinata.cloud/ipfs/QmWPNbXLtqh1gkXEe5BR5BLadGcz7sYAXjooSzrouBi9an'
+            href: 'https://gateway.pinata.cloud/ipfs/QmWPNbXLtqh1gkXEe5BR5BLadGcz7sYAXjooSzrouBi9an',
           },
           {
             label: t('mainMenu.docs'),
             href: 'https://docs.gravis.finance',
             external: true,
-          }
-        ]
+          },
+        ],
       },
       {
         label: t('mainMenu.farming'),
@@ -107,7 +107,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           },
           {
             label: t('mainMenu.analytics.analytics'),
-            href: `${process.env.REACT_APP_INFO_URL}/home?&${urlSearchLanguageParam}=${t('language')}`,
+            href: `${process.env.REACT_APP_INFO_URL}/home?${urlSearchLanguageParam}=${t('language')}`,
           },
         ],
       },
@@ -151,7 +151,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
             label: t('sendNFT'),
             href: `${process.env.REACT_APP_GMART_URL}/transfer?${urlSearchLanguageParam}=${t('language')}`,
           },
-        ]
+        ],
       },
       {
         label: t('mainMenu.more'),
