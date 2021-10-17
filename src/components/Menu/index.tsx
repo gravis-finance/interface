@@ -113,7 +113,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
           },
           {
             label: t('mainMenu.analytics.analytics'),
-            href: `${process.env.REACT_APP_INFO_URL}/home?&${urlSearchLanguageParam}=${t('language')}`,
+            href: `${process.env.REACT_APP_INFO_URL}/home?${urlSearchLanguageParam}=${t('language')}`,
           },
         ],
       },
