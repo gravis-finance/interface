@@ -124,7 +124,7 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
   const [openErrorModal, onDismissErrorModal] = useModal(errorModal, false)
 
   const handleConfirm = useCallback(() => {
-    if (chainId !== providerChainId) {
+    if (chainId !== providerChainId && chainId && providerChainId) {
       openErrorModal()
     }
   }, [chainId, providerChainId]) // eslint-disable-line
@@ -158,7 +158,7 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
 
   useEffect(() => {
     if (!account) return
-    if (chainId !== providerChainId) {
+    if (chainId !== providerChainId && chainId && providerChainId) {
       openLoadingNetworkModal()
       timeoutId.current = setTimeout(() => openErrorModal(), 10000)
     } else {
