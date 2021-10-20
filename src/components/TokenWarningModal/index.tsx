@@ -14,7 +14,7 @@ import { AutoRow, RowBetween } from '../Row'
 import { AutoColumn } from '../Column'
 
 const Modal = lazy(() => import('../Modal'))
-const { main: Main, blue: Blue } = TYPE
+const { main: Main } = TYPE
 
 const Wrapper = styled.div<{ error: boolean }>`
   // background: ${({ theme }) => transparentize(0.6, theme.colors.tertiary)};
