@@ -357,7 +357,11 @@ const Swap = () => {
   return (
     <CardWrapper>
       <TokenWarningModal
-        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
+        isOpen={
+          urlLoadedTokens.length > 0 &&
+          !dismissTokenWarning &&
+          !urlLoadedTokens.find((token) => token.symbol === 'GRVX')
+        }
         tokens={urlLoadedTokens}
         onConfirm={handleConfirmTokenWarning}
       />
