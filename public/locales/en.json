@@ -5,12 +5,13 @@
   "mainMenu": {
     "buyLootBoxes": "Buy Loot Boxes",
     "hangar": "Hangar",
+    "dashboard": "Dashboard",
     "home": "Home",
     "trade": "Exchange",
     "liquidity": "Pool",
     "migrate": "Migrate",
     "analytics": {
-      "analytics": "Analytics",
+      "analytics": "DEX analytics",
       "overview": "Overview",
       "tokens": "Tokens",
       "pairs": "Pairs"
@@ -25,7 +26,7 @@
     "pitchDeck": "Pitch Deck",
     "tokenomics": "Tokenomics",
     "NFTFarming": "NFT Farming",
-    "nftmarket": "NFT Market",
+    "nftmarket": "Gmart NFT market",
     "asteroidMining": "(A)steroid Mining",
     "captainsIno": "Captains INO",
     "docs": "Docs",
@@ -206,5 +207,5 @@
   "sendNFT": "Send NFT",
   "NFTFarming": "NFT Farming",
   "invalidDecimals": "Invalid decimals",
-  "Activity": "Activity"
+  "Activity": "Market activity"
 }

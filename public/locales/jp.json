@@ -11,7 +11,7 @@
     "liquidity": "プール",
     "migrate": "移行",
     "analytics": {
-      "analytics": "アナリティクス",
+      "analytics": "DEX アナリティクス",
       "overview": "概要",
       "tokens": "トークン",
       "pairs": "ペア"
@@ -26,7 +26,7 @@
     "pitchDeck": "ピッチデッキ",
     "tokenomics": "トケノミクス",
     "NFTFarming": "NFTファーミング",
-    "nftmarket": "NFTマーケット",
+    "nftmarket": "Gmart NFTマーケット",
     "captainsIno": "キャプテン INO",
     "docs": "Docs"
   },

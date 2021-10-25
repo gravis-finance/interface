@@ -1,5 +1,5 @@
 import React, { lazy, useEffect, useState } from 'react'
-import { MenuEntry, urlSearchLanguageParam, useModal } from '@gravis.finance/uikit'
+import { useModal } from '@gravis.finance/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
@@ -10,6 +10,7 @@ import { getExplorerLink, getExplorerName } from 'utils'
 import { useActiveWeb3React } from 'hooks'
 import i18next from '../../i18n'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
+import useGetMenuLinks from './config'
 
 const UikitMenu = lazy(() =>
   import('@gravis.finance/uikit/dist/esm/widgets/Menu').then(({ Menu }) => ({ default: Menu }))
@@ -32,170 +33,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
     return result
   }
 
-  const links: MenuEntry[] = React.useMemo(
-    () => [
-      {
-        label: t('mainMenu.home'),
-        icon: 'HomeIcon',
-        href: `${process.env.REACT_APP_HOME_URL}?${urlSearchLanguageParam}=${t('language')}`,
-      },
-      {
-        label: t('mainMenu.asteroidMining'),
-        icon: 'AsteroidMiningIcon',
-        blink: true,
-        items: [
-          {
-            label: t('mainMenu.buyLootBoxes'),
-            href: `${process.env.REACT_APP_ASTEROID_MINING_URL}?${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('mainMenu.hangar'),
-            href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar?${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: 'Dashboard',
-            href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/dashboard?${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: '(A)steroid pitch deck',
-            href: 'https://gateway.pinata.cloud/ipfs/QmWPNbXLtqh1gkXEe5BR5BLadGcz7sYAXjooSzrouBi9an',
-          },
-          {
-            label: t('mainMenu.docs'),
-            href: 'https://docs.gravis.finance',
-            external: true,
-          },
-        ],
-      },
-      {
-        label: t('mainMenu.farming'),
-        icon: 'NFTFarmingIcon',
-        items: [
-          {
-            label: t('mainMenu.farms'),
-            href: `${process.env.REACT_APP_FARMING_URL}/farms?${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('mainMenu.staking'),
-            href: `${process.env.REACT_APP_FARMING_URL}/staking?${urlSearchLanguageParam}=${t('language')}`,
-            hot: true
-          },
-          // {
-          //   label: t('mainMenu.farming.autoFarms'),
-          //   href: `/auto-farms`,
-          // },
-          {
-            label: t('mainMenu.NFTFarming'),
-            href: `${process.env.REACT_APP_NFTFARMING_URL}?${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('mainMenu.audit'),
-            href: 'https://github.com/chainsulting/Smart-Contract-Security-Audits/blob/master/Gravis%20Finance/02_Smart%20Contract%20Audit_GravisFinance_Farm.pdf',
-            external: true,
-          },
-        ],
-      },
-      {
-        label: t('mainMenu.trade'),
-        icon: 'TradeIcon',
-        items: [
-          {
-            label: t('swap'),
-            href: '/swap',
-          },
-          {
-            label: t('mainMenu.liquidity'),
-            href: '/pool',
-          },
-          {
-            label: t('mainMenu.migrate'),
-            href: '/migrate',
-          },
-          {
-            label: t('mainMenu.analytics.analytics'),
-            href: `${process.env.REACT_APP_INFO_URL}/home?${urlSearchLanguageParam}=${t('language')}`,
-          },
-        ],
-      },
-      // {
-      //   label: t('mainMenu.analytics.analytics'),
-      //   icon: 'InfoIcon',
-      //   items: [
-      //     {
-      //       label: t('mainMenu.analytics.overview'),
-      //       href: `${process.env.REACT_APP_INFO_URL}/home?network=${getNetworkForAnalytics(
-      //         chainId
-      //       )}&${urlSearchLanguageParam}=${t('language')}`,
-      //     },
-      //     {
-      //       label: t('mainMenu.analytics.tokens'),
-      //       href: `${process.env.REACT_APP_INFO_URL}/tokens?network=${getNetworkForAnalytics(
-      //         chainId
-      //       )}&${urlSearchLanguageParam}=${t('language')}`,
-      //     },
-      //     {
-      //       label: t('mainMenu.analytics.pairs'),
-      //       href: `${process.env.REACT_APP_INFO_URL}/pairs?network=${getNetworkForAnalytics(
-      //         chainId
-      //       )}&${urlSearchLanguageParam}=${t('language')}`,
-      //     },
-      //   ],
-      // },
-      {
-        label: t('mainMenu.nftmarket'),
-        icon: 'NFTMarketIcon',
-        items: [
-          {
-            label: t('buyNFT'),
-            href: `${process.env.REACT_APP_GMART_URL}/buy?${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('sellNFT'),
-            href: `${process.env.REACT_APP_GMART_URL}/sell?${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('sendNFT'),
-            href: `${process.env.REACT_APP_GMART_URL}/transfer?${urlSearchLanguageParam}=${t('language')}`,
-          },
-          {
-            label: t('Activity'),
-            href: `${process.env.REACT_APP_GMART_URL}/activity?${urlSearchLanguageParam}=${t('language')}`,
-          },
-        ],
-      },
-      {
-        label: t('mainMenu.more'),
-        icon: 'MoreIcon',
-        items: [
-          // {
-          //   label: 'Audits',
-          //   href: '/audits',
-          // },
-          {
-            label: t('mainMenu.github'),
-            href: 'https://github.com/gravis-finance',
-            external: true,
-          },
-          {
-            label: t('mainMenu.blog'),
-            href: 'https://gravis-finance.medium.com/',
-            external: true,
-          },
-          {
-            label: t('mainMenu.pitchDeck'),
-            href: t('presentationLink'),
-            external: true,
-          },
-          {
-            label: t('mainMenu.tokenomics'),
-            href: 'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
-            external: true,
-          },
-        ],
-      },
-    ],
-    [t]
-  )
+  const links = useGetMenuLinks()
 
   useEffect(() => {
     i18next.changeLanguage(selectedLanguage.toLowerCase())
