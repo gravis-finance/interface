@@ -1,5 +1,6 @@
 import { MenuEntry, urlSearchLanguageParam } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
+import { useActiveWeb3React } from '../../hooks'
 
 const menuLinks: MenuEntry[] = [
   {
@@ -58,7 +59,6 @@ const menuLinks: MenuEntry[] = [
       {
         label: 'mainMenu.NFTFarming',
         href: `${process.env.REACT_APP_NFTFARMING_URL}`,
-        external: true,
       },
       {
         label: 'mainMenu.audit',
@@ -97,22 +97,18 @@ const menuLinks: MenuEntry[] = [
       {
         label: 'buyNFT',
         href: `${process.env.REACT_APP_GMART_URL}/buy`,
-        external: true,
       },
       {
         label: 'sellNFT',
         href: `${process.env.REACT_APP_GMART_URL}/sell`,
-        external: true,
       },
       {
         label: 'sendNFT',
         href: `${process.env.REACT_APP_GMART_URL}/transfer`,
-        external: true,
       },
       {
         label: 'Activity',
         href: `${process.env.REACT_APP_GMART_URL}/activity`,
-        external: true,
       },
     ],
   },
@@ -146,16 +142,21 @@ const menuLinks: MenuEntry[] = [
 
 const useGetMenuLinks = (): MenuEntry[] => {
   const { t } = useTranslation()
+  const { chainId } = useActiveWeb3React()
+
+  const onlyBscLabels = [t('buyNFT'), t('sellNFT'), t('sendNFT'), t('Activity'), t('mainMenu.NFTFarming')]
+
   let newMenuLinks = [...menuLinks]
   newMenuLinks = newMenuLinks.map((link) => {
     const newLink = { ...link }
     newLink.label = t(newLink.label)
-    newLink.href = `${newLink.href}?${urlSearchLanguageParam}=${t('language')}`
+    newLink.href = `${newLink.href}?network=${chainId}&${urlSearchLanguageParam}=${t('language')}`
     if (newLink.items) {
       newLink.items = newLink.items.map((item) => {
         const newItem = { ...item }
         newItem.label = t(newItem.label)
-        newItem.href = `${newItem.href}?${urlSearchLanguageParam}=${t('language')}`
+        if (!onlyBscLabels.includes(newItem.label))
+          newItem.href = `${newItem.href}?network=${chainId}&${urlSearchLanguageParam}=${t('language')}`
         return newItem
       })
     }
