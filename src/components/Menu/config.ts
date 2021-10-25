@@ -1,4 +1,4 @@
-import { getNetworkLabel, getNetworkTitles, MenuEntry, urlSearchLanguageParam } from '@gravis.finance/uikit'
+import { getNetworkTitles, MenuEntry, urlSearchLanguageParam } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { useActiveWeb3React } from '../../hooks'
 
