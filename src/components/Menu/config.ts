@@ -1,4 +1,4 @@
-import { MenuEntry, urlSearchLanguageParam } from '@gravis.finance/uikit'
+import { getNetworkLabel, getNetworkTitles, MenuEntry, urlSearchLanguageParam } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { useActiveWeb3React } from '../../hooks'
 
@@ -85,7 +85,7 @@ const menuLinks: MenuEntry[] = [
       },
       {
         label: 'mainMenu.analytics.analytics',
-        href: `${process.env.REACT_APP_INFO_URL}`,
+        href: `${process.env.REACT_APP_INFO_URL}/home`,
         external: true,
       },
     ],
@@ -143,7 +143,6 @@ const menuLinks: MenuEntry[] = [
 const useGetMenuLinks = (): MenuEntry[] => {
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
-
   const onlyBscLabels = [t('buyNFT'), t('sellNFT'), t('sendNFT'), t('Activity'), t('mainMenu.NFTFarming')]
 
   let newMenuLinks = [...menuLinks]
@@ -155,8 +154,13 @@ const useGetMenuLinks = (): MenuEntry[] => {
       newLink.items = newLink.items.map((item) => {
         const newItem = { ...item }
         newItem.label = t(newItem.label)
-        if (!onlyBscLabels.includes(newItem.label))
-          newItem.href = `${newItem.href}?network=${chainId}&${urlSearchLanguageParam}=${t('language')}`
+        if (!onlyBscLabels.includes(newItem.label)) {
+          if (newItem.label === t('mainMenu.analytics.analytics'))
+            newItem.href = `${newItem.href}?network=${getNetworkTitles().toLowerCase()}&${urlSearchLanguageParam}=${t(
+              'language'
+            )}`
+          else newItem.href = `${newItem.href}?network=${chainId}&${urlSearchLanguageParam}=${t('language')}`
+        }
         return newItem
       })
     }
