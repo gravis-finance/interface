@@ -8,7 +8,7 @@
     "liquidity": "池",
     "migrate": "迁移",
     "analytics": {
-      "analytics": "分析学",
+      "analytics": "DEX 分析学",
       "overview": "概要",
       "tokens": "代币",
       "pairs": "交易对"
@@ -23,7 +23,7 @@
     "pitchDeck": "简报",
     "tokenomics": "代币经济学",
     "NFTFarming": "NFT农业",
-    "nftmarket": "NFT市场"
+    "nftmarket": "Gmart NFT市场"
   },
   "language": "cn",
   "swap": "兑换",
