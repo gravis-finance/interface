@@ -4,6 +4,7 @@
   "MaticInfo": "Просмотр в Matic",
   "mainMenu": {
     "buyLootBoxes": "Купить лутбоксы",
+    "dashboard": "Дашборд",
     "hangar": "Ангар",
     "home": "Главная",
     "trade": "Биржа",
@@ -16,7 +17,7 @@
     "pitchDeck": "Pitch Deck",
     "tokenomics": "Tokenomics",
     "analytics": {
-      "analytics": "Аналитика",
+      "analytics": "DEX аналитика",
       "overview": "Обзор",
       "tokens": "Токены",
       "pairs": "Пары",
@@ -28,7 +29,7 @@
       "angelRound": "Angel Round"
     },
     "NFTFarming": "NFT Фарминг",
-    "nftmarket": "NFT Маркет",
+    "nftmarket": "Gmart NFT Маркет",
     "asteroidMining": "(A)steroid Mining",
     "captainsIno": "Капитаны INO",
     "farming": "Фарминг",
@@ -209,5 +210,5 @@
   "asteroidMining": "(A)steroid Mining",
   "captainsIno": "Капитаны INO",
   "invalidDecimals": "Неверная разрядность",
-  "Audited": "Проверено"
+  "Activity": "Рыночная активность"
 }
