@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Web3Provider } from '@ethersproject/providers'
 
 import getNodeUrl from 'utils/getRpcUrl'
-import { setupNetwork } from 'utils/wallet'
 import { ChainId } from '@gravis.finance/sdk'
 import { NetworkConnector } from '../connectors/NetworkConnector'
 import useParsedQueryString from './useParsedQueryString'
@@ -26,10 +25,9 @@ const useNetwork = () => {
       ? parseInt(process.env.REACT_APP_CHAIN_ID as string)
       : parseInt(network)
 
-  useEffect(() => {
-    if (network && (window as any).ethereum?.networkVersion !== network)
-      setupNetwork(network)
-  }, [network])
+  // useEffect(() => {
+  //   if (network && (window as any).ethereum?.networkVersion !== network) setupNetwork(network)
+  // }, [network])
 
   useEffect(() => {
     const NETWORK_URL = getNodeUrl(newChainId) as any
