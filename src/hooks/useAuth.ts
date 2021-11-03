@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { NoBscProviderError } from '@binance-chain/bsc-connector'
 import {
   NoEthereumProviderError,
@@ -9,7 +9,7 @@ import {
   UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
   WalletConnectConnector,
 } from '@web3-react/walletconnect-connector'
-import { ConnectorNames, connectorLocalStorageKey } from '@gravis.finance/uikit'
+import { connectorLocalStorageKey, ConnectorNames } from '@gravis.finance/uikit'
 import useToast from 'state/hooks'
 import { getConnectorsByName } from '../utils/web3React'
 import { setupNetwork } from '../utils/wallet'
@@ -22,15 +22,15 @@ const useAuth = () => {
   const { activate, deactivate } = useWeb3React()
   const { toastError } = useToast()
 
-  const provider: any = (window as WindowChain).ethereum
+  // const provider: any = (window as WindowChain).ethereum
 
   const login = useCallback(
     (connectorID: ConnectorNames) => {
       const { chainId, connector } = getConnectorsByName(connectorID)
 
-      if (provider?.networkVersion !== chainId) {
-        setupNetwork(chainId)
-      }
+      // if (provider?.networkVersion !== chainId) {
+      //   setupNetwork(chainId)
+      // }
 
       if (connector) {
         activate(connector, async (error: Error) => {
@@ -66,7 +66,7 @@ const useAuth = () => {
         toastError("Can't find connector", 'The connector config is wrong')
       }
     },
-    [activate, provider?.networkVersion, toastError]
+    [activate, toastError]
   )
 
   return { login, logout: deactivate }
