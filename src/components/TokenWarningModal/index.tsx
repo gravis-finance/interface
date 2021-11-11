@@ -14,7 +14,7 @@ import { AutoRow, RowBetween } from '../Row'
 import { AutoColumn } from '../Column'
 
 const Modal = lazy(() => import('../Modal'))
-const { main: Main, blue: Blue } = TYPE
+const { main: Main } = TYPE
 
 const Wrapper = styled.div<{ error: boolean }>`
   // background: ${({ theme }) => transparentize(0.6, theme.colors.tertiary)};
@@ -37,6 +37,17 @@ const StyledWarningIcon = styled(AlertTriangle)`
   stroke: ${({ theme }) => theme.colors.failure};
 `
 
+const StyledExternalLink = styled(ExternalLink)`
+  color: white;
+  text-decoration: none;
+  transition: color 200ms ease-in-out;
+
+  :hover {
+    color: rgb(0, 156, 225);
+    text-decoration: none;
+  }
+`
+
 interface TokenWarningCardProps {
   token?: Token
 }
@@ -48,6 +59,8 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
   const tokenName = token?.name?.toLowerCase() ?? ''
 
   const allTokens = useAllTokens()
+
+  const { t } = useTranslation()
 
   const duplicateNameOrSymbol = useMemo(() => {
     if (!token || !chainId) return false
@@ -77,11 +90,9 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
               : token.name || token.symbol}{' '}
           </Main>
           {chainId && (
-            <ExternalLink style={{ fontWeight: 400 }} href={getExplorerLink(chainId, token.address, 'token')}>
-              <Blue title={token.address}>
-                {shortenAddress(token.address)} (t(`${getExplorerName(chainId)}`))
-              </Blue>
-            </ExternalLink>
+            <StyledExternalLink style={{ fontWeight: 400 }} href={getExplorerLink(chainId, token.address, 'token')}>
+              {shortenAddress(token.address)} ({t(`${getExplorerName(chainId)}`)})
+            </StyledExternalLink>
           )}
         </AutoColumn>
       </AutoRow>

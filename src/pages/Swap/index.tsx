@@ -28,17 +28,20 @@ import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
 import { useExpertModeManager, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
 import { LinkStyledButton, TYPE } from 'components/Shared'
-import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
 import PageHeader from 'components/PageHeader'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from 'react-i18next'
+import { addDataLayerEvent } from 'utils/addDataLayerEvent'
+import { DATA_LAYER_EVENTS } from 'constants/data-layer-events'
+
 import AppBody from '../AppBody'
 import { ReactComponent as ExchangeIcon } from '../../assets/svg/exchange-icon.svg'
 import GravisSpinner from '../../components/GravisSpinner'
 import { usePair } from '../../data/Reserves'
 import TokenInPoolValue from './TokenInPoolValue'
 import { getMulticallFetchedState } from '../../state/multicall/hooks'
+import { useAllTransactions } from '../../state/transactions/hooks'
 
 const { main: Main } = TYPE
 
@@ -163,13 +166,13 @@ const Swap = () => {
 
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount,
+    }
     : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-      }
+      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+    }
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
   const isValid = !swapInputError
@@ -203,6 +206,22 @@ const Swap = () => {
     txHash: undefined,
   })
 
+  // const filterTypedAmount = (providedTypedValue) => {
+  //   const endSymbolIsDot = providedTypedValue.slice(providedTypedValue.length - 1, providedTypedValue.length) === '.'
+  //   const includesDot = providedTypedValue.includes('.')
+  //   console.log(includesDot)
+  //   if (endSymbolIsDot) return providedTypedValue
+  //   if (includesDot && providedTypedValue.split('.')[1].length > 0)
+  //     if (
+  //       providedTypedValue
+  //         .split('.')[1]
+  //         .split('')
+  //         .every((symbol) => symbol === '0')
+  //     )
+  //       return providedTypedValue
+  //   return Number(providedTypedValue).toString()
+  // }
+
   const formattedAmounts = {
     [independentField]: typedValue,
     [dependentField]: showWrap
@@ -229,7 +248,7 @@ const Swap = () => {
     }
   }, [approval, approvalSubmitted])
 
-  const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(chainId as ChainId, currencyBalances[Field.INPUT])
+  const maxAmountInput: CurrencyAmount | undefined = currencyBalances[Field.INPUT]
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
   // the callback to execute the swap
@@ -257,6 +276,7 @@ const Swap = () => {
     setSwapState((prevState) => ({ ...prevState, attemptingTxn: true, swapErrorMessage: undefined, txHash: undefined }))
     swapCallback()
       .then((hash) => {
+        addDataLayerEvent(DATA_LAYER_EVENTS.SWAP)
         setSwapState((prevState) => ({
           ...prevState,
           attemptingTxn: false,
@@ -273,6 +293,17 @@ const Swap = () => {
         }))
       })
   }, [t, priceImpactWithoutFee, swapCallback, setSwapState])
+
+  const transactions = useAllTransactions()
+
+  useEffect(() => {
+    if (txHash)
+      if (transactions[txHash]?.receipt)
+        setSwapState((prevState) => ({
+          ...prevState,
+          showConfirm: false,
+        }))
+  }, [txHash, transactions])
 
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false)
@@ -330,7 +361,11 @@ const Swap = () => {
   return (
     <CardWrapper>
       <TokenWarningModal
-        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
+        isOpen={
+          urlLoadedTokens.length > 0 &&
+          !dismissTokenWarning &&
+          !urlLoadedTokens.find((token) => token.symbol === 'GRVX')
+        }
         tokens={urlLoadedTokens}
         onConfirm={handleConfirmTokenWarning}
       />
@@ -457,21 +492,22 @@ const Swap = () => {
                     {wrapInputError ??
                       (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}
                   </Button>
-                ) : (currencies.INPUT && !currencies.OUTPUT && formattedAmounts[Field.INPUT]) ?
-                    <Card style={{ textAlign: 'center' }}>
-                      <Main style={{ color: '#909090' }}>{t('provideSecondToken')}</Main>
-                    </Card>
-                  : (!currencyBalances.INPUT || !currencyBalances.OUTPUT) &&
-                  (formattedAmounts[Field.INPUT] || formattedAmounts[Field.OUTPUT]) ? (
+                ) : currencies.INPUT && !currencies.OUTPUT && formattedAmounts[Field.INPUT] ? (
+                  <Card style={{ textAlign: 'center' }}>
+                    <Main style={{ color: '#909090' }}>{t('provideSecondToken')}</Main>
+                  </Card>
+                ) : (!currencyBalances.INPUT || !currencyBalances.OUTPUT) &&
+                  (formattedAmounts[Field.INPUT] || formattedAmounts[Field.OUTPUT]) &&
+                  currencies.OUTPUT &&
+                  currencies.INPUT ? (
                   <SpinnerContainer>
                     <GravisSpinner />
                   </SpinnerContainer>
-                )
-                    : !fetchedBlock && formattedAmounts[Field.INPUT] ?
-                      <Card style={{ textAlign: 'center' }}>
-                        <Main style={{ color: '#909090' }}>{t('readingBlockchain')}</Main>
-                      </Card>
-                    : noRoute && userHasSpecifiedInputOutput ? (
+                ) : !fetchedBlock && formattedAmounts[Field.INPUT] ? (
+                  <Card style={{ textAlign: 'center' }}>
+                    <Main style={{ color: '#909090' }}>{t('readingBlockchain')}</Main>
+                  </Card>
+                ) : noRoute && userHasSpecifiedInputOutput ? (
                   <Card style={{ textAlign: 'center' }}>
                     <Main style={{ color: '#909090' }}>{t('insufficientLiquidityForThisTrade')}</Main>
                   </Card>
@@ -518,8 +554,8 @@ const Swap = () => {
                       {priceImpactSeverity > 3 && !isExpertMode
                         ? t('priceImpactTooHigh')
                         : priceImpactSeverity > 2
-                        ? t('swapAnyway')
-                        : t('swap')}
+                          ? t('swapAnyway')
+                          : t('swap')}
                     </Button>
                   </StyledRowBetween>
                 ) : (
@@ -545,8 +581,8 @@ const Swap = () => {
                       (priceImpactSeverity > 3 && !isExpertMode
                         ? t('priceImpactTooHigh')
                         : priceImpactSeverity > 2
-                        ? t('swapAnyway')
-                        : t('swap'))}
+                          ? t('swapAnyway')
+                          : t('swap'))}
                   </Button>
                 )}
                 {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}

@@ -139,14 +139,14 @@ export const MATIC_DAI = new Token(
 export const MATIC_USDC = new Token(
   ChainId.MATICMAINNET,
   '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
-  18,
-  'USDS',
+  6,
+  'USDC',
   'USDC Coin'
 )
 export const MATIC_USDT = new Token(
   ChainId.MATICMAINNET,
   '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
-  18,
+  6,
   'USDT',
   'Tether USD'
 )

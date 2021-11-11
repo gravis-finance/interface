@@ -3,6 +3,9 @@
   "viewOnHecoInfo": "Просмотр в HecoInfo",
   "MaticInfo": "Просмотр в Matic",
   "mainMenu": {
+    "buyLootBoxes": "Купить лутбоксы",
+    "dashboard": "Дашборд",
+    "hangar": "Ангар",
     "home": "Главная",
     "trade": "Биржа",
     "liquidity": "Ликвидность",
@@ -14,7 +17,7 @@
     "pitchDeck": "Pitch Deck",
     "tokenomics": "Tokenomics",
     "analytics": {
-      "analytics": "Аналитика",
+      "analytics": "DEX аналитика",
       "overview": "Обзор",
       "tokens": "Токены",
       "pairs": "Пары",
@@ -26,13 +29,17 @@
       "angelRound": "Angel Round"
     },
     "NFTFarming": "NFT Фарминг",
-    "nftmarket": "NFT Маркет",
+    "nftmarket": "Gmart NFT Маркет",
     "asteroidMining": "(A)steroid Mining",
-    "captainsIno": "Капитаны INO"
+    "captainsIno": "Капитаны INO",
+    "farming": "Фарминг",
+    "staking": "Стейкинг GRVX",
+    "farms": "Фермы",
+    "audit": "Аудит"
   },
   "language": "ru",
   "swap": "Обменять",
-  "presentationLink": "https://gateway.pinata.cloud/ipfs/QmPyzebkCrP7C8R2WhHxnWcoGXoAb6T1dREZHAZkzCUt7F",
+  "presentationLink": "https://gateway.pinata.cloud/ipfs/QmcvjVeZQ3NvokvdT3Bv9kF4k79qsP3GHE2jzoFjfekevS",
   "connect": "Подключиться",
   "account": "Аккаунт",
   "learnHowConnect": "Изучите как подключиться",
@@ -62,8 +69,8 @@
   },
   "transactionDeadline": "Срок выполнения транзакции",
   "questionHelperMessages": {
-    "transactionRevertPending": "Ваша транзакция отменится, если цена изменится в неблагоприятную сторону более чем на этот процент.",
-    "transactionRevert": "Ваша транзакция отменится, если она находится в ожидании более указанного времени.",
+    "transactionRevertPending": "Ваша транзакция отменится, если она находится в ожидании более указанного времени.",
+    "transactionRevert": "Ваша транзакция отменится, если цена изменится в неблагоприятную сторону более чем на этот процент.",
     "findTokenBySearching": "Найдите токен с помощью поиска по его названию или символу или вставьте его адрес ниже.",
     "addCustomToken": "Добавьте пользовательский токен.",
     "transactionWillRevert": "Используйте этот инструмент для поиска пар, которые автоматически не отображаются в интерфейсе.",
@@ -201,5 +208,7 @@
   "NFTFarming": "NFT Фарминг",
   "nftmarket": "NFT Маркет",
   "asteroidMining": "(A)steroid Mining",
-  "captainsIno": "Капитаны INO"
+  "captainsIno": "Капитаны INO",
+  "invalidDecimals": "Неверная разрядность",
+  "Activity": "Рыночная активность"
 }

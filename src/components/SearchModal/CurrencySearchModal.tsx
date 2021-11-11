@@ -25,6 +25,7 @@ interface CurrencySearchModalProps {
   // eslint-disable-next-line react/no-unused-prop-types
   showCommonBases?: boolean
   currencyList?: any
+  loading?: boolean
 }
 
 const WarningContainer = styled.div`
@@ -281,6 +282,7 @@ export default function CurrencySearchModal({
   selectedCurrency,
   otherSelectedCurrency,
   currencyList,
+  loading,
 }: CurrencySearchModalProps) {
   const [listView, setListView] = useState<boolean>(false)
   const lastOpen = useLast(isOpen)
@@ -342,6 +344,7 @@ export default function CurrencySearchModal({
             showCommonBases={false}
             currencyList={currencyList}
             addCustomTokenHandler={addCustomTokenHandler}
+            loading={loading}
           />
         ) : (
           <CurrencySearch
@@ -354,6 +357,7 @@ export default function CurrencySearchModal({
             showCommonBases={false}
             currencyList={currencyList}
             addCustomTokenHandler={addCustomTokenHandler}
+            loading={loading}
           />
         )
       ) : (

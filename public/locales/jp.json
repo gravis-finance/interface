@@ -3,12 +3,15 @@
   "viewOnHecoInfo": "HecoInfoで見る",
   "MaticInfo": "Maticで見る",
   "mainMenu": {
+    "buyLootBoxes": "ルートボックスを購入する",
+    "hangar": "ハンガー",
+    "asteroidMining": "(A)steroid Mining",
     "home": "ホーム",
     "trade": "交換",
     "liquidity": "プール",
     "migrate": "移行",
     "analytics": {
-      "analytics": "アナリティクス",
+      "analytics": "DEX アナリティクス",
       "overview": "概要",
       "tokens": "トークン",
       "pairs": "ペア"
@@ -23,13 +26,13 @@
     "pitchDeck": "ピッチデッキ",
     "tokenomics": "トケノミクス",
     "NFTFarming": "NFTファーミング",
-    "nftmarket": "NFTマーケット",
+    "nftmarket": "Gmart NFTマーケット",
     "captainsIno": "キャプテン INO",
     "docs": "Docs"
   },
   "language": "jp",
   "swap": "スワップ",
-  "presentationLink": "https://gateway.pinata.cloud/ipfs/QmPyzebkCrP7C8R2WhHxnWcoGXoAb6T1dREZHAZkzCUt7F",
+  "presentationLink": "https://gateway.pinata.cloud/ipfs/QmcvjVeZQ3NvokvdT3Bv9kF4k79qsP3GHE2jzoFjfekevS",
   "connect": "接続する",
   "account": "アカウント",
   "learnHowConnect": "接続方法について学ぶ",
@@ -195,5 +198,6 @@
   "buyNFT": "NFTを購入",
   "sellNFT": "NFTを売る",
   "sendNFT": "NFTの送信",
-  "NFTFarming": "NFTファーミング"
+  "NFTFarming": "NFTファーミング",
+  "invalidDecimals": "小数点以下の値が無効です。"
 }

@@ -15,12 +15,15 @@ export interface TagInfo extends TagDetails {
 export class WrappedTokenInfo extends Token {
   public readonly tokenInfo: TokenInfo
 
+  public lpTokenExchangeName: string | undefined
+
   public readonly tags: TagInfo[]
 
-  constructor(tokenInfo: TokenInfo, tags: TagInfo[]) {
+  constructor(tokenInfo: TokenInfo, tags: TagInfo[], lpTokenExchangeName?: string) {
     super(tokenInfo.chainId, tokenInfo.address, tokenInfo.decimals, tokenInfo.symbol, tokenInfo.name)
     this.tokenInfo = tokenInfo
     this.tags = tags
+    this.lpTokenExchangeName = lpTokenExchangeName
   }
 
   public get logoURI(): string | undefined {

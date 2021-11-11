@@ -95,6 +95,50 @@ function TokenTags({ currency }: { currency: Currency }) {
   )
 }
 
+const HotContainer = styled.div`
+  height: auto;
+  padding: 0px 4px;
+  color: white;
+  align-items: center;
+  background-color: transparent;
+  border: 2px solid rgb(235, 149, 0);
+  border-radius: 16px;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 400;
+  height: 22px;
+  line-height: 1.5;
+  padding: 0px 8px;
+  white-space: nowrap;
+  margin-left: 8px;
+  position: relative;
+  overflow: hidden;
+  
+  :after {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: -1px;
+    width: 10px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.5);
+    transform: skew(-30deg);
+    animation: shine-hot 2s ease-in-out infinite;
+  }
+  
+  @keyframes shine-hot {
+    0% {
+      left: -12px;
+    }
+    50% {
+      left: 100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+`
+
 function CurrencyRow({
   currency,
   onSelect,
@@ -137,7 +181,7 @@ function CurrencyRow({
     >
       <CurrencyLogo currency={currency} size="24px" />
       <Column>
-        <Text style={{ display: 'flex' }}>
+        <Text style={{ display: 'flex', alignItems: 'center' }}>
           <span title={currency.name}>{currency.symbol} </span>
           {!isOnSelectedList && customAdded && !isWrappedCurrency ? (
             <Main fontWeight={500}>
@@ -151,11 +195,16 @@ function CurrencyRow({
               </LinkStyledButton>
             </Main>
           ) : null}
-          {isWrappedCurrency && (
+          {isWrappedCurrency && !window.location.pathname.includes('migrate') && (
             <Tooltip placement="right" title={t('addToMetamask')}>
               <AddButton ml={2} onClick={onAddCurrencyToMetamask} />
             </Tooltip>
           )}
+          {currency.symbol === "GRVX" &&
+            <HotContainer>
+              HOT
+            </HotContainer>
+          }
         </Text>
         <FadedSpan>
           {/* {!isOnSelectedList && !customAdded && !(currency instanceof WrappedTokenInfo) ? (

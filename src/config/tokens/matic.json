@@ -11,6 +11,14 @@
   "keywords": ["gravis", "default"],
   "tokens": [
     {
+      "name": "GRAVIS X TOKEN",
+      "symbol": "GRVX",
+      "address": "0xD322da59C420E0827e31C40f1886346FB19c6687",
+      "chainId": 137,
+      "decimals": 18,
+      "logoURI": "/images/coins/GRVX.png"
+    },
+    {
       "name": "DAI",
       "symbol": "DAI",
       "address": "0x74dB81ee72b471c175E115993F929B113151C85d",

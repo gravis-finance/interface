@@ -21,6 +21,7 @@ import { filterTokens } from './filtering'
 import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
+import GravisSpinner from '../GravisSpinner'
 
 const { main: Main } = TYPE
 
@@ -34,6 +35,7 @@ interface CurrencySearchProps {
   onChangeList: () => void
   currencyList?: any
   addCustomTokenHandler?: () => void
+  loading?: boolean
 }
 
 const StyledRowBetween = styled.div`
@@ -92,6 +94,13 @@ const NothingFoundContainer = styled.div`
   }
 `
 
+const SpinnerContainer = styled.div`
+  width: 100%;
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+`
+
 export function CurrencySearch({
   selectedCurrency,
   onCurrencySelect,
@@ -102,6 +111,7 @@ export function CurrencySearch({
   onChangeList,
   currencyList,
   addCustomTokenHandler,
+  loading,
 }: CurrencySearchProps) {
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
@@ -139,6 +149,9 @@ export function CurrencySearch({
       .split(/\s+/)
       .filter((s) => s.length > 0)
     if (symbolMatch.length > 1) return sorted
+
+    if(filteredTokens.find(token=>token.symbol === 'GRVX'))
+      filteredTokens.unshift(...filteredTokens.splice(filteredTokens.findIndex(token=>token.symbol === 'GRVX'),1))
 
     return [
       ...(searchToken ? [searchToken] : []),
@@ -193,6 +206,12 @@ export function CurrencySearch({
 
   const handleRemove = () => setSearchQuery('')
 
+  // useEffect(() => {
+  //   console.log('filteredSortedTokens', filteredSortedTokens.find(token=>token.symbol === 'GRVX'))
+  //   if(filteredSortedTokens.find(token=>token.symbol === 'GRVX'))
+  //     filteredSortedTokens.unshift(...filteredSortedTokens.splice(filteredSortedTokens.findIndex(token=>token.symbol === 'GRVX'),1))
+  // }, [filteredSortedTokens])
+
   return (
     <>
       <Column style={{ width: '100%', flex: '1 1' }}>
@@ -218,10 +237,12 @@ export function CurrencySearch({
               onKeyDown={handleEnter}
             />
             {/* TODO Remove display: none */}
-            <StyledAddCustomToken onClick={addCustomTokenHandler} data-id="add-custom-token-button">
-              <AddIcon />
-              <QuestionHelper text={t('questionHelperMessages.addCustomToken')} />
-            </StyledAddCustomToken>
+            {!window.location.pathname.includes('migrate') && (
+              <StyledAddCustomToken onClick={addCustomTokenHandler} data-id="add-custom-token-button">
+                <AddIcon />
+                <QuestionHelper text={t('questionHelperMessages.addCustomToken')} />
+              </StyledAddCustomToken>
+            )}
             <StyledRemoveIcon onClick={handleRemove} data-id="clear-search-button">
               {searchQuery.length > 0 && <CloseIcon />}
             </StyledRemoveIcon>
@@ -238,37 +259,44 @@ export function CurrencySearch({
             </RowBetween>
           </StyledRowBetween>
         </PaddedColumn>
-        {/* TODO Remove display: none */}
-        {filteredSortedTokens.length === 0 && (
+        {filteredSortedTokens.length === 0 && !loading && (
           <NothingFoundContainer>
             <div>
               <Text>
                 {t('nothingFound')}
                 {/* . Use Add Custom Token feature. */}
               </Text>
-              <Button onClick={addCustomTokenHandler}>
-                <AddIcon style={{ marginRight: '8px' }} />
-                {t('addToken')}
-              </Button>
+              {!window.location.pathname.includes('migrate') && (
+                <Button onClick={addCustomTokenHandler}>
+                  <AddIcon style={{ marginRight: '8px' }} />
+                  {t('addToken')}
+                </Button>
+              )}
             </div>
           </NothingFoundContainer>
         )}
 
-        <StyledCurrencyList>
-          <AutoSizer disableWidth>
-            {({ height }) => (
-              <CurrencyList
-                height={height}
-                showETH={showETH}
-                currencies={filteredSortedTokens}
-                onCurrencySelect={handleCurrencySelect}
-                otherCurrency={otherSelectedCurrency}
-                selectedCurrency={selectedCurrency}
-                fixedListRef={fixedList}
-              />
-            )}
-          </AutoSizer>
-        </StyledCurrencyList>
+        {loading ? (
+          <SpinnerContainer>
+            <GravisSpinner />
+          </SpinnerContainer>
+        ) : (
+          <StyledCurrencyList>
+            <AutoSizer disableWidth>
+              {({ height }) => (
+                <CurrencyList
+                  height={height}
+                  showETH={showETH}
+                  currencies={filteredSortedTokens}
+                  onCurrencySelect={handleCurrencySelect}
+                  otherCurrency={otherSelectedCurrency}
+                  selectedCurrency={selectedCurrency}
+                  fixedListRef={fixedList}
+                />
+              )}
+            </AutoSizer>
+          </StyledCurrencyList>
+        )}
 
         {null && (
           <>

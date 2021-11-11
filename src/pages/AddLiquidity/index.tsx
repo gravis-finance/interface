@@ -22,7 +22,7 @@ import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
 
-import { useTransactionAdder } from 'state/transactions/hooks'
+import { useAllTransactions, useTransactionAdder } from 'state/transactions/hooks'
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'utils'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
@@ -31,6 +31,9 @@ import { currencyId } from 'utils/currencyId'
 import Pane from 'components/Pane'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { ROUTER_ADDRESS } from 'config/contracts'
+import { addDataLayerEvent } from 'utils/addDataLayerEvent'
+import { DATA_LAYER_EVENTS } from 'constants/data-layer-events'
+
 import AppBody from '../AppBody'
 import { Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
@@ -90,8 +93,8 @@ export default function AddLiquidity({
 
   const oneCurrencyIsWETH = Boolean(
     chainId &&
-      ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
-        (currencyB && currencyEquals(currencyB, WETH[chainId])))
+    ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
+      (currencyB && currencyEquals(currencyB, WETH[chainId])))
   )
   const expertMode = useIsExpertMode()
 
@@ -240,12 +243,12 @@ export default function AddLiquidity({
           gasLimit: calculateGasMargin(estimatedGasLimit),
         })
           .then((response) => {
+            response.wait().then(() => addDataLayerEvent(DATA_LAYER_EVENTS.ADD_LIQUIDITY, value?.toString()))
             setAttemptingTxn(false)
 
             addTransaction(response, {
-              summary: `{{add}} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
-                currencies[Field.CURRENCY_A]?.symbol
-              } {{and}} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
+              summary: `{{add}} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${currencies[Field.CURRENCY_A]?.symbol
+                } {{and}} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
             })
 
             setTxHash(response.hash)
@@ -269,9 +272,8 @@ export default function AddLiquidity({
       })
   }
 
-  const pendingText = `${t('supplying')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
-    currencies[Field.CURRENCY_A]?.symbol
-  } ${t('and')} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
+  const pendingText = `${t('supplying')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencies[Field.CURRENCY_A]?.symbol
+    } ${t('and')} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
 
   const handleCurrencyASelect = useCallback(
     (currA: Currency) => {
@@ -320,6 +322,12 @@ export default function AddLiquidity({
     if (approvalA === ApprovalState.APPROVED) setApprovalArray([approvalB === ApprovalState.APPROVED])
     if (approvalB === ApprovalState.APPROVED) setApprovalArray([approvalA === ApprovalState.APPROVED])
   }, [approvalA, approvalB])
+
+  const transactions = useAllTransactions()
+
+  useEffect(() => {
+    if (txHash) if (transactions[txHash]?.receipt) setShowConfirm(false)
+  }, [txHash, transactions])
 
   return (
     <CardWrapper>
