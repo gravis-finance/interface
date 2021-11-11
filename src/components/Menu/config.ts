@@ -156,7 +156,7 @@ const useGetMenuLinks = (): MenuEntry[] => {
         newItem.label = t(newItem.label)
         if (!onlyBscLabels.includes(newItem.label)) {
           if (newItem.label === t('mainMenu.analytics.analytics'))
-            newItem.href = `${newItem.href}?network=${getNetworkTitles()?.toLowerCase()}&${urlSearchLanguageParam}=${t(
+            newItem.href = `${newItem.href}?network=${getNetworkTitles().toLowerCase()}&${urlSearchLanguageParam}=${t(
               'language'
             )}`
           else newItem.href = `${newItem.href}?network=${chainId}&${urlSearchLanguageParam}=${t('language')}`
