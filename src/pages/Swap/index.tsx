@@ -32,6 +32,9 @@ import { computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
 import PageHeader from 'components/PageHeader'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from 'react-i18next'
+import { addDataLayerEvent } from 'utils/addDataLayerEvent'
+import { DATA_LAYER_EVENTS } from 'constants/data-layer-events'
+
 import AppBody from '../AppBody'
 import { ReactComponent as ExchangeIcon } from '../../assets/svg/exchange-icon.svg'
 import GravisSpinner from '../../components/GravisSpinner'
@@ -163,13 +166,13 @@ const Swap = () => {
 
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount,
+    }
     : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-      }
+      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+    }
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
   const isValid = !swapInputError
@@ -273,6 +276,7 @@ const Swap = () => {
     setSwapState((prevState) => ({ ...prevState, attemptingTxn: true, swapErrorMessage: undefined, txHash: undefined }))
     swapCallback()
       .then((hash) => {
+        addDataLayerEvent(DATA_LAYER_EVENTS.SWAP)
         setSwapState((prevState) => ({
           ...prevState,
           attemptingTxn: false,
@@ -550,8 +554,8 @@ const Swap = () => {
                       {priceImpactSeverity > 3 && !isExpertMode
                         ? t('priceImpactTooHigh')
                         : priceImpactSeverity > 2
-                        ? t('swapAnyway')
-                        : t('swap')}
+                          ? t('swapAnyway')
+                          : t('swap')}
                     </Button>
                   </StyledRowBetween>
                 ) : (
@@ -577,8 +581,8 @@ const Swap = () => {
                       (priceImpactSeverity > 3 && !isExpertMode
                         ? t('priceImpactTooHigh')
                         : priceImpactSeverity > 2
-                        ? t('swapAnyway')
-                        : t('swap'))}
+                          ? t('swapAnyway')
+                          : t('swap'))}
                   </Button>
                 )}
                 {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}

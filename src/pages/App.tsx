@@ -1,15 +1,13 @@
-import React, { Suspense, lazy, useEffect, useRef, useCallback } from 'react'
+import React, { lazy, Suspense, useEffect } from 'react'
 import { Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import {
   getNetworkId,
+  NetworksConfigObject,
+  networksName,
   NetworkSwitchError,
   NotFound,
   useModal,
-  Modal,
-  Button,
-  NetworksConfigObject,
-  networksName,
 } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 
@@ -24,7 +22,6 @@ import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import Menu from '../components/Menu'
 import PageLoader from '../components/PageLoader'
 import Web3ReactManager from '../components/Web3ReactManager'
-import Spinner from '../components/GravisSpinner'
 
 const Pool = lazy(() => import('./Pool'))
 const PoolFinder = lazy(() => import('./PoolFinder'))
@@ -123,30 +120,6 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
   // don't add openModal and onDismiss to useEffect deps as it cause bugs
   const [openErrorModal, onDismissErrorModal] = useModal(errorModal, false)
 
-  const handleConfirm = useCallback(() => {
-    if (chainId !== providerChainId && chainId && providerChainId) {
-      openErrorModal()
-    }
-  }, [chainId, providerChainId]) // eslint-disable-line
-
-  const loadingNetworkModal = React.useMemo(
-    () => (
-      <Modal
-        hideCloseButton
-        styledModalContent={{ padding: 30, display: 'flex', alignItems: 'center' }}
-        title={t('confirmNetworkChange')}
-      >
-        <Spinner width="120px" />
-        <Button marginTop="30px" onClick={handleConfirm}>
-          {t('continue')}
-        </Button>
-      </Modal>
-    ),
-    [t, handleConfirm]
-  )
-
-  const [openLoadingNetworkModal, onDismissLoadingNetworkModal] = useModal(loadingNetworkModal, false)
-
   React.useEffect(() => {
     const handleChange = (newChainId) => {
       setProviderChainId(parseInt(newChainId, 16).toString())
@@ -154,16 +127,11 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
     provider?.on('chainChanged', handleChange)
   }, [provider]) // eslint-disable-line
 
-  const timeoutId = useRef<any>()
-
   useEffect(() => {
     if (!account) return
     if (chainId !== providerChainId && chainId && providerChainId) {
-      openLoadingNetworkModal()
-      timeoutId.current = setTimeout(() => openErrorModal(), 10000)
+      openErrorModal()
     } else {
-      clearTimeout(timeoutId.current)
-      onDismissLoadingNetworkModal()
       onDismissErrorModal()
     }
   }, [account, chainId, providerChainId]) // eslint-disable-line
