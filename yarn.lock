@@ -2232,16 +2232,16 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/uikit@^1.2.95":
-  version "1.2.95"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.2.95.tgz#323c8bff9e54c0e72d2b0c7173872c073322d26e"
-  integrity sha512-dR379nlJECro8Z7cKJAV6aFqu97XSGqup/4WoQe/UWOEEA/05oe2nNTPU/5sMos5zrG3i3TC5DovLmdwxUFKxw==
+"@gravis.finance/uikit@^1.2.99":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.3.0.tgz#c9f75957355440697237000a0f83c90c84c257b9"
+  integrity sha512-bka7kdmHUzOVEYNcA3jiKbHuz2nVrWgruVr6wujWog0ANV4JMr7pxv3DB2g6TZZC2UbJ6Oq9ROZFZPjF7PG6XQ==
   dependencies:
     "@gravis.finance/sdk" "^1.0.13"
     "@popperjs/core" "^2.9.2"
     "@types/lodash" "^4.14.162"
     "@types/styled-system" "^5.1.10"
-    cb-datatable "^4.0.10"
+    cb-datatable "^4.0.11"
     lodash "^4.17.20"
     react-device-detect "^1.17.0"
     react-lottie-player "^1.3.1"
@@ -7229,10 +7229,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cb-datatable@^4.0.10:
-  version "4.0.10"
-  resolved "https://registry.yarnpkg.com/cb-datatable/-/cb-datatable-4.0.10.tgz#3cdcb7fd4961ef8e956bad301ed550dbd9d87dcb"
-  integrity sha512-nn58IukPur0xzE+5Mxc8fkqB6EDW9oUQuqrxURRbfFlBIcDjQcxqkEcmfujRSNf6oQsIBFel0XJPdP2uzYV6ig==
+cb-datatable@^4.0.11:
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/cb-datatable/-/cb-datatable-4.0.11.tgz#3162a3cdd457a696ebbaed736618a1bb2ec22d95"
+  integrity sha512-5GGDThXHkF8cKpiNUM89QswmdzlYZcD1+2pgnAWHezjuIUKYd4onRSGsMJmuXZlssVcRSDApu1fUr+shdbq4lg==
   dependencies:
     "@types/react-is" "^17.0.2"
     clsx "^1.1.1"

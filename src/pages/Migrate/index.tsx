@@ -20,6 +20,9 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { WrappedTokenInfo } from 'state/lists/hooks'
 import { VAMPIRE_ADDRESS } from 'config/contracts'
 import { useToken } from 'hooks/Tokens'
+import { addDataLayerEvent } from 'utils/addDataLayerEvent'
+import { DATA_LAYER_EVENTS } from 'constants/data-layer-events'
+
 import { Dots } from '../Pool/styleds'
 import AppBody from '../AppBody'
 import ComingSoon from './ComingSoon'
@@ -146,9 +149,8 @@ function Migrate() {
       const info = new WrappedTokenInfo(
         {
           name: `${filteredTokenInfo[i]?.left?.name} / ${filteredTokenInfo[i]?.right?.name} LP Token`,
-          symbol: `${validateExchangeName(filteredTokenInfo[i])} ${filteredTokenInfo[i]?.left?.symbol} / ${
-            filteredTokenInfo[i]?.right?.symbol
-          } LP`,
+          symbol: `${validateExchangeName(filteredTokenInfo[i])} ${filteredTokenInfo[i]?.left?.symbol} / ${filteredTokenInfo[i]?.right?.symbol
+            } LP`,
           address: tokenList[i].address,
           chainId: id,
           decimals: 18,
@@ -247,6 +249,7 @@ function Migrate() {
         vampire
           .deposit(...args, { from: account, gasLimit: estimatedGasLimit })
           .then((resp) => {
+            resp.wait().then(() => addDataLayerEvent(DATA_LAYER_EVENTS.MIGRATE))
             addTransaction(resp, {
               summary: `{{mainMenu.migrate}} ${activeToken.symbol}`,
             })
@@ -350,7 +353,7 @@ function Migrate() {
                               !isValid ||
                               approval !== ApprovalState.APPROVED ||
                               Number(typedValue.slice(0, currencyBalance?.toSignificant(6).length)) >
-                                Number(currencyBalance?.toSignificant(6)) ||
+                              Number(currencyBalance?.toSignificant(6)) ||
                               attemptingTxn
                             }
                             variant={parsedAmount ? 'primary' : 'danger'}
