@@ -22,7 +22,7 @@
     "blog": "博客",
     "pitchDeck": "简报",
     "tokenomics": "代币经济学",
-    "NFTFarming": "NFT农业",
+    "NFTFarming": "Big Bang农业",
     "nftmarket": "Gmart NFT市场"
   },
   "language": "cn",
@@ -193,6 +193,6 @@
   "buyNFT": "购买NFT",
   "sellNFT": "卖掉NFT",
   "sendNFT": "发送NFT",
-  "NFTFarming": "NFT农业",
+  "NFTFarming": "Big Bang农业",
   "invalidDecimals": "无效小数"
 }
