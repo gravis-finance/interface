@@ -17,17 +17,26 @@ const menuLinks: MenuEntry[] = [
       {
         label: 'mainMenu.buyLootBoxes',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
-        external: true,
       },
       {
         label: 'mainMenu.hangar',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar`,
-        external: true,
+      },
+      {
+        label: 'mainMenu.getResources',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/resources`,
+      },
+      {
+        label: 'mainMenu.dailyRewards',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/daily-rewards`,
+      },
+      {
+        label: 'mainMenu.leaderboard',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/leaderboard`,
       },
       {
         label: 'mainMenu.dashboard',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/dashboard`,
-        external: true,
       },
       {
         label: '(A)steroid pitch deck',
