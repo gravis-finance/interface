@@ -54,7 +54,6 @@ export default createReducer(initialState, (builder) =>
   builder
     .addCase(fetchTokenList.pending, (state, { payload: { requestId, url, refetch } }) => {
       state.byUrl[url] = {
-        pendingUpdate: null,
         ...state.byUrl[url],
         loadingRequestId: requestId,
         error: null,

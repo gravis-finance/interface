@@ -1,6 +1,8 @@
 import { ChainId } from '@gravis.finance/sdk'
 
-const ROUTER_ADDRESS: { [chainId in ChainId]: string } = {
+import { ChainIdType } from 'constants/chain'
+
+const ROUTER_ADDRESS: { [chainId in ChainIdType]: string } = {
   [ChainId.MAINNET]: '0x03a2F8F90B219732757472BB54801a82f33A8d0D',
   [ChainId.BSCTESTNET]: '0x354bc1cFe9959b96beD409859a726263C6C56C81',
   [ChainId.HECOMAINNET]: '0x03a2F8F90B219732757472BB54801a82f33A8d0D',

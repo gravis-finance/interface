@@ -138,7 +138,7 @@ export function useDerivedMintInfo(
     if (pair && totalSupply && tokenAmountA && tokenAmountB) {
       try {
         return pair.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB)
-      } catch (e) {
+      } catch (e: any) {
         liquidityMintedError.current = e
         // eslint-disable-next-line no-console
         console.log(e)

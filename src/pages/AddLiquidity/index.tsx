@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, isEther, TokenAmount, WETH, ChainId } from '@gravis.finance/sdk'
-import { BorderedAddIcon, Button, CardBody, Text, Text as UIKitText, useModal } from '@gravis.finance/uikit'
+import { BorderedAddIcon, Button, CardBody, Text, Text as UIKitText, useModal, Spinner } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { RouteComponentProps } from 'react-router-dom'
 import Card from 'components/Card'
@@ -38,7 +38,6 @@ import AppBody from '../AppBody'
 import { Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { PoolPriceBar } from './PoolPriceBar'
-import GravisSpinner from '../../components/GravisSpinner'
 import ProgressSteps from '../../components/ProgressSteps'
 import { TransactionErrorModal } from '../../components/TransactionErrorModal'
 
@@ -185,7 +184,7 @@ export default function AddLiquidity({
 
   const addTransaction = useTransactionAdder()
 
-  async function onAdd() {
+  const onAdd = async () => {
     if (!chainId || !library || !account) return
     const router = getRouterContract(chainId, library, account)
 
@@ -482,7 +481,7 @@ export default function AddLiquidity({
                           >
                             {approvalA === ApprovalState.PENDING ? (
                               <AutoRow gap="6px" justify="center">
-                                {t('approving')} {currencies[Field.CURRENCY_A]?.symbol} <GravisSpinner small />
+                                {t('approving')} {currencies[Field.CURRENCY_A]?.symbol} <Spinner size={30} />
                               </AutoRow>
                             ) : (
                               `${t('approve')} ${currencies[Field.CURRENCY_A]?.symbol}`
@@ -498,7 +497,7 @@ export default function AddLiquidity({
                           >
                             {approvalB === ApprovalState.PENDING ? (
                               <AutoRow gap="6px" justify="center">
-                                {t('approving')} {currencies[Field.CURRENCY_B]?.symbol} <GravisSpinner small />
+                                {t('approving')} {currencies[Field.CURRENCY_B]?.symbol} <Spinner size={30} />
                               </AutoRow>
                             ) : (
                               `${t('approve')} ${currencies[Field.CURRENCY_B]?.symbol}`

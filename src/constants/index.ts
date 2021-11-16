@@ -1,8 +1,10 @@
 import { ChainId, Token, WETH } from '@gravis.finance/sdk'
 
+import { ChainIdType } from 'constants/chain'
+
 // a list of tokens by chain
 type ChainTokenList = {
-  readonly [chainId in ChainId]: Token[]
+  readonly [chainId in ChainIdType]: Token[]
 }
 
 //  BSC Mainnet Basic Tokens

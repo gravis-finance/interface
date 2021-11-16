@@ -1,10 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text } from '@gravis.finance/uikit'
+import { Text, Spinner } from '@gravis.finance/uikit'
 import styled from 'styled-components'
 import { AutoColumn } from '../Column'
 import { Wrapper, Section, ConfirmedIcon, ContentHeader } from './helpers'
-import GravisSpinner from '../GravisSpinner'
 
 type ConfirmationPendingContentProps = { onDismiss: () => void; pendingText: string }
 
@@ -19,7 +18,7 @@ const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPend
       <StyledSection>
         <ContentHeader onDismiss={onDismiss}>{t('waitingConfirmation')}</ContentHeader>
         <ConfirmedIcon>
-          <GravisSpinner />
+          <Spinner size={80} />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify="center" style={{ padding: '24px 24px 0 24px' }}>
           <AutoColumn gap="12px" justify="center" style={{ textAlign: 'center' }}>
