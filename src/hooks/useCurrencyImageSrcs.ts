@@ -1,5 +1,8 @@
 import React from 'react'
 import { BASE_CURRENCIES, ChainId, Token } from '@gravis.finance/sdk'
+
+import { ChainIdType } from 'constants/chain'
+
 import useHttpLocations from './useHttpLocations'
 import { WrappedTokenInfo } from '../state/lists/hooks'
 import { useActiveWeb3React } from './index'
@@ -7,7 +10,7 @@ import BNBLogo from '../assets/images/binance-logo.png'
 import HTlogo from '../assets/images/heco-logo.png'
 import MATIClogo from '../assets/images/matic-logo.png'
 
-const BaseLogo: { [chainId in ChainId]: string } = {
+const BaseLogo: { [chainId in ChainIdType]: string } = {
   [ChainId.MAINNET]: BNBLogo,
   [ChainId.BSCTESTNET]: BNBLogo,
   [ChainId.HECOMAINNET]: HTlogo,

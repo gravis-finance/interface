@@ -1,6 +1,8 @@
 import { ChainId } from '@gravis.finance/sdk'
 
-const VAMPIRE_ADDRESS: { [chainId in ChainId]: string } = {
+import { ChainIdType } from 'constants/chain'
+
+const VAMPIRE_ADDRESS: { [chainId in ChainIdType]: string } = {
   [ChainId.MAINNET]: '0x726393977787a41fd350299ed6214f84ca31a9c8',
   [ChainId.BSCTESTNET]: '0xC93a47e2fA4B5BD6ACFE8f8AcD8fe68aC568919d',
   [ChainId.HECOMAINNET]: '0xAe3c67D35848D9f9375349e1E5667FF3079C0E55',

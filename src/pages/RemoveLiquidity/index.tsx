@@ -162,7 +162,7 @@ const RemoveLiquidity = ({
     parsedAmounts[Field.LIQUIDITY],
     chainId && ROUTER_ADDRESS[chainId]
   )
-  async function onAttemptToApprove() {
+  const onAttemptToApprove = async () => {
     if (!pairContract || !pair || !library) throw new Error('missing dependencies')
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
@@ -245,7 +245,7 @@ const RemoveLiquidity = ({
 
   // tx sending
   const addTransaction = useTransactionAdder()
-  async function onRemove() {
+  const onRemove = async () => {
     if (!chainId || !library || !account) throw new Error('missing dependencies')
     const { [Field.CURRENCY_A]: currencyAmountA, [Field.CURRENCY_B]: currencyAmountB } = parsedAmounts
     if (!currencyAmountA || !currencyAmountB) {

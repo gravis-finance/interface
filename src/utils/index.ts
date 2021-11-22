@@ -4,7 +4,10 @@ import { AddressZero } from '@ethersproject/constants'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, isEther } from '@gravis.finance/sdk'
+
 import { ROUTER_ADDRESS, ROUTER_ABI } from 'config/contracts'
+import { ChainIdType } from 'constants/chain'
+
 import { TokenAddressMap } from '../state/lists/hooks'
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -16,7 +19,7 @@ export function isAddress(value: any): string | false {
   }
 }
 
-const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
+const EXPLORER_PREFIXES: { [chainId in ChainIdType]: string } = {
   [ChainId.MAINNET]: '',
   [ChainId.BSCTESTNET]: 'testnet.',
   [ChainId.HECOMAINNET]: '',
@@ -25,7 +28,7 @@ const EXPLORER_PREFIXES: { [chainId in ChainId]: string } = {
   [ChainId.MATICTESTNET]: 'explorer-mumbai.',
 }
 
-const EXPLORER_URLS: { [chainId in ChainId]: string } = {
+const EXPLORER_URLS: { [chainId in ChainIdType]: string } = {
   [ChainId.MAINNET]: 'bscscan.com',
   [ChainId.BSCTESTNET]: 'bscscan.com',
   [ChainId.HECOMAINNET]: 'hecoinfo.com',
@@ -34,7 +37,7 @@ const EXPLORER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.MATICTESTNET]: 'maticvigil.com',
 }
 
-const EXPLORER_NAMES: { [chainId in ChainId]: string } = {
+const EXPLORER_NAMES: { [chainId in ChainIdType]: string } = {
   [ChainId.MAINNET]: 'viewOnBscscan',
   [ChainId.BSCTESTNET]: 'viewOnBscscan',
   [ChainId.HECOMAINNET]: 'viewOnHecoInfo',
