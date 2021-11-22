@@ -2,7 +2,7 @@ import { Currency } from '@gravis.finance/sdk'
 import React, { lazy, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { AddIcon, Button, CloseIcon, Flex, IconButton, Input, Text, ArrowBackIcon } from '@gravis.finance/uikit'
+import { AddIcon, Button, CloseIcon, Flex, IconButton, Input, Text, ArrowBackIcon, Spinner } from '@gravis.finance/uikit'
 import useLast from '../../hooks/useLast'
 import { useSelectedListUrl } from '../../state/lists/hooks'
 import { CurrencySearch } from './CurrencySearch'
@@ -11,7 +11,6 @@ import { PaddedColumn, Separator } from './styleds'
 import { RowBetween } from '../Row'
 import Column from '../Column'
 import { useToken } from '../../hooks/Tokens'
-import GravisSpinner from '../GravisSpinner'
 import { useAddUserToken, useUserAddedTokens } from '../../state/user/hooks'
 
 const Modal = lazy(() => import('../Modal'))
@@ -227,7 +226,7 @@ const AddCustomTokenModal = ({ onDismiss }) => {
                 (tokenAddress?.length as number) > 0 &&
                 errorMessage.length === 0 && (
                   <SpinnerContainer>
-                    <GravisSpinner small />
+                    <Spinner size={30} />
                   </SpinnerContainer>
                 )}
               {errorMessage && <ErrorText>{errorMessage}</ErrorText>}

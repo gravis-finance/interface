@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { CheckmarkCircleIcon, Flex, LinkExternal, Text, Modal, ErrorCircleIcon, Button } from '@gravis.finance/uikit'
+import { CheckmarkCircleIcon, Flex, LinkExternal, Text, Modal, ErrorCircleIcon, Button, Spinner } from '@gravis.finance/uikit'
 import styled from 'styled-components'
 
 import { useActiveWeb3React } from 'hooks'
@@ -8,7 +8,6 @@ import useTranslateSummary from 'hooks/useTranslateSummary'
 import { isTransactionRecent, useAllTransactions } from 'state/transactions/hooks'
 import { TransactionDetails } from 'state/transactions/reducer'
 import { useTranslation } from 'react-i18next'
-import GravisSpinner from '../GravisSpinner'
 
 const StyledWrapper = styled.div`
   max-width: 450px;
@@ -41,7 +40,7 @@ const getRowStatus = (sortedRecentTransaction: TransactionDetails) => {
   const { hash, receipt } = sortedRecentTransaction
 
   if (!hash) {
-    return { icon: <GravisSpinner small />, color: 'text' }
+    return { icon: <Spinner size={30} />, color: 'text' }
   }
 
   if (hash && receipt?.status === 1) {

@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components'
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, Trade } from '@gravis.finance/sdk'
 import { ArrowDown } from 'react-feather'
-import { Button, CardBody, Flex, Text } from '@gravis.finance/uikit'
+import { Button, CardBody, Flex, Text, Spinner } from '@gravis.finance/uikit'
 
 import AddressInputPanel from 'components/AddressInputPanel'
 import Card from 'components/Card'
@@ -37,7 +37,6 @@ import { DATA_LAYER_EVENTS } from 'constants/data-layer-events'
 
 import AppBody from '../AppBody'
 import { ReactComponent as ExchangeIcon } from '../../assets/svg/exchange-icon.svg'
-import GravisSpinner from '../../components/GravisSpinner'
 import { usePair } from '../../data/Reserves'
 import TokenInPoolValue from './TokenInPoolValue'
 import { getMulticallFetchedState } from '../../state/multicall/hooks'
@@ -501,7 +500,7 @@ const Swap = () => {
                   currencies.OUTPUT &&
                   currencies.INPUT ? (
                   <SpinnerContainer>
-                    <GravisSpinner />
+                    <Spinner size={88} />
                   </SpinnerContainer>
                 ) : !fetchedBlock && formattedAmounts[Field.INPUT] ? (
                   <Card style={{ textAlign: 'center' }}>
@@ -522,7 +521,7 @@ const Swap = () => {
                     >
                       {approval === ApprovalState.PENDING ? (
                         <AutoRow gap="6px" justify="center">
-                          Approving <GravisSpinner small />
+                          Approving <Spinner size={30}  />
                         </AutoRow>
                       ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
                         t('approve')
