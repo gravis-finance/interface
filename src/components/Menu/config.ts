@@ -39,8 +39,8 @@ const menuLinks: MenuEntry[] = [
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/dashboard`,
       },
       {
-        label: '(A)steroid pitch deck',
-        href: 'https://gateway.pinata.cloud/ipfs/QmWPNbXLtqh1gkXEe5BR5BLadGcz7sYAXjooSzrouBi9an',
+        label: 'Evervoid pitch deck',
+        href: 'https://gateway.pinata.cloud/ipfs/QmTDH4vM7JQFpDdMGaRMTCvRwLunzL59EQpsp1DDQU5g4n',
         external: true,
       },
       {
@@ -137,7 +137,7 @@ const menuLinks: MenuEntry[] = [
       },
       {
         label: 'mainMenu.pitchDeck',
-        href: 'https://gateway.pinata.cloud/ipfs/QmNg3RR7BYiSbcKKLZLz3Kb18y6fZa5jruJ9VFacV4WfdW',
+        href: 'https://gateway.pinata.cloud/ipfs/QmS84xB6yivNX77Zv2BUHLQVQeTBg2qpL4yeLFreXeCrEU',
         external: true,
       },
       {
