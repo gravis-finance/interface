@@ -15,28 +15,20 @@ const menuLinks: MenuEntry[] = [
     blink: true,
     items: [
       {
-        label: 'mainMenu.buyLootBoxes',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
+        label: 'mainMenu.home',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/home`,
       },
       {
         label: 'mainMenu.hangar',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar`,
       },
       {
-        label: 'mainMenu.getResources',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/resources`,
+        label: 'mainMenu.buyLootBoxes',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
       },
       {
-        label: 'mainMenu.dailyRewards',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/daily-rewards`,
-      },
-      {
-        label: 'mainMenu.leaderboard',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/leaderboard`,
-      },
-      {
-        label: 'mainMenu.dashboard',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/dashboard`,
+        label: 'mainMenu.craft',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/craft`,
       },
       {
         label: 'Evervoid pitch deck',
@@ -74,6 +66,11 @@ const menuLinks: MenuEntry[] = [
         href: 'https://github.com/chainsulting/Smart-Contract-Security-Audits/blob/master/Gravis%20Finance/02_Smart%20Contract%20Audit_GravisFinance_Farm.pdf',
         external: true,
       },
+      {
+        label: 'mainMenu.docs',
+        href: 'https://docs.gravis.finance/farming/farms',
+        external: true,
+      },
     ],
   },
   {
@@ -97,6 +94,11 @@ const menuLinks: MenuEntry[] = [
         href: `${process.env.REACT_APP_INFO_URL}/home`,
         external: true,
       },
+      {
+        label: 'mainMenu.docs',
+        href: 'https://docs.gravis.finance/gswap-exchange/gswap-exchange',
+        external: true,
+      },
     ],
   },
   {
@@ -118,6 +120,11 @@ const menuLinks: MenuEntry[] = [
       {
         label: 'Activity',
         href: `${process.env.REACT_APP_GMART_URL}/activity`,
+      },
+      {
+        label: 'mainMenu.docs',
+        href: 'https://docs.gravis.finance/gmart-nft-market/buy-nft',
+        external: true,
       },
     ],
   },
@@ -143,6 +150,11 @@ const menuLinks: MenuEntry[] = [
       {
         label: 'mainMenu.tokenomics',
         href: 'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
+        external: true,
+      },
+      {
+        label: 'mainMenu.docs',
+        href: 'https://docs.gravis.finance/',
         external: true,
       },
     ],
