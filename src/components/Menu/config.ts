@@ -144,7 +144,7 @@ const menuLinks: MenuEntry[] = [
       },
       {
         label: 'mainMenu.pitchDeck',
-        href: 'https://gateway.pinata.cloud/ipfs/QmS84xB6yivNX77Zv2BUHLQVQeTBg2qpL4yeLFreXeCrEU',
+        href: 'https://gateway.pinata.cloud/ipfs/QmWhkTENrj9Z3juVUdB2G8NaqnN2ipmLxYw6Nrt9TLh4Qe',
         external: true,
       },
       {
