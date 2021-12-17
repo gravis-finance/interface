@@ -129,6 +129,13 @@ const menuLinks: MenuEntry[] = [
     ],
   },
   {
+    label: 'GRVX Bridge',
+    icon: 'BridgeIcon',
+    href: `${process.env.REACT_APP_BRIDGE_URL}/swap`,
+    external: true,
+    beta: true,
+  },
+  {
     label: 'mainMenu.more',
     icon: 'MoreIcon',
     items: [
