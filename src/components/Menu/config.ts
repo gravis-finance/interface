@@ -136,6 +136,12 @@ const menuLinks: MenuEntry[] = [
     beta: true,
   },
   {
+    label: 'mainMenu.publicRound',
+    icon: 'TeamsIcon',
+    href: `${process.env.REACT_APP_PUBLIC_ROUND_URL}`,
+    external: true,
+  },
+  {
     label: 'mainMenu.more',
     icon: 'MoreIcon',
     items: [
