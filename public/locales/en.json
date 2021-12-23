@@ -3,6 +3,7 @@
   "viewOnHecoInfo": "View on HecoInfo",
   "MaticInfo": "View on Matic",
   "mainMenu": {
+    "publicRound": "Public Round",
     "firstMates": "First Mates",
     "dailyRewards": "Daily Rewards",
     "getResources": "Get Resources",
