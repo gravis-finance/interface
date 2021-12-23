@@ -2,6 +2,9 @@ import { ChainId, Token } from '@gravis.finance/sdk'
 import { Tags, TokenInfo, TokenList } from '@uniswap/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+
+import { ChainIdType } from 'constants/chain'
+
 import { AppState } from '../index'
 
 type TagDetails = Tags[keyof Tags]
@@ -31,7 +34,7 @@ export class WrappedTokenInfo extends Token {
   }
 }
 
-export type TokenAddressMap = Readonly<{ [chainId in ChainId]: Readonly<{ [tokenAddress: string]: WrappedTokenInfo }> }>
+export type TokenAddressMap = Readonly<{ [chainId in ChainIdType]: Readonly<{ [tokenAddress: string]: WrappedTokenInfo }> }>
 
 /**
  * An empty result, useful as a default.

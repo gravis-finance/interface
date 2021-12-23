@@ -1,6 +1,6 @@
 import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Currency, BASE_CURRENCIES, Token, ChainId } from '@gravis.finance/sdk'
-import { Text, CloseIcon, IconButton, AddIcon, Button } from '@gravis.finance/uikit'
+import { Text, CloseIcon, IconButton, AddIcon, Button, Spinner } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
 import styled, { ThemeContext } from 'styled-components'
@@ -21,7 +21,6 @@ import { filterTokens } from './filtering'
 import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
-import GravisSpinner from '../GravisSpinner'
 
 const { main: Main } = TYPE
 
@@ -278,7 +277,7 @@ export function CurrencySearch({
 
         {loading ? (
           <SpinnerContainer>
-            <GravisSpinner />
+            <Spinner size={80} />
           </SpinnerContainer>
         ) : (
           <StyledCurrencyList>

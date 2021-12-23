@@ -15,23 +15,24 @@ const menuLinks: MenuEntry[] = [
     blink: true,
     items: [
       {
-        label: 'mainMenu.buyLootBoxes',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
-        external: true,
+        label: 'mainMenu.home',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/home`,
       },
       {
         label: 'mainMenu.hangar',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar`,
-        external: true,
       },
       {
-        label: 'mainMenu.dashboard',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/dashboard`,
-        external: true,
+        label: 'mainMenu.buyLootBoxes',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
       },
       {
-        label: '(A)steroid pitch deck',
-        href: 'https://gateway.pinata.cloud/ipfs/QmWPNbXLtqh1gkXEe5BR5BLadGcz7sYAXjooSzrouBi9an',
+        label: 'mainMenu.firstMates',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/first-mate-search`,
+      },
+      {
+        label: 'Evervoid pitch deck',
+        href: 'https://gateway.pinata.cloud/ipfs/QmTDH4vM7JQFpDdMGaRMTCvRwLunzL59EQpsp1DDQU5g4n',
         external: true,
       },
       {
@@ -40,6 +41,10 @@ const menuLinks: MenuEntry[] = [
         external: true,
       },
     ],
+    chip: {
+      title: 'GAME',
+      color: 'rgb(235, 149, 0)',
+    },
   },
   {
     label: 'mainMenu.farming',
@@ -53,7 +58,11 @@ const menuLinks: MenuEntry[] = [
       {
         label: 'mainMenu.staking',
         href: `${process.env.REACT_APP_FARMING_URL}/staking`,
-        hot: true,
+        chip: {
+          title: 'HOT',
+          color: 'rgb(235, 149, 0)',
+          animation: true,
+        },
         external: true,
       },
       {
@@ -63,6 +72,11 @@ const menuLinks: MenuEntry[] = [
       {
         label: 'mainMenu.audit',
         href: 'https://github.com/chainsulting/Smart-Contract-Security-Audits/blob/master/Gravis%20Finance/02_Smart%20Contract%20Audit_GravisFinance_Farm.pdf',
+        external: true,
+      },
+      {
+        label: 'mainMenu.docs',
+        href: 'https://docs.gravis.finance/farming/farms',
         external: true,
       },
     ],
@@ -88,6 +102,11 @@ const menuLinks: MenuEntry[] = [
         href: `${process.env.REACT_APP_INFO_URL}/home`,
         external: true,
       },
+      {
+        label: 'mainMenu.docs',
+        href: 'https://docs.gravis.finance/gswap-exchange/gswap-exchange',
+        external: true,
+      },
     ],
   },
   {
@@ -110,7 +129,22 @@ const menuLinks: MenuEntry[] = [
         label: 'Activity',
         href: `${process.env.REACT_APP_GMART_URL}/activity`,
       },
+      {
+        label: 'mainMenu.docs',
+        href: 'https://docs.gravis.finance/gmart-nft-market/buy-nft',
+        external: true,
+      },
     ],
+  },
+  {
+    label: 'GRVX Bridge',
+    icon: 'BridgeIcon',
+    href: `${process.env.REACT_APP_BRIDGE_URL}/swap`,
+    external: true,
+    chip: {
+      title: 'BETA',
+      color: '#009ce1',
+    },
   },
   {
     label: 'mainMenu.more',
@@ -128,12 +162,17 @@ const menuLinks: MenuEntry[] = [
       },
       {
         label: 'mainMenu.pitchDeck',
-        href: 'https://gateway.pinata.cloud/ipfs/QmNg3RR7BYiSbcKKLZLz3Kb18y6fZa5jruJ9VFacV4WfdW',
+        href: 'https://gateway.pinata.cloud/ipfs/QmWhkTENrj9Z3juVUdB2G8NaqnN2ipmLxYw6Nrt9TLh4Qe',
         external: true,
       },
       {
         label: 'mainMenu.tokenomics',
         href: 'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
+        external: true,
+      },
+      {
+        label: 'mainMenu.docs',
+        href: 'https://docs.gravis.finance/',
         external: true,
       },
     ],
