@@ -2,7 +2,17 @@ import { Currency } from '@gravis.finance/sdk'
 import React, { lazy, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { AddIcon, Button, CloseIcon, Flex, IconButton, Input, Text, ArrowBackIcon, Spinner } from '@gravis.finance/uikit'
+import {
+  AddIcon,
+  Button,
+  CloseIcon,
+  Flex,
+  IconButton,
+  Input,
+  Text,
+  ArrowBackIcon,
+  Spinner,
+} from '@gravis.finance/uikit'
 import useLast from '../../hooks/useLast'
 import { useSelectedListUrl } from '../../state/lists/hooks'
 import { CurrencySearch } from './CurrencySearch'
@@ -340,7 +350,7 @@ export default function CurrencySearchModal({
             onChangeList={handleClickChangeList}
             selectedCurrency={selectedCurrency}
             otherSelectedCurrency={otherSelectedCurrency}
-            showCommonBases={false}
+            showCommonBases
             currencyList={currencyList}
             addCustomTokenHandler={addCustomTokenHandler}
             loading={loading}
@@ -353,7 +363,7 @@ export default function CurrencySearchModal({
             onChangeList={handleClickChangeList}
             selectedCurrency={selectedCurrency}
             otherSelectedCurrency={otherSelectedCurrency}
-            showCommonBases={false}
+            showCommonBases
             currencyList={currencyList}
             addCustomTokenHandler={addCustomTokenHandler}
             loading={loading}

@@ -92,8 +92,8 @@ export default function AddLiquidity({
 
   const oneCurrencyIsWETH = Boolean(
     chainId &&
-    ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
-      (currencyB && currencyEquals(currencyB, WETH[chainId])))
+      ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
+        (currencyB && currencyEquals(currencyB, WETH[chainId])))
   )
   const expertMode = useIsExpertMode()
 
@@ -246,8 +246,9 @@ export default function AddLiquidity({
             setAttemptingTxn(false)
 
             addTransaction(response, {
-              summary: `{{add}} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${currencies[Field.CURRENCY_A]?.symbol
-                } {{and}} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
+              summary: `{{add}} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+                currencies[Field.CURRENCY_A]?.symbol
+              } {{and}} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
             })
 
             setTxHash(response.hash)
@@ -271,8 +272,9 @@ export default function AddLiquidity({
       })
   }
 
-  const pendingText = `${t('supplying')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencies[Field.CURRENCY_A]?.symbol
-    } ${t('and')} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
+  const pendingText = `${t('supplying')} ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
+    currencies[Field.CURRENCY_A]?.symbol
+  } ${t('and')} ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`
 
   const handleCurrencyASelect = useCallback(
     (currA: Currency) => {
