@@ -8,6 +8,13 @@ type ChainTokenList = {
 }
 
 //  BSC Mainnet Basic Tokens
+export const GRVX = new Token(
+  ChainId.MAINNET,
+  '0xa349fd455a457467d31ca8db59052daebbbcc108',
+  18,
+  'GRVX',
+  'Dai Stablecoin'
+)
 export const DAI = new Token(ChainId.MAINNET, '0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3', 18, 'DAI', 'Dai Stablecoin')
 export const BUSD = new Token(ChainId.MAINNET, '0xe9e7cea3dedca5984780bafc599bd69add087d56', 18, 'BUSD', 'Binance USD')
 export const USDT = new Token(ChainId.MAINNET, '0x55d398326f99059ff775485246999027b3197955', 18, 'USDT', 'Tether USD')
@@ -131,6 +138,13 @@ export const TEST_HECO_UNI = new Token(
 )
 
 // MATIC Mainnet Basic Tokens
+export const MATIC_GRVX = new Token(
+  ChainId.MATICMAINNET,
+  '0xD322da59C420E0827e31C40f1886346FB19c6687',
+  18,
+  'GRVX',
+  'GRAVIS X TOKEN'
+)
 export const MATIC_DAI = new Token(
   ChainId.MATICMAINNET,
   '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
@@ -254,8 +268,15 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, BUSD, USDT],
-  [ChainId.BSCTESTNET]: [...WETH_ONLY[ChainId.BSCTESTNET], TEST_BSC_DAI, TEST_BSC_USDC, TEST_BSC_USDT, TEST_BSC_BUSD],
+  [ChainId.MAINNET]: [GRVX, ...WETH_ONLY[ChainId.MAINNET], DAI, BUSD, USDT],
+  [ChainId.BSCTESTNET]: [
+    TEST_BSC_GRVX,
+    ...WETH_ONLY[ChainId.BSCTESTNET],
+    TEST_BSC_DAI,
+    TEST_BSC_USDC,
+    TEST_BSC_USDT,
+    TEST_BSC_BUSD,
+  ],
   [ChainId.HECOMAINNET]: [...WETH_ONLY[ChainId.HECOMAINNET], HECO_USDT, HECO_ETH],
   [ChainId.HECOTESTNET]: [
     ...WETH_ONLY[ChainId.HECOTESTNET],
@@ -266,6 +287,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
     TEST_HECO_UNI,
   ],
   [ChainId.MATICMAINNET]: [
+    MATIC_GRVX,
     ...WETH_ONLY[ChainId.MATICMAINNET],
     MATIC_DAI,
     MATIC_USDT,
