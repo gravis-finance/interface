@@ -330,6 +330,11 @@ export default function AddLiquidity({
     if (txHash) if (transactions[txHash]?.receipt) setShowConfirm(false)
   }, [txHash, transactions])
 
+  useEffect(() => {
+    onFieldAInput('')
+    // eslint-disable-next-line
+  }, [])
+
   return (
     <CardWrapper>
       <CardNav activeIndex={1} />
