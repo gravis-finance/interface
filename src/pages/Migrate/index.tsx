@@ -149,8 +149,9 @@ function Migrate() {
       const info = new WrappedTokenInfo(
         {
           name: `${filteredTokenInfo[i]?.left?.name} / ${filteredTokenInfo[i]?.right?.name} LP Token`,
-          symbol: `${validateExchangeName(filteredTokenInfo[i])} ${filteredTokenInfo[i]?.left?.symbol} / ${filteredTokenInfo[i]?.right?.symbol
-            } LP`,
+          symbol: `${validateExchangeName(filteredTokenInfo[i])} ${filteredTokenInfo[i]?.left?.symbol} / ${
+            filteredTokenInfo[i]?.right?.symbol
+          } LP`,
           address: tokenList[i].address,
           chainId: id,
           decimals: 18,
@@ -325,6 +326,7 @@ function Migrate() {
                     onCurrencySelect={handleInputSelect}
                     currencyList={lpList}
                     loading={isLoading}
+                    showCommonBases={false}
                     id="swap-currency-input"
                   />
                 </AutoColumn>
@@ -353,7 +355,7 @@ function Migrate() {
                               !isValid ||
                               approval !== ApprovalState.APPROVED ||
                               Number(typedValue.slice(0, currencyBalance?.toSignificant(6).length)) >
-                              Number(currencyBalance?.toSignificant(6)) ||
+                                Number(currencyBalance?.toSignificant(6)) ||
                               attemptingTxn
                             }
                             variant={parsedAmount ? 'primary' : 'danger'}
