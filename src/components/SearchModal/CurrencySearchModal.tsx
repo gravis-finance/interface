@@ -292,6 +292,7 @@ export default function CurrencySearchModal({
   otherSelectedCurrency,
   currencyList,
   loading,
+  showCommonBases,
 }: CurrencySearchModalProps) {
   const [listView, setListView] = useState<boolean>(false)
   const lastOpen = useLast(isOpen)
@@ -350,7 +351,7 @@ export default function CurrencySearchModal({
             onChangeList={handleClickChangeList}
             selectedCurrency={selectedCurrency}
             otherSelectedCurrency={otherSelectedCurrency}
-            showCommonBases
+            showCommonBases={showCommonBases}
             currencyList={currencyList}
             addCustomTokenHandler={addCustomTokenHandler}
             loading={loading}
@@ -363,7 +364,7 @@ export default function CurrencySearchModal({
             onChangeList={handleClickChangeList}
             selectedCurrency={selectedCurrency}
             otherSelectedCurrency={otherSelectedCurrency}
-            showCommonBases
+            showCommonBases={showCommonBases}
             currencyList={currencyList}
             addCustomTokenHandler={addCustomTokenHandler}
             loading={loading}
