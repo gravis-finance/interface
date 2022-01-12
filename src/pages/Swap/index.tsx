@@ -398,6 +398,7 @@ const Swap = () => {
                   onCurrencySelect={handleInputSelect}
                   otherCurrency={currencies[Field.OUTPUT]}
                   id="swap-currency-input"
+                  showCommonBases
                 />
                 <AutoColumn justify="space-between">
                   <StyledAutoRow justify="space-between" style={{ padding: '0 1rem' }}>
@@ -435,6 +436,7 @@ const Swap = () => {
                   currency={currencies[Field.OUTPUT]}
                   onCurrencySelect={handleOutputSelect}
                   otherCurrency={currencies[Field.INPUT]}
+                  showCommonBases
                   id="swap-currency-output"
                 />
                 <TokenInPoolValue value={reserve1} pr="1rem" />
