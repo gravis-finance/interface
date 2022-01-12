@@ -47,6 +47,7 @@ export default function CommonBases({
 }) {
   const { network } = useNetwork()
   const ETHER = BASE_CURRENCIES[network]
+
   return (
     <StyledAutoColumn gap="md">
       <AutoRow>
@@ -63,7 +64,7 @@ export default function CommonBases({
           disable={selectedCurrency === ETHER}
         >
           <CurrencyLogo currency={ETHER} style={{ marginRight: 8 }} />
-          <Text>BNB</Text>
+          <Text>{ETHER.symbol}</Text>
         </BaseWrapper>
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address
