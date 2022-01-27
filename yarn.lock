@@ -2414,16 +2414,16 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/uikit@^1.3.21":
-  version "1.3.21"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.3.21.tgz#a5d39d41199b33c24669dc6ed9805fd5f80807a9"
-  integrity sha512-ZyrFX6ydKs+Z+Fv6Ik2W9d7CnUrEnYh5zU8P6MSlpCmy4n1hJ9HWzz/usVoy6yyDxMj2l0S3rThPpM8I2h2koQ==
+"@gravis.finance/uikit@^1.3.28":
+  version "1.3.28"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.3.28.tgz#1aa568f4ee13b485b255d9a6052a159cdff99f72"
+  integrity sha512-809V2QJjTgomKkXIMTdzw3Egd2vqQsPoRbUKnMGU9YJ1CG90MRUkn1BpCcS3skNWCxr4sbQJ3X9UhEl+rb72rQ==
   dependencies:
     "@gravis.finance/sdk" "^1.0.13"
     "@popperjs/core" "^2.9.2"
     "@types/lodash" "^4.14.162"
     "@types/styled-system" "^5.1.10"
-    cb-datatable "^4.0.11"
+    cb-datatable "^4.0.15"
     copy-to-clipboard "^3.3.1"
     lodash "^4.17.20"
     react-device-detect "^1.17.0"
@@ -7682,10 +7682,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cb-datatable@^4.0.11:
-  version "4.0.11"
-  resolved "https://registry.yarnpkg.com/cb-datatable/-/cb-datatable-4.0.11.tgz#3162a3cdd457a696ebbaed736618a1bb2ec22d95"
-  integrity sha512-5GGDThXHkF8cKpiNUM89QswmdzlYZcD1+2pgnAWHezjuIUKYd4onRSGsMJmuXZlssVcRSDApu1fUr+shdbq4lg==
+cb-datatable@^4.0.15:
+  version "4.0.15"
+  resolved "https://registry.yarnpkg.com/cb-datatable/-/cb-datatable-4.0.15.tgz#f0caf4da5a9b1053979f81eeb018aa478d9348e8"
+  integrity sha512-BJ+qGCk6X0+4GV/rl8hlfVJwepP2M+2weTLUFSf8JTZ8cXqr1IVlYapiv47RGq+hSRr89hraKH25dRDKNXfW3A==
   dependencies:
     "@types/react-is" "^17.0.2"
     clsx "^1.1.1"
