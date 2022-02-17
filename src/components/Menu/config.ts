@@ -15,18 +15,22 @@ const menuLinks: MenuEntry[] = [
       {
         label: 'mainMenu.home',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/home`,
+        external: true
       },
       {
         label: 'mainMenu.hangar',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar`,
+        external: true
       },
       {
         label: 'mainMenu.buyLootBoxes',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
+        external: true
       },
       {
         label: 'mainMenu.firstMates',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/first-mate-search`,
+        external: true
       },
       {
         label: 'Evervoid pitch deck',
@@ -87,20 +91,29 @@ const menuLinks: MenuEntry[] = [
     icon: 'NFTMarketIcon',
     items: [
       {
+        label: 'Collections',
+        href: `${process.env.REACT_APP_GMART_URL}/collections`,
+        external: true
+      },
+      {
         label: 'buyNFT',
         href: `${process.env.REACT_APP_GMART_URL}/buy`,
+        external: true
       },
       {
         label: 'sellNFT',
         href: `${process.env.REACT_APP_GMART_URL}/sell`,
+        external: true
       },
       {
         label: 'sendNFT',
         href: `${process.env.REACT_APP_GMART_URL}/transfer`,
+        external: true
       },
       {
         label: 'Activity',
         href: `${process.env.REACT_APP_GMART_URL}/activity`,
+        external: true
       },
       {
         label: 'mainMenu.docs',
