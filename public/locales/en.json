@@ -1,8 +1,11 @@
 {
+  "Terms of Use": "Terms of Use",
+  "Privacy Policy": "Privacy Policy",
   "viewOnBscscan": "View on BSCScan",
   "viewOnHecoInfo": "View on HecoInfo",
   "MaticInfo": "View on Matic",
   "mainMenu": {
+    "publicRound": "Public Round",
     "firstMates": "First Mates",
     "dailyRewards": "Daily Rewards",
     "getResources": "Get Resources",
@@ -12,7 +15,7 @@
     "hangar": "Hangar",
     "home": "Home",
     "craft": "Craft",
-    "trade": "Exchange",
+    "trade": "Gswap Exchange",
     "liquidity": "Pool",
     "migrate": "Migrate",
     "analytics": {

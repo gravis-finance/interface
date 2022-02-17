@@ -1,4 +1,6 @@
 {
+  "Terms of Use": "Условия Использования",
+  "Privacy Policy": "Политика Конфиденциальности",
   "viewOnBscscan": "Просмотр в BSCScan",
   "viewOnHecoInfo": "Просмотр в HecoInfo",
   "MaticInfo": "Просмотр в Matic",
@@ -7,7 +9,7 @@
     "dashboard": "Дашборд",
     "hangar": "Ангар",
     "home": "Главная",
-    "trade": "Биржа",
+    "trade": "Gswap Биржа",
     "liquidity": "Ликвидность",
     "more": "Подробнее",
     "github": "GitHub",

@@ -1,4 +1,6 @@
 {
+  "Terms of Use": "利用規約",
+  "Privacy Policy": "プライバシーポリシー",
   "viewOnBscscan": "BSCScanで見る",
   "viewOnHecoInfo": "HecoInfoで見る",
   "MaticInfo": "Maticで見る",
@@ -7,7 +9,7 @@
     "hangar": "ハンガー",
     "asteroidMining": "Evervoid",
     "home": "ホーム",
-    "trade": "交換",
+    "trade": "Gswap 交換",
     "liquidity": "プール",
     "migrate": "移行",
     "analytics": {

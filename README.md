@@ -8,7 +8,7 @@ An open source interface for Gravis -- NFT Focused Multi-chain DEX with cross-ch
 - Interface: [gswap.exchange](https://gswap.exchange)
 - Medium: [gravis-finance.medium.com/](https://gravis-finance.medium.com/)
 - Twitter: [@gravis_finance](https://twitter.com/gravis_finance)
-- Telegram: [@gravis_finance](https://t.me/gravis_finance)
+- Telegram: [@gravis_finance](https://t.me/Gravis_Finance_En)
 - Telegram(JP🇯🇵): [@gravis_finance_jp](https://t.me/gravis_finance_jp)
 - Email: [info@gravis.finance](mailto:info@gravis.finance)
 - Tokenomics: [v1.06](https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282)

@@ -10,7 +10,7 @@ import { getExplorerLink, getExplorerName } from 'utils'
 import { useActiveWeb3React } from 'hooks'
 import i18next from '../../i18n'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
-import useGetMenuLinks from './config'
+import menuLinks from './config'
 
 const UikitMenu = lazy(() =>
   import('@gravis.finance/uikit/dist/esm/widgets/Menu').then(({ Menu }) => ({ default: Menu }))
@@ -33,8 +33,6 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
     return result
   }
 
-  const links = useGetMenuLinks()
-
   useEffect(() => {
     i18next.changeLanguage(selectedLanguage.toLowerCase())
   }, [selectedLanguage])
@@ -48,7 +46,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   return (
     <UikitMenu
       isProduction={process.env.REACT_APP_NODE_ENV === 'production'}
-      links={links}
+      links={menuLinks}
       account={account as string}
       login={login}
       logout={logout}
