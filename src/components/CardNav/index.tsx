@@ -26,7 +26,7 @@ const StyledNav = styled.div`
       margin-top: 0;
     }
   }
-  @media screen and (max-width: 525px) {
+  @media screen and (max-width: 685px) {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -42,6 +42,8 @@ const StyledNav = styled.div`
 
     > div > a {
       width: 100px;
+      font-size: 12px;
+      padding: 0 8px;
     }
   }
   @media screen and (max-width: 376px) {
@@ -61,9 +63,15 @@ const StyledNav = styled.div`
     }
   }
 
-  @media screen and (max-width: 347px) {
+  @media screen and (max-width: 500px) {
+    > div {
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: -8px;
+    }
     > div > a {
       width: 80px;
+      margin: 8px;
     }
   }
 `
@@ -75,7 +83,7 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
     <Flex alignItems="flex-start">
       <StyledNav>
         <Heading as="h1" size="xl" color="white" mb="40px" mt="20px">
-          {t('mainMenu.trade')}
+          {t('trade')}
         </Heading>
         <ButtonMenu size="md" variant="dark" activeIndex={activeIndex}>
           <ButtonMenuItem id="swap-nav-link" to="/swap" as={Link}>
@@ -86,6 +94,9 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
           </ButtonMenuItem>
           <ButtonMenuItem id="migrate-nav-link" to="/migrate" as={Link}>
             {t('mainMenu.migrate')}
+          </ButtonMenuItem>
+          <ButtonMenuItem id="bridge-nav-link" to={`${process.env.REACT_APP_BRIDGE_URL}/swap`} as={Link} style={{ textAlign: 'center' }}>
+            {t('Multi-asset Bridge')}
           </ButtonMenuItem>
         </ButtonMenu>
       </StyledNav>

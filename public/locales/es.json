@@ -1,7 +1,10 @@
 {
+  "Terms of Use": "Condiciones de uso",
+  "Privacy Policy": "Política de Privacidad",
   "viewOnBscscan": "Ver en BSCScan",
   "viewOnHecoInfo": "Ver en HecoInfo",
   "MaticInfo": "Ver en Matic",
+  "trade": "Intercambio",
   "mainMenu": {
     "firstMates": "First Mates",
     "dailyRewards": "",
@@ -12,7 +15,7 @@
     "hangar": "Hangar",
     "home": "Hogar",
     "craft": "Artesanía",
-    "trade": "Intercambio",
+    "trade": "Gswap Intercambio",
     "liquidity": "Liquidez",
     "migrate": "Migración",
     "analytics": {

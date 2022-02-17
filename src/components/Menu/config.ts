@@ -1,6 +1,4 @@
-import { getNetworkTitles, MenuEntry, urlSearchLanguageParam } from '@gravis.finance/uikit'
-import { useTranslation } from 'react-i18next'
-import { useActiveWeb3React } from '../../hooks'
+import { MenuEntry, privacyAndPoliceLink, termsOfUseLink } from '@gravis.finance/uikit'
 
 const menuLinks: MenuEntry[] = [
   {
@@ -17,18 +15,22 @@ const menuLinks: MenuEntry[] = [
       {
         label: 'mainMenu.home',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/home`,
+        external: true
       },
       {
         label: 'mainMenu.hangar',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar`,
+        external: true
       },
       {
         label: 'mainMenu.buyLootBoxes',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
+        external: true
       },
       {
         label: 'mainMenu.firstMates',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/first-mate-search`,
+        external: true
       },
       {
         label: 'Evervoid pitch deck',
@@ -47,47 +49,22 @@ const menuLinks: MenuEntry[] = [
     },
   },
   {
-    label: 'mainMenu.farming',
-    icon: 'NFTFarmingIcon',
-    items: [
-      {
-        label: 'mainMenu.farms',
-        href: `${process.env.REACT_APP_FARMING_URL}/farms`,
-        external: true,
-      },
-      {
-        label: 'mainMenu.staking',
-        href: `${process.env.REACT_APP_FARMING_URL}/staking`,
-        chip: {
-          title: 'HOT',
-          color: 'rgb(235, 149, 0)',
-          animation: true,
-        },
-        external: true,
-      },
-      {
-        label: 'mainMenu.NFTFarming',
-        href: `${process.env.REACT_APP_NFTFARMING_URL}`,
-      },
-      {
-        label: 'mainMenu.audit',
-        href: 'https://github.com/chainsulting/Smart-Contract-Security-Audits/blob/master/Gravis%20Finance/02_Smart%20Contract%20Audit_GravisFinance_Farm.pdf',
-        external: true,
-      },
-      {
-        label: 'mainMenu.docs',
-        href: 'https://docs.gravis.finance/farming/farms',
-        external: true,
-      },
-    ],
-  },
-  {
     label: 'mainMenu.trade',
     icon: 'TradeIcon',
     items: [
       {
         label: 'swap',
         href: `/swap`,
+      },
+      {
+        label: 'mainMenu.farming',
+        href: `${process.env.REACT_APP_FARMING_URL}/farms`,
+        external: true,
+        chip: {
+          title: 'HOT',
+          color: 'rgb(235, 149, 0)',
+          animation: true,
+        },
       },
       {
         label: 'mainMenu.liquidity',
@@ -98,13 +75,13 @@ const menuLinks: MenuEntry[] = [
         href: `/migrate`,
       },
       {
-        label: 'mainMenu.analytics.analytics',
-        href: `${process.env.REACT_APP_INFO_URL}/home`,
-        external: true,
+        label: 'Multi-chain Bridge',
+        href: `${process.env.REACT_APP_BRIDGE_URL}/swap`,
+        external: true
       },
       {
-        label: 'mainMenu.docs',
-        href: 'https://docs.gravis.finance/gswap-exchange/gswap-exchange',
+        label: 'mainMenu.analytics.analytics',
+        href: `${process.env.REACT_APP_INFO_URL}/home`,
         external: true,
       },
     ],
@@ -114,20 +91,29 @@ const menuLinks: MenuEntry[] = [
     icon: 'NFTMarketIcon',
     items: [
       {
+        label: 'Collections',
+        href: `${process.env.REACT_APP_GMART_URL}/collections`,
+        external: true
+      },
+      {
         label: 'buyNFT',
         href: `${process.env.REACT_APP_GMART_URL}/buy`,
+        external: true
       },
       {
         label: 'sellNFT',
         href: `${process.env.REACT_APP_GMART_URL}/sell`,
+        external: true
       },
       {
         label: 'sendNFT',
         href: `${process.env.REACT_APP_GMART_URL}/transfer`,
+        external: true
       },
       {
         label: 'Activity',
         href: `${process.env.REACT_APP_GMART_URL}/activity`,
+        external: true
       },
       {
         label: 'mainMenu.docs',
@@ -137,38 +123,22 @@ const menuLinks: MenuEntry[] = [
     ],
   },
   {
-    label: 'GRVX Bridge',
-    icon: 'BridgeIcon',
-    href: `${process.env.REACT_APP_BRIDGE_URL}/swap`,
-    external: true,
-    chip: {
-      title: 'BETA',
-      color: '#009ce1',
-    },
-  },
-  {
     label: 'mainMenu.publicRound',
     icon: 'TeamsIcon',
     href: `${process.env.REACT_APP_PUBLIC_ROUND_URL}`,
     external: true,
+    chip: {
+      title: 'GRVS',
+      color: '#24BA7B',
+    },
   },
   {
     label: 'mainMenu.more',
     icon: 'MoreIcon',
     items: [
       {
-        label: 'mainMenu.github',
-        href: 'https://github.com/gravis-finance',
-        external: true,
-      },
-      {
-        label: 'mainMenu.blog',
-        href: 'https://gravis-finance.medium.com/',
-        external: true,
-      },
-      {
         label: 'mainMenu.pitchDeck',
-        href: 'https://gateway.pinata.cloud/ipfs/QmWhkTENrj9Z3juVUdB2G8NaqnN2ipmLxYw6Nrt9TLh4Qe',
+        href: 'https://drive.google.com/file/d/13HIl141DzXV-YHemaoG5jvK2c95cWW7L/view?usp=sharing',
         external: true,
       },
       {
@@ -177,42 +147,27 @@ const menuLinks: MenuEntry[] = [
         external: true,
       },
       {
+        label: 'mainMenu.NFTFarming',
+        href: `${process.env.REACT_APP_NFTFARMING_URL}`,
+        external: true,
+      },
+      {
         label: 'mainMenu.docs',
         href: 'https://docs.gravis.finance/',
+        external: true,
+      },
+      {
+        label: 'Terms of Use',
+        href: termsOfUseLink,
+        external: true,
+      },
+      {
+        label: 'Privacy Policy',
+        href: privacyAndPoliceLink,
         external: true,
       },
     ],
   },
 ]
 
-const useGetMenuLinks = (): MenuEntry[] => {
-  const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
-  const onlyBscLabels = [t('buyNFT'), t('sellNFT'), t('sendNFT'), t('Activity'), t('mainMenu.NFTFarming')]
-
-  let newMenuLinks = [...menuLinks]
-  newMenuLinks = newMenuLinks.map((link) => {
-    const newLink = { ...link }
-    newLink.label = t(newLink.label)
-    newLink.href = `${newLink.href}?network=${chainId}&${urlSearchLanguageParam}=${t('language')}`
-    if (newLink.items) {
-      newLink.items = newLink.items.map((item) => {
-        const newItem = { ...item }
-        newItem.label = t(newItem.label)
-        if (!onlyBscLabels.includes(newItem.label)) {
-          if (newItem.label === t('mainMenu.analytics.analytics'))
-            newItem.href = `${newItem.href}?network=${getNetworkTitles()?.toLowerCase()}&${urlSearchLanguageParam}=${t(
-              'language'
-            )}`
-          else newItem.href = `${newItem.href}?network=${chainId}&${urlSearchLanguageParam}=${t('language')}`
-        }
-        return newItem
-      })
-    }
-    return newLink
-  })
-
-  return newMenuLinks
-}
-
-export default useGetMenuLinks
+export default menuLinks
