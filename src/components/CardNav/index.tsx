@@ -83,7 +83,7 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
     <Flex alignItems="flex-start">
       <StyledNav>
         <Heading as="h1" size="xl" color="white" mb="40px" mt="20px">
-          {t('mainMenu.trade')}
+          {t('trade')}
         </Heading>
         <ButtonMenu size="md" variant="dark" activeIndex={activeIndex}>
           <ButtonMenuItem id="swap-nav-link" to="/swap" as={Link}>
