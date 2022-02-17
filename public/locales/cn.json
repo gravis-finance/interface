@@ -1,10 +1,12 @@
 {
+  "Terms of Use": "使用条款",
+  "Privacy Policy": "隐私政策",
   "viewOnBscscan": "在BSCScan浏览器上查看",
   "viewOnHecoInfo": "在HecoInfo浏览器上查看",
   "MaticInfo": "在Matic浏览器上查看",
   "mainMenu": {
     "home": "主页",
-    "trade": "兑换",
+    "trade": "Gswap 兑换",
     "liquidity": "池",
     "migrate": "迁移",
     "analytics": {

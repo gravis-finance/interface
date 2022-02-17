@@ -1,4 +1,6 @@
 {
+  "Terms of Use": "Điều khoản sử dụng",
+  "Privacy Policy": "Chính sách bảo mật",
   "viewOnBscscan": "Xem trên BSCScan",
   "viewOnHecoInfo": "Xem trên HecoInfo",
   "MaticInfo": "Xem trên Matic",
@@ -12,7 +14,7 @@
     "hangar": "Xưởng cắt máy bay",
     "home": "Trang chủ",
     "craft": "Chế tạo",
-    "trade": "Trao đổi",
+    "trade": "Gswap Trao đổi",
     "liquidity": "Pool",
     "migrate": "Di dời",
     "analytics": {
