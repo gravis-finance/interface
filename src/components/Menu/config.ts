@@ -71,7 +71,7 @@ const menuLinks: MenuEntry[] = [
         href: `/migrate`,
       },
       {
-        label: 'Multi-asset Bridge',
+        label: 'Multi-chain Bridge',
         href: `${process.env.REACT_APP_BRIDGE_URL}/swap`,
         external: true
       },
