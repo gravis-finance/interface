@@ -1,7 +1,7 @@
 import React from 'react'
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import { Provider } from 'react-redux'
-import { ModalProvider } from '@gravis.finance/uikit'
+import { ModalProvider, QueryProvider } from '@gravis.finance/uikit'
 
 import { NetworkContextNames } from 'config/settings'
 import store from './state'
@@ -18,11 +18,13 @@ const Providers: React.FC = ({ children }) => {
       <Web3BSCProviderNetwork getLibrary={getLibrary}>
         <Web3HECOProviderNetwork getLibrary={getLibrary}>
           <Web3MATICProviderNetwork getLibrary={getLibrary}>
-            <Provider store={store}>
-              <ThemeContextProvider>
-                <ModalProvider>{children}</ModalProvider>
-              </ThemeContextProvider>
-            </Provider>
+            <QueryProvider>
+              <Provider store={store}>
+                <ThemeContextProvider>
+                  <ModalProvider>{children}</ModalProvider>
+                </ThemeContextProvider>
+              </Provider>
+            </QueryProvider>
           </Web3MATICProviderNetwork>
         </Web3HECOProviderNetwork>
       </Web3BSCProviderNetwork>
