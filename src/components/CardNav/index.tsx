@@ -95,7 +95,7 @@ const Nav = ({ activeIndex = 0 }: { activeIndex?: number }) => {
           <ButtonMenuItem id="migrate-nav-link" to="/migrate" as={Link}>
             {t('mainMenu.migrate')}
           </ButtonMenuItem>
-          <ButtonMenuItem id="bridge-nav-link" to={`${process.env.REACT_APP_BRIDGE_URL}/swap`} as={Link} style={{ textAlign: 'center' }}>
+          <ButtonMenuItem id="bridge-nav-link" href={`${process.env.REACT_APP_BRIDGE_URL}/swap`} as="a" style={{ textAlign: 'center' }}>
             {t('Multi-asset Bridge')}
           </ButtonMenuItem>
         </ButtonMenu>
