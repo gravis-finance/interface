@@ -138,7 +138,7 @@ const menuLinks: MenuEntry[] = [
       },
       {
         label: 'mainMenu.tokenomics',
-        href: 'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
+        href: 'https://docs.google.com/spreadsheets/d/1avYbOzMg7vDt5Gmw16V8WomZG8RfHtaFGEUeZHOZ8vw/edit#gid=0',
         external: true,
       },
       {
