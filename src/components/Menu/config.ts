@@ -18,18 +18,13 @@ const menuLinks: MenuEntry[] = [
         external: true
       },
       {
-        label: 'mainMenu.hangar',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar`,
+        label: 'mainMenu.missions',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/missions`,
         external: true
       },
       {
         label: 'mainMenu.buyLootBoxes',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
-        external: true
-      },
-      {
-        label: 'mainMenu.firstMates',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/first-mate-search`,
         external: true
       },
       {
