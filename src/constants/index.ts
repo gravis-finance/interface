@@ -36,7 +36,7 @@ export const TEST_BSC_WBNB = new Token(
 )
 export const TEST_BSC_GRVX = new Token(
   ChainId.BSCTESTNET,
-  '0x4634099fb4ae08a086Ae69e680964795854f29F5',
+  '0x0eb3578904eec144a2daf123a856ee8018124fc7',
   18,
   'GRVX',
   'GRVX'
