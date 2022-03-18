@@ -32,16 +32,6 @@ const menuLinks: MenuEntry[] = [
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
         external: true
       },
-      {
-        label: 'Evervoid pitch deck',
-        href: 'https://gateway.pinata.cloud/ipfs/QmTDH4vM7JQFpDdMGaRMTCvRwLunzL59EQpsp1DDQU5g4n',
-        external: true,
-      },
-      {
-        label: 'mainMenu.docs',
-        href: 'https://docs.gravis.finance',
-        external: true,
-      },
     ],
     chip: {
       title: 'GAME',
@@ -91,7 +81,7 @@ const menuLinks: MenuEntry[] = [
     icon: 'NFTMarketIcon',
     items: [
       {
-        label: 'Collections',
+        label: 'Explore Collections',
         href: `${process.env.REACT_APP_GMART_URL}/collections`,
         external: true
       },
@@ -114,11 +104,6 @@ const menuLinks: MenuEntry[] = [
         label: 'Activity',
         href: `${process.env.REACT_APP_GMART_URL}/activity`,
         external: true
-      },
-      {
-        label: 'mainMenu.docs',
-        href: 'https://docs.gravis.finance/gmart-nft-market/buy-nft',
-        external: true,
       },
     ],
   },
