@@ -132,6 +132,11 @@ const menuLinks: MenuEntry[] = [
         external: true,
       },
       {
+        label: 'Infographics',
+        href: `${process.env.REACT_APP_HOME_URL}/info?redirectUrl=${window.location.href}`,
+        external: true,
+      },
+      {
         label: 'mainMenu.NFTFarming',
         href: `${process.env.REACT_APP_NFTFARMING_URL}`,
         external: true,
