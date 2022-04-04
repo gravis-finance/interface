@@ -13,6 +13,11 @@ const menuLinks: MenuEntry[] = [
     blink: true,
     items: [
       {
+        label: 'Evervoid 2.0',
+        href: process.env.REACT_APP_ASTEROID_MINING_URL,
+        external: true
+      },
+      {
         label: 'mainMenu.home',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/home`,
         external: true
