@@ -11,6 +11,14 @@
   "keywords": ["gravis", "default"],
   "tokens": [
     {
+      "name": "GRAVIS TOKEN",
+      "symbol": "GRVS",
+      "address": "0xA294bf9FFAd955e86073FDF916fCF2e51d700c6f",
+      "chainId": 97,
+      "decimals": 18,
+      "logoURI": "/images/coins/GRVS.png"
+    },
+    {
       "name": "GRAVIS X TOKEN",
       "symbol": "GRVX",
       "address": "0x0eb3578904eec144a2daf123a856ee8018124fc7",
