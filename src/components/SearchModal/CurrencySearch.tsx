@@ -151,6 +151,8 @@ export function CurrencySearch({
 
     if(filteredTokens.find(token=>token.symbol === 'GRVX'))
       filteredTokens.unshift(...filteredTokens.splice(filteredTokens.findIndex(token=>token.symbol === 'GRVX'),1))
+    if(filteredTokens.find(token=>token.symbol === 'GRVS'))
+      filteredTokens.unshift(...filteredTokens.splice(filteredTokens.findIndex(token=>token.symbol === 'GRVS'),1))
 
     return [
       ...(searchToken ? [searchToken] : []),

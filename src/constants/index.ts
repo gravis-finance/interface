@@ -1,6 +1,6 @@
-import { ChainId, Token, WETH } from '@gravis.finance/sdk'
+import {ChainId, Token, WETH} from '@gravis.finance/sdk'
 
-import { ChainIdType } from 'constants/chain'
+import {ChainIdType} from 'constants/chain'
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -13,7 +13,15 @@ export const GRVX = new Token(
   '0xa349fd455a457467d31ca8db59052daebbbcc108',
   18,
   'GRVX',
-  'Dai Stablecoin'
+  'GRAVIS X TOKEN'
+)
+export const GRVS = new Token(
+    ChainId.MAINNET,
+    '0x190CEC0657a02E9eAB1C1DF5d59f9139131cf539',
+    18,
+    'GRVS',
+    'GRAVIS TOKEN'
+
 )
 export const DAI = new Token(ChainId.MAINNET, '0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3', 18, 'DAI', 'Dai Stablecoin')
 export const BUSD = new Token(ChainId.MAINNET, '0xe9e7cea3dedca5984780bafc599bd69add087d56', 18, 'BUSD', 'Binance USD')
@@ -40,6 +48,13 @@ export const TEST_BSC_GRVX = new Token(
   18,
   'GRVX',
   'GRVX'
+)
+export const TEST_BSC_GRVS = new Token(
+    ChainId.BSCTESTNET,
+    '0xA294bf9FFAd955e86073FDF916fCF2e51d700c6f',
+    18,
+    'GRVS',
+    'GRVS'
 )
 export const TEST_BSC_USDT = new Token(
   ChainId.BSCTESTNET,
@@ -144,6 +159,13 @@ export const MATIC_GRVX = new Token(
   18,
   'GRVX',
   'GRAVIS X TOKEN'
+)
+export const MATIC_GRVS = new Token(
+    ChainId.MATICMAINNET,
+    '0x190CEC0657a02E9eAB1C1DF5d59f9139131cf539',
+    18,
+    'GRVS',
+    'GRAVIS TOKEN'
 )
 export const MATIC_DAI = new Token(
   ChainId.MATICMAINNET,
@@ -268,8 +290,9 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [GRVX, ...WETH_ONLY[ChainId.MAINNET], DAI, BUSD, USDT],
+  [ChainId.MAINNET]: [GRVS, GRVX, ...WETH_ONLY[ChainId.MAINNET], DAI, BUSD, USDT],
   [ChainId.BSCTESTNET]: [
+    TEST_BSC_GRVS,
     TEST_BSC_GRVX,
     ...WETH_ONLY[ChainId.BSCTESTNET],
     TEST_BSC_DAI,
@@ -287,6 +310,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
     TEST_HECO_UNI,
   ],
   [ChainId.MATICMAINNET]: [
+    MATIC_GRVS,
     MATIC_GRVX,
     ...WETH_ONLY[ChainId.MATICMAINNET],
     MATIC_DAI,
