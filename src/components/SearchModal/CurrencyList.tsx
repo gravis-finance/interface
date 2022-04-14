@@ -200,7 +200,7 @@ function CurrencyRow({
               <AddButton ml={2} onClick={onAddCurrencyToMetamask} />
             </Tooltip>
           )}
-          {currency.symbol === "GRVX" &&
+          {(currency.symbol === "GRVX" || currency.symbol === "GRVS" )&&
             <HotContainer>
               HOT
             </HotContainer>
