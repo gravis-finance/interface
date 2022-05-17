@@ -3,8 +3,6 @@ import { Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-d
 import styled from 'styled-components'
 import {
   getNetworkId,
-  NetworksConfigObject,
-  networksName,
   NetworkSwitchError,
   NotFound,
   useModal,
@@ -53,7 +51,6 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 32px 20%;
   padding: 32px 24px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -158,11 +155,6 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
 }
 
 export default function App() {
-  useEffect(() => {
-    // @ts-ignore
-    NetworksConfigObject.networks = [networksName.BINANCE, networksName.POLYGON, networksName.HUOBI]
-  }, [])
-
   return (
     <Suspense fallback={<PageLoader />}>
       <AppWrapper>
