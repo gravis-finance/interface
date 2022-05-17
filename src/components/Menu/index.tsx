@@ -45,7 +45,6 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
 
   return (
     <UikitMenu
-      isProduction={process.env.REACT_APP_NODE_ENV === 'production'}
       links={menuLinks}
       account={account as string}
       login={login}

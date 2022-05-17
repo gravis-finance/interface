@@ -25,8 +25,8 @@ const useAuth = () => {
   // const provider: any = (window as WindowChain).ethereum
 
   const login = useCallback(
-    (connectorID: ConnectorNames) => {
-      const { chainId, connector } = getConnectorsByName(connectorID)
+    (connectorID: string) => {
+      const { chainId, connector } = getConnectorsByName(connectorID as ConnectorNames)
 
       // if (provider?.networkVersion !== chainId) {
       //   setupNetwork(chainId)
