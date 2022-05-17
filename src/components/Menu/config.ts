@@ -23,29 +23,14 @@ const menuLinks: MenuEntry[] = [
         external: true
       },
       {
-        label: 'mainMenu.hangar',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/hangar`,
+        label: 'mainMenu.missions',
+        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/missions`,
         external: true
       },
       {
         label: 'mainMenu.buyLootBoxes',
         href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/lootboxes`,
         external: true
-      },
-      {
-        label: 'mainMenu.firstMates',
-        href: `${process.env.REACT_APP_ASTEROID_MINING_URL}/first-mate-search`,
-        external: true
-      },
-      {
-        label: 'Evervoid pitch deck',
-        href: 'https://gateway.pinata.cloud/ipfs/QmTDH4vM7JQFpDdMGaRMTCvRwLunzL59EQpsp1DDQU5g4n',
-        external: true,
-      },
-      {
-        label: 'mainMenu.docs',
-        href: 'https://docs.gravis.finance',
-        external: true,
       },
     ],
     chip: {
@@ -58,6 +43,16 @@ const menuLinks: MenuEntry[] = [
     icon: 'TradeIcon',
     items: [
       {
+        label: 'mainMenu.autofarming',
+        href: `${process.env.REACT_APP_AUTOFARMING_URL}`,
+        external: true,
+        chip: {
+          title: 'HOT',
+          color: 'rgb(235, 149, 0)',
+          animation: true,
+        },
+      },
+      {
         label: 'swap',
         href: `/swap`,
       },
@@ -65,11 +60,6 @@ const menuLinks: MenuEntry[] = [
         label: 'mainMenu.farming',
         href: `${process.env.REACT_APP_FARMING_URL}/farms`,
         external: true,
-        chip: {
-          title: 'HOT',
-          color: 'rgb(235, 149, 0)',
-          animation: true,
-        },
       },
       {
         label: 'mainMenu.liquidity',
@@ -96,7 +86,7 @@ const menuLinks: MenuEntry[] = [
     icon: 'NFTMarketIcon',
     items: [
       {
-        label: 'Collections',
+        label: 'Explore Collections',
         href: `${process.env.REACT_APP_GMART_URL}/collections`,
         external: true
       },
@@ -120,11 +110,6 @@ const menuLinks: MenuEntry[] = [
         href: `${process.env.REACT_APP_GMART_URL}/activity`,
         external: true
       },
-      {
-        label: 'mainMenu.docs',
-        href: 'https://docs.gravis.finance/gmart-nft-market/buy-nft',
-        external: true,
-      },
     ],
   },
   {
@@ -143,12 +128,17 @@ const menuLinks: MenuEntry[] = [
     items: [
       {
         label: 'mainMenu.pitchDeck',
-        href: 'https://drive.google.com/file/d/13HIl141DzXV-YHemaoG5jvK2c95cWW7L/view?usp=sharing',
+        href: 'https://drive.google.com/file/d/1IDezUTH4W1YY2NqAEo2amxUAk7u3BLhE/view',
         external: true,
       },
       {
         label: 'mainMenu.tokenomics',
-        href: 'https://docs.google.com/spreadsheets/d/1JfHN1J_inbAbANSCuspO8CIWuyiCDLB36pcuHItW0eM/edit#gid=1509806282',
+        href: 'https://docs.google.com/spreadsheets/d/1avYbOzMg7vDt5Gmw16V8WomZG8RfHtaFGEUeZHOZ8vw/edit#gid=0',
+        external: true,
+      },
+      {
+        label: 'Infographics',
+        href: `${process.env.REACT_APP_HOME_URL}/info?redirectUrl=${window.location.href}`,
         external: true,
       },
       {
