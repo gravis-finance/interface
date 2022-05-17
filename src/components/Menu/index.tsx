@@ -65,8 +65,6 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         modelCopyAddress: t('copyAddress'),
       }}
       onTransactionHistoryHandler={transactionsHistoryModal}
-      betaText=""
-      betaLink="https://beta.exchange.gravis.finance"
       balanceHook={useBalance}
       setSelectedLanguage={setSelectedLanguage}
       {...props}
