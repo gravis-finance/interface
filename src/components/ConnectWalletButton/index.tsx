@@ -19,7 +19,7 @@ const StyledButtonUnlockWallet = styled.div`
 const UnlockButton: React.FC<ButtonProps> = (props) => {
   const { t } = useTranslation()
   const { login, logout } = useAuth()
-  const { onPresentConnectModal } = useWalletModal(process.env.REACT_APP_NODE_ENV === 'production', login, logout)
+  const { onPresentConnectModal } = useWalletModal(login, logout)
 
   return (
     <StyledButtonUnlockWallet>

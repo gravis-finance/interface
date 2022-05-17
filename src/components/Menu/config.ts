@@ -43,7 +43,7 @@ const menuLinks: MenuEntry[] = [
     icon: 'TradeIcon',
     items: [
       {
-        label: 'Autofarming',
+        label: 'mainMenu.autofarming',
         href: `${process.env.REACT_APP_AUTOFARMING_URL}`,
         external: true,
         chip: {
