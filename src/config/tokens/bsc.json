@@ -1111,6 +1111,20 @@
       "address": "0x8f0528ce5ef7b51152a59745befdd91d97091d2f",
       "chainId": 56,
       "decimals": 18
+    },
+    {
+      "name": "Staking GRVX",
+      "symbol": "SGRVX",
+      "address": "0x379BBcCc40355B87dd88B8ae57F172748f714E9a",
+      "chainId": 97,
+      "decimals": 18
+    },
+    {
+      "name": "Reward Token",
+      "symbol": "REWTOK",
+      "address": "0x8a5829eC975ecb4A2a5B50F05011d799eCbea4a1",
+      "chainId": 97,
+      "decimals": 18
     }
   ]
 }
