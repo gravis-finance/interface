@@ -76,6 +76,7 @@ const CardWrapper = styled.div`
   gap: 25px;
 
   @media screen and (max-width: 1200px) {
+    align-items: center;
     max-width: 450px;
   }
 `
