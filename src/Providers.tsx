@@ -1,16 +1,39 @@
+import {
+  WidgetsProvider as BaseWidgetsProvider,
+  ModalProvider,
+  NETWORK_NAMES,
+  QueryProvider
+} from '@gravis.finance/uikit'
+import { Web3ReactProvider, createWeb3ReactRoot } from '@web3-react/core'
 import React from 'react'
-import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import { Provider } from 'react-redux'
-import { ModalProvider, QueryProvider } from '@gravis.finance/uikit'
 
 import { NetworkContextNames } from 'config/settings'
+import { useActiveWeb3React } from 'hooks'
+
+import { ThemeContextProvider } from './ThemeContext'
 import store from './state'
 import getLibrary from './utils/getLibrary'
-import { ThemeContextProvider } from './ThemeContext'
 
 const Web3BSCProviderNetwork = createWeb3ReactRoot(NetworkContextNames.BSC)
 const Web3HECOProviderNetwork = createWeb3ReactRoot(NetworkContextNames.HECO)
 const Web3MATICProviderNetwork = createWeb3ReactRoot(NetworkContextNames.MATIC)
+
+const networks = [
+  NETWORK_NAMES.BINANCE,
+  NETWORK_NAMES.POLYGON,
+  NETWORK_NAMES.HUOBI
+]
+
+const WidgetsProvider = ({ children }) => {
+  const { chainId } = useActiveWeb3React()
+
+  return (
+    <BaseWidgetsProvider chainId={chainId} networks={networks}>
+      {children}
+    </BaseWidgetsProvider>
+  )
+}
 
 const Providers: React.FC = ({ children }) => {
   return (
@@ -20,9 +43,11 @@ const Providers: React.FC = ({ children }) => {
           <Web3MATICProviderNetwork getLibrary={getLibrary}>
             <QueryProvider>
               <Provider store={store}>
-                <ThemeContextProvider>
-                  <ModalProvider>{children}</ModalProvider>
-                </ThemeContextProvider>
+                <WidgetsProvider>
+                  <ThemeContextProvider>
+                    <ModalProvider>{children}</ModalProvider>
+                  </ThemeContextProvider>
+                </WidgetsProvider>
               </Provider>
             </QueryProvider>
           </Web3MATICProviderNetwork>

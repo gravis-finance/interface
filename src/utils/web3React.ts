@@ -1,14 +1,18 @@
+import { BscConnector } from '@binance-chain/bsc-connector'
 import { ChainId } from '@gravis.finance/sdk'
-import { ConnectorNames, getNetworkId } from '@gravis.finance/uikit'
+import { getNetworkId } from '@gravis.finance/uikit'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import { BscConnector } from '@binance-chain/bsc-connector'
+
+import { ConnectorNames } from 'constants/network'
+
 import getNodeUrl from './getRpcUrl'
 
 export const getConnectorsByName = (connectorID: ConnectorNames) => {
   const POLLING_INTERVAL = 12000
   const id = getNetworkId()
-  const chainId: any = id || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
+  const chainId: any =
+    id || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
   const rpcUrl = getNodeUrl(chainId)
   // const currentChainId = localStorage.getItem('chainId')
 
@@ -21,7 +25,7 @@ export const getConnectorsByName = (connectorID: ConnectorNames) => {
     rpc: { [chainId]: rpcUrl as string },
     bridge: 'https://bridge.walletconnect.org',
     qrcode: true,
-    pollingInterval: POLLING_INTERVAL,
+    pollingInterval: POLLING_INTERVAL
   })
 
   const bscConnector = new BscConnector({ supportedChainIds: [56, 97] })
@@ -29,7 +33,7 @@ export const getConnectorsByName = (connectorID: ConnectorNames) => {
   const connectorsByName: { [connectorName in ConnectorNames]: any } = {
     [ConnectorNames.Injected]: injected,
     [ConnectorNames.WalletConnect]: walletconnect,
-    [ConnectorNames.BSC]: bscConnector,
+    [ConnectorNames.BSC]: bscConnector
   }
 
   return { chainId, connector: connectorsByName[connectorID] }

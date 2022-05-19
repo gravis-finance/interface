@@ -1,18 +1,20 @@
-import { useCallback } from 'react'
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { NoBscProviderError } from '@binance-chain/bsc-connector'
+import { connectorLocalStorageKey } from '@gravis.finance/uikit'
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import {
   NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected,
+  UserRejectedRequestError as UserRejectedRequestErrorInjected
 } from '@web3-react/injected-connector'
 import {
   UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
-  WalletConnectConnector,
+  WalletConnectConnector
 } from '@web3-react/walletconnect-connector'
-import { connectorLocalStorageKey, ConnectorNames } from '@gravis.finance/uikit'
+import { useCallback } from 'react'
+
+import { ConnectorNames } from 'constants/network'
 import useToast from 'state/hooks'
-import { getConnectorsByName } from '../utils/web3React'
-import { setupNetwork } from '../utils/wallet'
+import { setupNetwork } from 'utils/wallet'
+import { getConnectorsByName } from 'utils/web3React'
 
 const parseErrorMessage = (message) => {
   return message.replace(/,/g, ', ')
@@ -25,8 +27,10 @@ const useAuth = () => {
   // const provider: any = (window as WindowChain).ethereum
 
   const login = useCallback(
-    (connectorID: ConnectorNames) => {
-      const { chainId, connector } = getConnectorsByName(connectorID)
+    (connectorID: string) => {
+      const { chainId, connector } = getConnectorsByName(
+        connectorID as ConnectorNames
+      )
 
       // if (provider?.networkVersion !== chainId) {
       //   setupNetwork(chainId)
@@ -44,7 +48,10 @@ const useAuth = () => {
               }
             }
           }
-          if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
+          if (
+            error instanceof NoEthereumProviderError ||
+            error instanceof NoBscProviderError
+          ) {
             toastError('Provider Error', 'No provider was found')
             window.localStorage.removeItem(connectorLocalStorageKey)
           } else if (
@@ -56,7 +63,10 @@ const useAuth = () => {
               walletConnector.walletConnectProvider = null
             }
             window.localStorage.removeItem(connectorLocalStorageKey)
-            toastError('Authorization Error', 'Please authorize to access your account')
+            toastError(
+              'Authorization Error',
+              'Please authorize to access your account'
+            )
           } else {
             toastError(error.name, parseErrorMessage(error.message))
             console.error(error)
