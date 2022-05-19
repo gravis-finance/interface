@@ -116,7 +116,7 @@ const TokenCard = ({
               <Dots />
             )
           }
-          description="Circular supply"
+          description={t('Circular supply')}
         />
         <DataItem
           title={
@@ -126,10 +126,10 @@ const TokenCard = ({
               <Dots />
             )
           }
-          description="Market cap"
+          description={t('Market cap')}
         />
         {maxSupply ? (
-          <DataItem title={maxSupply} description="Max total supply" />
+          <DataItem title={maxSupply} description={t('Max total supply')} />
         ) : null}
       </DataWrapper>
       <LastRow>

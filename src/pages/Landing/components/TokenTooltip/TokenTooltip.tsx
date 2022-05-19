@@ -80,6 +80,7 @@ type Props = {
   moreInfo: any[]
   right: number
   getBuyLink: (network: number) => string
+  isLoading: boolean
 }
 
 const TokenTooltip = ({
@@ -92,7 +93,8 @@ const TokenTooltip = ({
   price,
   moreInfo,
   getBuyLink,
-  right
+  right,
+  isLoading
 }: Props) => {
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
@@ -113,7 +115,7 @@ const TokenTooltip = ({
         <DataWrapper>
           <DataItem
             title={
-              circularSupply ? (
+              !isLoading && circularSupply ? (
                 numberWithSpaces(parseInt(circularSupply))
               ) : (
                 <Dots />
@@ -123,7 +125,11 @@ const TokenTooltip = ({
           />
           <DataItem
             title={
-              circularSupply ? `$${numberWithSpaces(marketCap)}` : <Dots />
+              !isLoading && marketCap ? (
+                `$${numberWithSpaces(marketCap)}`
+              ) : (
+                <Dots />
+              )
             }
             description={t('Market cap')}
           />
@@ -138,9 +144,11 @@ const TokenTooltip = ({
           onClick={() => (chainId ? history.push(getBuyLink(chainId)) : null)}
         >
           {t('Buy')}
-          <span style={{ marginLeft: 5 }}>
-            {t('for')} {price}
-          </span>
+          {isLoading && price ? null : (
+            <span style={{ marginLeft: 5 }}>
+              {t('for')} {price}
+            </span>
+          )}
         </Button>
         <Flex mt="5px" flexDirection="column">
           <Text mb="20px" style={{ fontWeight: 700 }}>

@@ -58,6 +58,7 @@ const TokenButton = ({
       moreInfo={moreInfo}
       right={right}
       getBuyLink={getBuyLink}
+      isLoading={isLoading}
     />
   )
 

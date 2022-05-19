@@ -170,7 +170,7 @@ const OurTokens = () => {
               <Flex>
                 <StyledTokenInfo
                   isLoading={isTokenDataLoading}
-                  value={tokenDataItem.price}
+                  value={tokenDataItem?.price}
                   image={icon}
                   title={title}
                 />
