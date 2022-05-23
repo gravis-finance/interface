@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import BRIDGE_BACKGROUND_MOBILE_IMAGE from 'assets/images/landing/bridge-background-mobile.svg'
 import BRIDGE_BACKGROUND_IMAGE from 'assets/images/landing/bridge-background.svg'
 import GRVS_BRIDGE_IMAGE from 'assets/images/landing/grvs-bridge.svg'
+import { Dots } from 'components/swap/styleds'
+import useBridgeData from 'hooks/useBridgeData'
 
 import BLOCKS_CONFIG from '../../blocks-config'
 import Button from '../Button'
@@ -205,7 +207,7 @@ const Transfered = styled.div`
 
 const Bridge = () => {
   const { t } = useTranslation()
-  const amount = '2,423,631.536'
+  const { data: amount, isLoading } = useBridgeData()
 
   return (
     <Container id={BLOCKS_CONFIG.BRIDGING.link}>
@@ -236,7 +238,7 @@ const Bridge = () => {
               fontSize="32px"
               mt="20px"
             >
-              $ {amount}
+              $ {isLoading ? <Dots /> : amount}
             </Text>
             <Description>{t('Tokens transfered')}</Description>
           </Transfered>
