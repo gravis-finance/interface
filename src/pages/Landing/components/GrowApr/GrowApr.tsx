@@ -1,7 +1,6 @@
 import { Image, Text } from '@gravis.finance/uikit'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import FLOWER_MOBILE_IMAGE from 'assets/images/landing/flower-mobile.svg'
@@ -165,7 +164,6 @@ const Container = styled(BaseContainer)`
 
 const GrowApr = () => {
   const { t } = useTranslation()
-  const history = useHistory()
 
   return (
     <Container id={BLOCKS_CONFIG.STAKING.link}>
@@ -182,7 +180,15 @@ const GrowApr = () => {
                 'Stake our governance token GRVS and our utility token GRVX. The more GRVS you stake, the more APR you get.'
               )}
             </Description>
-            <StyledButton isBlack onClick={() => history.push('/trade')}>
+            <StyledButton
+              isBlack
+              onClick={() =>
+                window.open(
+                  `${process.env.REACT_APP_FARMING_URL}/staking`,
+                  '_blank'
+                )
+              }
+            >
               {t('Stake tokens')}
             </StyledButton>
           </Content>

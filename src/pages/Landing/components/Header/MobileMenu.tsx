@@ -91,11 +91,12 @@ function enableScrolling() {
 const MobileMenu = ({ onItemClick }) => {
   useEffect(() => {
     disableScrolling()
-
-    return () => {
-      enableScrolling()
-    }
   }, [])
+
+  const handleClick = () => {
+    enableScrolling()
+    onItemClick()
+  }
 
   return (
     <Container>
@@ -108,7 +109,7 @@ const MobileMenu = ({ onItemClick }) => {
         </Flex>
         <Flex flexDirection="column">
           {MENU_ITEMS_CONFIG.map((props) => (
-            <MenuItem onClick={onItemClick} {...props} />
+            <MenuItem onClick={handleClick} {...props} />
           ))}
         </Flex>
         <Socials

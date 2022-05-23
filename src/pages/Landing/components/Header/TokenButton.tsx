@@ -1,8 +1,9 @@
 import { ButtonBase, useModal } from '@gravis.finance/uikit'
-import React, { useReducer } from 'react'
+import React, { useReducer, useRef } from 'react'
 import styled, { css } from 'styled-components'
 
 import { ArrowBottom } from 'components/Svg'
+import { useOnClickOutside } from 'hooks/useOnClickOutside'
 
 import TokenInfo from '../TokenInfo'
 import TokenTooltip from '../TokenTooltip'
@@ -46,8 +47,11 @@ const TokenButton = ({
   isLoading
 }) => {
   const [isOpened, toggleOpened] = useReducer((state) => !state, false)
+  const ref = useRef(null)
+
   const [open, close] = useModal(
     <TokenTooltip
+      ref={ref}
       title={title}
       icon={icon}
       price={price}
@@ -59,8 +63,17 @@ const TokenButton = ({
       right={right}
       getBuyLink={getBuyLink}
       isLoading={isLoading}
-    />
+    />,
+    true
   )
+  useOnClickOutside(ref, () => {
+    if (!isOpened) {
+      return
+    }
+
+    toggleOpened()
+    close()
+  })
 
   const handleClick = () => {
     toggleOpened()

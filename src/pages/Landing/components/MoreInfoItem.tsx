@@ -1,15 +1,22 @@
 import { ButtonBase, Flex, Image, Text } from '@gravis.finance/uikit'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+
+const StyledButtonBase = styled(ButtonBase)`
+  width: calc(50% - 8px);
+  justify-content: start;
+
+  :hover {
+    filter: contrast(0.6);
+  }
+`
 
 const MoreInfoItem = ({ title, link, icon }) => {
   const { t } = useTranslation()
 
   return (
-    <ButtonBase
-      style={{ width: 'calc(50% - 8px)', justifyContent: 'start' }}
-      onClick={() => window.open(link, '_blank')}
-    >
+    <StyledButtonBase onClick={() => window.open(link, '_blank')}>
       <Flex
         justifyContent="center"
         alignItems="center"
@@ -28,7 +35,7 @@ const MoreInfoItem = ({ title, link, icon }) => {
       >
         {t(title)}
       </Text>
-    </ButtonBase>
+    </StyledButtonBase>
   )
 }
 

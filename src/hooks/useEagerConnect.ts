@@ -1,5 +1,10 @@
+import {
+  ConnectorNames,
+  connectorLocalStorageKey,
+  getNetworkId
+} from '@gravis.finance/uikit'
 import { useEffect } from 'react'
-import { connectorLocalStorageKey, ConnectorNames, getNetworkId } from '@gravis.finance/uikit'
+
 import useAuth from 'hooks/useAuth'
 
 const _binanceChainListener = async () =>
@@ -12,7 +17,7 @@ const _binanceChainListener = async () =>
         this.bsc = bsc
 
         resolve()
-      },
+      }
     })
   )
 
@@ -20,10 +25,15 @@ const useEagerConnect = () => {
   const { login } = useAuth()
 
   useEffect(() => {
-    const connectorId = window.localStorage.getItem(connectorLocalStorageKey) as ConnectorNames
+    const connectorId = window.localStorage.getItem(
+      connectorLocalStorageKey
+    ) as ConnectorNames
     const chainId = getNetworkId()
 
-    if (connectorId === ConnectorNames.BSC && (chainId === '128' || chainId === '256')) {
+    if (
+      connectorId === ConnectorNames.BSC &&
+      (chainId === '128' || chainId === '256')
+    ) {
       return
     }
 

@@ -41,3 +41,8 @@ export const NETWORK_NAME_CHAIN_ID = Object.fromEntries<ChainId>(
     parseInt(key)
   ])
 ) as Record<NETWORK_NAMES, ChainId>
+
+export const SUPPORTED_CHAINS =
+  process.env.REACT_APP_NODE_ENV === 'production'
+    ? [ChainId.MAINNET, ChainId.MATICMAINNET, ChainId.HECOMAINNET]
+    : [ChainId.BSCTESTNET, ChainId.MATICTESTNET, ChainId.HECOTESTNET]

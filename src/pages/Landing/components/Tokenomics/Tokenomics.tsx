@@ -1,3 +1,4 @@
+import { ChainId } from '@gravis.finance/sdk'
 import { Flex, Image, Text } from '@gravis.finance/uikit'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -5,6 +6,7 @@ import styled, { css } from 'styled-components'
 
 import TOKENOMICS_IMAGE from 'assets/images/landing/tokenomics.svg'
 import { BinanaceIcon, PolygonIcon } from 'components/Svg'
+import { isProduction } from 'constants/commons'
 import useGetTokensData from 'hooks/useGetTokensData'
 
 import BLOCKS_CONFIG from '../../blocks-config'
@@ -143,6 +145,10 @@ const BUTTONS = [
 ]
 
 const NETWORKS = ['bsc', 'polygon']
+const NETWORK_CHAIN = {
+  bsc: isProduction ? ChainId.MAINNET : ChainId.BSCTESTNET,
+  polygon: isProduction ? ChainId.MATICMAINNET : ChainId.MATICTESTNET
+}
 
 const Tokenomics = () => {
   const { t } = useTranslation()
@@ -184,6 +190,9 @@ const Tokenomics = () => {
                   tokenDataItem?.total,
                   tokenDataItem?.price
                 )}
+                getBuyLink={() =>
+                  props.getBuyLink(NETWORK_CHAIN[NETWORKS[selected]])
+                }
                 price={tokenDataItem?.price}
                 circularSupply={tokenDataItem?.live_count}
                 isLoading={isTokenDataLoading}

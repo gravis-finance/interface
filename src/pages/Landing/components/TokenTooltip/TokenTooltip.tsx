@@ -1,5 +1,5 @@
 import { Flex, Image, Text } from '@gravis.finance/uikit'
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -69,7 +69,10 @@ const Square = styled.div`
   transform: rotate(45deg);
 `
 
+const defaultOnDismiss = () => null
+
 type Props = {
+  onDismiss?: () => unknown
   icon: string
   title: string
   description: string
@@ -83,91 +86,106 @@ type Props = {
   isLoading: boolean
 }
 
-const TokenTooltip = ({
-  icon,
-  title,
-  description,
-  circularSupply,
-  marketCap,
-  maxSupply,
-  price,
-  moreInfo,
-  getBuyLink,
-  right,
-  isLoading
-}: Props) => {
-  const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
-  const history = useHistory()
+const TokenTooltip = forwardRef(
+  (
+    {
+      onDismiss = defaultOnDismiss,
+      icon,
+      title,
+      description,
+      circularSupply,
+      marketCap,
+      maxSupply,
+      price,
+      moreInfo,
+      getBuyLink,
+      right,
+      isLoading
+    }: Props,
+    ref: any
+  ) => {
+    const { t } = useTranslation()
+    const { chainId } = useActiveWeb3React()
+    const history = useHistory()
 
-  return (
-    <Card right={right}>
-      <Flex pr="40px" flexDirection="column">
-        <Flex className="header" alignItems="center">
-          <Image width={65} height={65} src={icon} />
-          <Text ml="25px" style={{ fontWeight: 700 }} fontSize="30px">
-            {t(title)}
-          </Text>
-        </Flex>
-        <Text className="description" mt="15px" fontSize="16px">
-          {t(description)}
-        </Text>
-        <DataWrapper>
-          <DataItem
-            title={
-              !isLoading && circularSupply ? (
-                numberWithSpaces(parseInt(circularSupply))
-              ) : (
-                <Dots />
-              )
-            }
-            description={t('Circular supply')}
-          />
-          <DataItem
-            title={
-              !isLoading && marketCap ? (
-                `$${numberWithSpaces(marketCap)}`
-              ) : (
-                <Dots />
-              )
-            }
-            description={t('Market cap')}
-          />
-          {maxSupply ? (
-            <DataItem title={maxSupply} description={t('Max total supply')} />
-          ) : null}
-        </DataWrapper>
-      </Flex>
-      <LastRow>
-        <Button
-          style={{ minWidth: 300, width: '100%' }}
-          onClick={() => (chainId ? history.push(getBuyLink(chainId)) : null)}
-        >
-          {t('Buy')}
-          {isLoading && price ? null : (
-            <span style={{ marginLeft: 5 }}>
-              {t('for')} {price}
-            </span>
-          )}
-        </Button>
-        <Flex mt="5px" flexDirection="column">
-          <Text mb="20px" style={{ fontWeight: 700 }}>
-            {t('More info on')}
-          </Text>
-          <Flex style={{ gap: '20px 15px' }} flexWrap="wrap">
-            {moreInfo?.map((item) => (
-              <MoreInfoItem
-                link={item.getLink(chainId)}
-                key={item.title}
-                {...item}
-              />
-            ))}
+    const handleClick = () => {
+      if (!chainId) {
+        return
+      }
+
+      history.push(getBuyLink(chainId))
+      onDismiss()
+    }
+
+    return (
+      <Card ref={ref} right={right}>
+        <Flex pr="40px" flexDirection="column">
+          <Flex className="header" alignItems="center">
+            <Image width={65} height={65} src={icon} />
+            <Text ml="25px" style={{ fontWeight: 700 }} fontSize="30px">
+              {t(title)}
+            </Text>
           </Flex>
+          <Text className="description" mt="15px" fontSize="16px">
+            {t(description)}
+          </Text>
+          <DataWrapper>
+            <DataItem
+              title={
+                !isLoading && circularSupply ? (
+                  numberWithSpaces(parseInt(circularSupply))
+                ) : (
+                  <Dots />
+                )
+              }
+              description={t('Circular supply')}
+            />
+            <DataItem
+              title={
+                !isLoading && marketCap ? (
+                  `$${numberWithSpaces(marketCap)}`
+                ) : (
+                  <Dots />
+                )
+              }
+              description={t('Market cap')}
+            />
+            {maxSupply ? (
+              <DataItem title={maxSupply} description={t('Max total supply')} />
+            ) : null}
+          </DataWrapper>
         </Flex>
-      </LastRow>
-      <Square />
-    </Card>
-  )
-}
+        <LastRow>
+          <Button
+            style={{ minWidth: 300, width: '100%' }}
+            onClick={handleClick}
+          >
+            {t('Buy')}
+            {isLoading || !price ? null : (
+              <span style={{ marginLeft: 5 }}>
+                {t('for')} {price}
+              </span>
+            )}
+          </Button>
+          <Flex mt="5px" flexDirection="column">
+            <Text mb="20px" style={{ fontWeight: 700 }}>
+              {t('More info on')}
+            </Text>
+            <Flex style={{ gap: '20px 15px' }} flexWrap="wrap">
+              {moreInfo?.map((item) => (
+                <MoreInfoItem
+                  link={item.getLink(chainId)}
+                  key={item.title}
+                  {...item}
+                />
+              ))}
+            </Flex>
+          </Flex>
+        </LastRow>
+        <Square />
+      </Card>
+    )
+  }
+)
 
 export default TokenTooltip
