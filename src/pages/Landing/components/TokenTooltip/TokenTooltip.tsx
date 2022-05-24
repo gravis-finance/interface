@@ -163,7 +163,7 @@ const TokenTooltip = forwardRef(
             {t('Buy')}
             {isLoading || !price ? null : (
               <span style={{ marginLeft: 5 }}>
-                {t('for')} {price}
+                {t('for')} ${price}
               </span>
             )}
           </Button>

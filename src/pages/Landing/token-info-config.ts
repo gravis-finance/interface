@@ -17,28 +17,28 @@ const GRVX_MORE_INFO = {
   },
   [NETWORK_NAME_CHAIN_ID.MATIC]: {
     DEXGURU:
-      'https://info.gravis.finance/token/0xd322da59c420e0827e31c40f1886346fb19c6687?network=polygon',
+      'https://dex.guru/token/0xd322da59c420e0827e31c40f1886346fb19c6687-polygon',
     GSWAP:
-      'https://dex.guru/token/0xd322da59c420e0827e31c40f1886346fb19c6687-polygon'
+      'https://info.gravis.finance/token/0xd322da59c420e0827e31c40f1886346fb19c6687?network=polygon'
   }
 }
 
 const GRVS_MORE_INFO = {
   [NETWORK_NAME_CHAIN_ID.BSC]: {
     PANCAKE:
-      'https://pancakeswap.finance/info/token/0xa349fd455a457467d31ca8db59052daebbbcc108',
+      'https://pancakeswap.finance/info/token/0x190CEC0657a02E9eAB1C1DF5d59f9139131cf539',
     COINMARKETCAP: 'https://coinmarketcap.com/currencies/gravis-finance/',
     GSWAP:
-      'https://info.gravis.finance/token/0xa349fd455a457467d31ca8db59052daebbbcc108?network=binance',
-    APE: 'https://info.apeswap.finance/token/0xa349fd455a457467d31ca8db59052daebbbcc108'
+      'https://info.gravis.finance/token/0x190CEC0657a02E9eAB1C1DF5d59f9139131cf539?network=binance',
+    APE: 'https://info.apeswap.finance/token/0x190CEC0657a02E9eAB1C1DF5d59f9139131cf539'
   },
   [NETWORK_NAME_CHAIN_ID.MATIC]: {
     PANCAKE:
-      'https://pancakeswap.finance/info/token/0xa349fd455a457467d31ca8db59052daebbbcc108',
+      'https://pancakeswap.finance/info/token/0x190CEC0657a02E9eAB1C1DF5d59f9139131cf539',
     COINMARKETCAP: 'https://coinmarketcap.com/currencies/gravis-finance/',
     GSWAP:
-      'https://dex.guru/token/0xd322da59c420e0827e31c40f1886346fb19c6687-polygon',
-    APE: 'https://info.apeswap.finance/token/0xa349fd455a457467d31ca8db59052daebbbcc108'
+      'https://info.gravis.finance/token/0x190CEC0657a02E9eAB1C1DF5d59f9139131cf539?network=polygon',
+    APE: 'https://info.apeswap.finance/token/0x190CEC0657a02E9eAB1C1DF5d59f9139131cf539'
   }
 }
 

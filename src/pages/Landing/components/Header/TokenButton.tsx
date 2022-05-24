@@ -1,5 +1,5 @@
 import { ButtonBase, useModal } from '@gravis.finance/uikit'
-import React, { useReducer, useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 
 import { ArrowBottom } from 'components/Svg'
@@ -46,8 +46,9 @@ const TokenButton = ({
   maxSupply,
   isLoading
 }) => {
-  const [isOpened, toggleOpened] = useReducer((state) => !state, false)
+  const [isOpened, setIsOpened] = useState(false)
   const ref = useRef(null)
+  const buttonRef = useRef<any>(null)
 
   const [open, close] = useModal(
     <TokenTooltip
@@ -66,17 +67,16 @@ const TokenButton = ({
     />,
     true
   )
-  useOnClickOutside(ref, () => {
-    if (!isOpened) {
+  useOnClickOutside(ref, (event) => {
+    if (buttonRef.current?.contains(event.target as Node)) {
       return
     }
-
-    toggleOpened()
+    setIsOpened(false)
     close()
   })
 
   const handleClick = () => {
-    toggleOpened()
+    setIsOpened((value) => !value)
     if (!isOpened) {
       open()
     } else {
@@ -88,6 +88,7 @@ const TokenButton = ({
     <>
       {isOpened ? <Overlay /> : null}
       <ButtonBase
+        ref={buttonRef}
         onClick={handleClick}
         style={{
           minWidth: 120,

@@ -17,6 +17,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  touch-action: none;
   background-color: #080a15;
   padding: 20px;
   padding-top: 100px;
@@ -91,6 +92,10 @@ function enableScrolling() {
 const MobileMenu = ({ onItemClick }) => {
   useEffect(() => {
     disableScrolling()
+
+    return () => {
+      enableScrolling()
+    }
   }, [])
 
   const handleClick = () => {
@@ -104,7 +109,7 @@ const MobileMenu = ({ onItemClick }) => {
         style={{ maxWidth: 450, width: '100%', position: 'relative' }}
         flexDirection="column"
       >
-        <Flex mt="25px" flexDirection="column">
+        <Flex flexDirection="column">
           <OurTokens />
         </Flex>
         <Flex flexDirection="column">
@@ -113,7 +118,7 @@ const MobileMenu = ({ onItemClick }) => {
           ))}
         </Flex>
         <Socials
-          style={{ order: 0, marginTop: 20 }}
+          style={{ order: 0, marginTop: 2, maxWidth: 'none' }}
           size={45}
           list={SOCIALS_LIST}
         />

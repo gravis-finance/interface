@@ -141,7 +141,7 @@ const TokenCard = ({
           {!isLoading ? (
             <span style={{ marginLeft: 5 }} className="price">
               {' '}
-              {t('for')} {price}
+              {t('for')} ${price}
             </span>
           ) : null}
         </Button>

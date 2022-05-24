@@ -14,6 +14,7 @@ const MenuItem = ({
     const view = document.querySelector(href)
 
     view.scrollIntoView({ behavior: 'smooth' })
+    window.scrollBy(0, -70)
 
     if (onClick) onClick(event)
   }
