@@ -123,6 +123,7 @@ const OurTokens = () => {
 
             return (
               <Flex
+                key={props.title}
                 flexDirection="column"
                 style={
                   TOKEN_INFO_CONFIG.length - 1 !== index
@@ -150,7 +151,11 @@ const OurTokens = () => {
                   <Flex style={{ gap: '20px 15px' }} flexWrap="wrap">
                     {props.moreInfo?.map((item) => {
                       return (
-                        <MoreInfoItem link={item.getLink(chainId)} {...item} />
+                        <MoreInfoItem
+                          key={item.title}
+                          link={item.getLink(chainId)}
+                          {...item}
+                        />
                       )
                     })}
                   </Flex>
@@ -167,7 +172,7 @@ const OurTokens = () => {
               : null
 
             return (
-              <Flex>
+              <Flex key={title}>
                 <StyledTokenInfo
                   isLoading={isTokenDataLoading}
                   value={tokenDataItem?.price}

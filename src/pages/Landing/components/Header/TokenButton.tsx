@@ -68,7 +68,7 @@ const TokenButton = ({
     true
   )
   useOnClickOutside(ref, (event) => {
-    if (buttonRef.current?.contains(event.target as Node)) {
+    if (buttonRef.current?.contains(event.target as Node) || !isOpened) {
       return
     }
     setIsOpened(false)

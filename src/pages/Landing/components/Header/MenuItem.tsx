@@ -12,9 +12,14 @@ const MenuItem = ({
     event.preventDefault()
 
     const view = document.querySelector(href)
-
-    view.scrollIntoView({ behavior: 'smooth' })
-    window.scrollBy(0, -70)
+    const position = view.getBoundingClientRect()
+    setTimeout(() => {
+      window.scrollTo({
+        left: position.left,
+        top: position.top + window.scrollY - 70,
+        behavior: 'smooth'
+      })
+    }, 50)
 
     if (onClick) onClick(event)
   }

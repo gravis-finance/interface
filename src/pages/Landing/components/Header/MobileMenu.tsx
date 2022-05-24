@@ -1,8 +1,9 @@
 import { Flex, Text } from '@gravis.finance/uikit'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
+import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
 import { ArrowBottom } from 'components/Svg'
 
 import Socials, { SOCIALS_LIST } from '../Socials'
@@ -16,8 +17,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100%;
-  touch-action: none;
+  height: 100vh;
   background-color: #080a15;
   padding: 20px;
   padding-top: 100px;
@@ -77,34 +77,22 @@ const MenuItem = ({ link, title, onClick }) => {
   )
 }
 
-function disableScrolling() {
-  const x = window.scrollX
-  const y = window.scrollY
-  window.document.body.style.overflowY = 'hidden'
-  window.onscroll = () => window.scrollTo(x, y)
-}
-
-function enableScrolling() {
-  window.document.body.style.overflowY = 'scroll'
-  window.onscroll = () => null
-}
-
 const MobileMenu = ({ onItemClick }) => {
+  const ref = useRef<any>(null)
   useEffect(() => {
-    disableScrolling()
-
+    disableBodyScroll(ref.current)
     return () => {
-      enableScrolling()
+      clearAllBodyScrollLocks()
     }
   }, [])
 
   const handleClick = () => {
-    enableScrolling()
+    clearAllBodyScrollLocks()
     onItemClick()
   }
 
   return (
-    <Container>
+    <Container ref={ref}>
       <Flex
         style={{ maxWidth: 450, width: '100%', position: 'relative' }}
         flexDirection="column"
@@ -114,7 +102,7 @@ const MobileMenu = ({ onItemClick }) => {
         </Flex>
         <Flex flexDirection="column">
           {MENU_ITEMS_CONFIG.map((props) => (
-            <MenuItem onClick={handleClick} {...props} />
+            <MenuItem key={props.link} onClick={handleClick} {...props} />
           ))}
         </Flex>
         <Socials
