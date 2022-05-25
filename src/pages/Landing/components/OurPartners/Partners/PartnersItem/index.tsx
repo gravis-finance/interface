@@ -59,7 +59,7 @@ type Props = {
 
 const PartnersItem: React.FC<Props> = ({ image }) => {
   const handleClick = () => {
-    window.open(image.link, '_blank')
+    if (image.link) window.open(image.link, '_blank')
   }
 
   return (
