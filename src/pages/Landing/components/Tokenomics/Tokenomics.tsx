@@ -105,21 +105,21 @@ const StyledTokenCard = styled(TokenCard)`
 
 const StyledBinanaceIcon = styled(BinanaceIcon)`
   path {
-    fill: #f3ba2f;
+    fill: #f3ba2f !important;
   }
 
   path.letters {
-    fill: #ffffff;
+    fill: #ffffff !important;
   }
 `
 
 const StyledPolygonIcon = styled(PolygonIcon)`
   path {
-    fill: #8247e5;
+    fill: #8247e5 !important;
   }
 
   path.letters {
-    fill: #ffffff;
+    fill: #ffffff !important;
   }
 `
 
@@ -127,13 +127,21 @@ const StyledButton = styled(Button)<{ isSelected: boolean }>`
   background: rgba(255, 255, 255, 0.1);
   padding-left: 12px;
 
+  :active {
+    background: #ffffff;
+
+    path.letters {
+      fill: #000000;
+    }
+  }
+
   ${({ isSelected }) =>
     isSelected
       ? css`
-          background: rgba(255, 255, 255);
+          background: #ffffff !important;
 
           path.letters {
-            fill: #000000;
+            fill: #000000 !important;
           }
         `
       : null}
