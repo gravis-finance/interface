@@ -46,3 +46,8 @@ export const SUPPORTED_CHAINS =
   process.env.REACT_APP_NODE_ENV === 'production'
     ? [ChainId.MAINNET, ChainId.MATICMAINNET, ChainId.HECOMAINNET]
     : [ChainId.BSCTESTNET, ChainId.MATICTESTNET, ChainId.HECOTESTNET]
+
+export const BACKEND_NETWORK_NAMES = {
+  [NETWORK_NAME_CHAIN_ID.BSC]: 'bsc',
+  [NETWORK_NAME_CHAIN_ID.MATIC]: 'polygon'
+} as const

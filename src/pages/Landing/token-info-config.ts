@@ -2,7 +2,6 @@ import APE_IMAGE from 'assets/images/landing/more-info-projects/ape.svg'
 import COINMARKETCAP_IMAGE from 'assets/images/landing/more-info-projects/coinmarketcap.svg'
 import DEXGURU_IMAGE from 'assets/images/landing/more-info-projects/dexguru.svg'
 import GSWAP_IMAGE from 'assets/images/landing/more-info-projects/gswap.svg'
-import PANCAKE_IMAGE from 'assets/images/landing/more-info-projects/pancake.svg'
 import GRVS_IMAGE from 'assets/images/landing/tokens/grvs.svg'
 import GRVX_IMAGE from 'assets/images/landing/tokens/grvx.svg'
 import { NETWORK_NAME_CHAIN_ID } from 'constants/network'
@@ -57,9 +56,9 @@ const TOKEN_INFO_CONFIG = [
       )}&outputCurrency=${getTokenAddress(network, 'GRVS')}`,
     moreInfo: [
       {
-        icon: PANCAKE_IMAGE,
-        title: 'Pancake Swap',
-        getLink: (network) => GRVS_MORE_INFO[network].PANCAKE
+        icon: APE_IMAGE,
+        title: 'ApeSwap',
+        getLink: (network) => GRVS_MORE_INFO[network].APE
       },
       {
         icon: GSWAP_IMAGE,
@@ -70,11 +69,6 @@ const TOKEN_INFO_CONFIG = [
         icon: COINMARKETCAP_IMAGE,
         title: 'CoinMarket Cap',
         getLink: (network) => GRVS_MORE_INFO[network].COINMARKETCAP
-      },
-      {
-        icon: APE_IMAGE,
-        title: 'ApeSwap',
-        getLink: (network) => GRVS_MORE_INFO[network].APE
       }
     ]
   },

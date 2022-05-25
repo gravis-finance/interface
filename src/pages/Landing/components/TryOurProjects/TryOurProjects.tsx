@@ -22,14 +22,16 @@ const CollectionWrapper = styled.div`
 
   > div {
     max-width: 635px;
+
+    @media (max-width: 620px) {
+      :not(:first-child) {
+        margin-bottom: 120px;
+      }
+    }
   }
 
   @media (max-width: 1260px) {
-    flex-direction: column;
-  }
-
-  @media (max-width: 620px) {
-    row-gap: 120px;
+    flex-direction: column-reverse;
   }
 `
 

@@ -7,22 +7,27 @@ const Button = styled(UikitButton)<{ isBlack?: boolean }>`
       ? css`
           background-color: #000000;
           color: #ffffff;
+
+          :hover:not(:disabled):not(.button--disabled):not(:active) {
+            background-color: #000000;
+            color: rgba(255, 255, 255, 0.7);
+          }
         `
       : css`
           background-color: #ffffff;
           color: #000000;
+
+          :hover:not(:disabled):not(.button--disabled):not(:active) {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+
+            path {
+              fill: #ffffff;
+            }
+          }
         `}
   border: none;
   box-shadow: none;
-
-  :hover:not(:disabled):not(.button--disabled):not(:active) {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-
-    path {
-      fill: #ffffff;
-    }
-  }
 
   :active {
     background-color: #009ce1;
