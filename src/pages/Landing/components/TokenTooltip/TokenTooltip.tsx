@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Dots } from 'components/swap/styleds'
 import { useActiveWeb3React } from 'hooks'
-import numberWithSpaces from 'utils/numberWithSpaces'
+import numberWithSpaces from 'utils/numberWithSeparator'
 
 import Button from '../Button'
 import DataItem from '../DataItem'

@@ -8,6 +8,7 @@ import BRIDGE_BACKGROUND_IMAGE from 'assets/images/landing/bridge-background.svg
 import GRVS_BRIDGE_IMAGE from 'assets/images/landing/grvs-bridge.svg'
 import { Dots } from 'components/swap/styleds'
 import useBridgeDollarsTransfered from 'hooks/useBridgeData'
+import numberWithSpaces from 'utils/numberWithSeparator'
 
 import BLOCKS_CONFIG from '../../blocks-config'
 import Button from '../Button'
@@ -238,7 +239,8 @@ const Bridge = () => {
               fontSize="32px"
               mt="20px"
             >
-              $ {isLoading ? <Dots /> : amount.toFixed(3)}
+              ${' '}
+              {isLoading ? <Dots /> : numberWithSpaces(amount.toFixed(3), ',')}
             </Text>
             <Description>{t('Tokens transferred')}</Description>
           </Transfered>
