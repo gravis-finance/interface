@@ -52,11 +52,15 @@ const PoweredByViewWrapper = styled.div`
 const POWERED_BUY_CONFIG = [
   { image: BINANCE_ICON, alt: 'Binance' },
   { image: HUOBI_ICON, alt: 'Huobi' },
-  { image: POLYGON_ICON, alt: 'Polygon' },
-  { image: AURORA_ICON, alt: 'Aurora' }
+  { image: POLYGON_ICON, alt: 'Polygon' }
 ]
 
 const COMING_SOON_CONFIG = [
+  {
+    image: AURORA_ICON,
+    alt: 'Aurora',
+    style: { background: 'none', padding: 0 }
+  },
   { image: SOLANA_ICON, alt: 'Solana', width: 132 },
   { image: NEAR_ICON, alt: 'Near', width: 96 },
   { image: POLKADOT_ICON, alt: 'Polkadot', width: 104 },
@@ -98,7 +102,7 @@ const PoweredBy = () => {
             mr="10px"
             fontSize="14px"
           >
-            {t('Comming soon')}
+            {t('Coming soon')}
           </Text>
           {COMING_SOON_CONFIG.map(({ image, alt, width, style }) => (
             <StyledImage

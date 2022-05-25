@@ -62,7 +62,7 @@ const Footer = () => {
             style={{ fontWeight: 500, opacity: 0.7, fontFamily: 'Inter' }}
             href="https://drive.google.com/file/d/1p5n2HUo3VNUhhbr60cKkjP_8dBHbMO4h/view?usp=sharing"
           >
-            {t('Terms of Use')}
+            Terms of Use
           </Link>
         </Flex>
         <Socials size={isSmall ? 50 : 60} list={SOCIALS_LIST} />
