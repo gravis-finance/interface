@@ -30,6 +30,7 @@ const StyledImage = styled(Image)`
 
 type Props = {
   image: {
+    marginTop?: number
     height: number
     width: number
     src: string
@@ -41,6 +42,7 @@ const PartnersItem: React.FC<Props> = ({ image }) => {
   return (
     <Container>
       <StyledImage
+        marginTop={image.marginTop}
         height={image.height}
         width={image.width}
         src={image.src}

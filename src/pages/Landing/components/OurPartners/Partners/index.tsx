@@ -37,8 +37,14 @@ const PARTNERS_CONFIG = {
     { src: backedBy1, alt: 'blocksolfi', width: 73, height: 9.4 },
     { src: backedBy3, alt: 'a-crypto', height: 43, width: 38 },
     { src: backedBy9, alt: '', width: 75, height: 32 },
-    { src: backedBy4, alt: 'OneBlock Labs', width: 74, height: 20 },
-    { src: backedBy7, alt: 'crypto era', width: 40, height: 50 },
+    { src: backedBy4, alt: 'OneBlock Labs', width: 76, height: 23 },
+    {
+      src: backedBy7,
+      alt: 'crypto era',
+      width: 74,
+      height: 60,
+      marginTop: -10
+    },
     { src: backedBy6, alt: 'gem mouse', width: 46, height: 46 },
     { src: backedBy8, alt: '', width: 50, height: 52 },
     { src: backedBy5, alt: 'tccl ventures', width: 51, height: 24 }
