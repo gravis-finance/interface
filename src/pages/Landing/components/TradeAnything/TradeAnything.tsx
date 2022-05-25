@@ -50,6 +50,13 @@ const StyledButton = styled(Button)`
   letter-spacing: -0.02em;
 `
 
+const AddLiquididtyButton = styled(StyledButton)`
+  :hover:not(:disabled):not(.button--disabled):not(:active) {
+    background-color: #ffffff;
+    color: rgba(0, 0, 0, 0.7);
+  }
+`
+
 const Card = styled.div`
   display: flex;
   width: 100%;
@@ -230,9 +237,9 @@ const TradeAnything = () => {
               <StyledButton isBlack onClick={() => history.push('/swap')}>
                 {t('Trade now')}
               </StyledButton>
-              <StyledButton onClick={() => history.push('/add')}>
+              <AddLiquididtyButton onClick={() => history.push('/add')}>
                 {t('Add liquidity')}
-              </StyledButton>
+              </AddLiquididtyButton>
             </ButtonWrapper>
           </Content>
         </ContentContainer>

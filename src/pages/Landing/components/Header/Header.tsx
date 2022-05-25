@@ -169,7 +169,7 @@ const Header = () => {
               <Flex style={{ gap: 25 }} mr="40px">
                 {TOKEN_INFO_CONFIG.map((props, index) => {
                   const tokenDataItem = tokenData
-                    ? tokenData[props.title.toLocaleLowerCase()]
+                    ? tokenData[props.title.toLocaleLowerCase()][0]
                     : null
 
                   return (

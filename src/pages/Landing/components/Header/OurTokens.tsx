@@ -118,7 +118,7 @@ const OurTokens = () => {
         >
           {TOKEN_INFO_CONFIG.map((props, index) => {
             const tokenDataItem = tokenData
-              ? tokenData[props.title.toLocaleLowerCase()]
+              ? tokenData[props.title.toLocaleLowerCase()][0]
               : null
 
             return (
@@ -168,7 +168,7 @@ const OurTokens = () => {
         <TokenInfoWrapper>
           {TOKEN_INFO_CONFIG.map(({ icon, title, getBuyLink }) => {
             const tokenDataItem = tokenData
-              ? tokenData[title.toLocaleLowerCase()]
+              ? tokenData[title.toLocaleLowerCase()][0]
               : null
 
             return (

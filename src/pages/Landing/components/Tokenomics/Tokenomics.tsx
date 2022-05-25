@@ -153,9 +153,9 @@ const NETWORK_CHAIN = {
 const Tokenomics = () => {
   const { t } = useTranslation()
   const [selected, setSelected] = useState(0)
-  const { isLoading: isTokenDataLoading, data: tokenData } = useGetTokensData(
+  const { isLoading: isTokenDataLoading, data: tokenData } = useGetTokensData([
     NETWORKS[selected]
-  )
+  ])
 
   return (
     <Container id={BLOCKS_CONFIG.TOKENOMICS.link}>
@@ -179,7 +179,7 @@ const Tokenomics = () => {
           </Flex>
           {TOKEN_INFO_CONFIG.map((props) => {
             const tokenDataItem = tokenData
-              ? tokenData[props.title.toLocaleLowerCase()]
+              ? tokenData[props.title.toLocaleLowerCase()][0]
               : null
 
             return (

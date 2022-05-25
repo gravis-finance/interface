@@ -138,7 +138,7 @@ const TokenTooltip = forwardRef(
                   <Dots />
                 )
               }
-              description={t('Circular supply')}
+              description={t('Circulating supply')}
             />
             <DataItem
               title={

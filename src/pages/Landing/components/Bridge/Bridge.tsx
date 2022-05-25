@@ -7,7 +7,7 @@ import BRIDGE_BACKGROUND_MOBILE_IMAGE from 'assets/images/landing/bridge-backgro
 import BRIDGE_BACKGROUND_IMAGE from 'assets/images/landing/bridge-background.svg'
 import GRVS_BRIDGE_IMAGE from 'assets/images/landing/grvs-bridge.svg'
 import { Dots } from 'components/swap/styleds'
-import useBridgeData from 'hooks/useBridgeData'
+import useBridgeDollarsTransfered from 'hooks/useBridgeData'
 
 import BLOCKS_CONFIG from '../../blocks-config'
 import Button from '../Button'
@@ -207,7 +207,7 @@ const Transfered = styled.div`
 
 const Bridge = () => {
   const { t } = useTranslation()
-  const { data: amount, isLoading } = useBridgeData()
+  const { data: amount, isLoading } = useBridgeDollarsTransfered()
 
   return (
     <Container id={BLOCKS_CONFIG.BRIDGING.link}>
@@ -215,10 +215,10 @@ const Bridge = () => {
         <BridgeBackgroundImage />
         <LeftSide>
           <LeftContent>
-            <Title>{t('Bridge your GRVS & GRVX tokens and NFT')}</Title>
+            <Title>{t('Bridge your GRVS & GRVX tokens and NFTs')}</Title>
             <Description>
               {t(
-                'Across BNB Chain, Polygon and Aurora. More tokens and networks are coming soon.'
+                'Across BNB Chain, Polygon, and Aurora. More tokens and networks are coming soon.'
               )}
             </Description>
             <StyledButton
@@ -238,9 +238,9 @@ const Bridge = () => {
               fontSize="32px"
               mt="20px"
             >
-              $ {isLoading ? <Dots /> : amount}
+              $ {isLoading ? <Dots /> : amount.toFixed(3)}
             </Text>
-            <Description>{t('Tokens transfered')}</Description>
+            <Description>{t('Tokens transferred')}</Description>
           </Transfered>
         </RightSide>
       </Card>

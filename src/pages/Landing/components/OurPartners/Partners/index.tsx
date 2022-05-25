@@ -12,6 +12,7 @@ import backedBy6 from 'assets/images/landing/supporters/backed6.png'
 import backedBy7 from 'assets/images/landing/supporters/backed7.png'
 import backedBy8 from 'assets/images/landing/supporters/backed8.png'
 import backedBy9 from 'assets/images/landing/supporters/backed9.png'
+import supportedBy0 from 'assets/images/landing/supporters/supported0.png'
 import supportedBy1 from 'assets/images/landing/supporters/supported1.svg'
 import supportedBy2 from 'assets/images/landing/supporters/supported2.png'
 import supportedBy3 from 'assets/images/landing/supporters/supported3.png'
@@ -50,6 +51,13 @@ const PARTNERS_CONFIG = {
     { src: backedBy5, alt: 'tccl ventures', width: 51, height: 24 }
   ],
   supported: [
+    {
+      src: supportedBy0,
+      alt: 'blockspot.io',
+      width: 120,
+      height: 35,
+      link: 'https://blockspot.io/coin/gravis-finance/'
+    },
     { src: supportedBy4, alt: 'mads', width: 60, height: 70 },
     { src: supportedBy2, alt: 'coin sixty eight', width: 60, height: 33 },
     { src: supportedBy5, alt: 'omg crypto', width: 66, height: 40 },

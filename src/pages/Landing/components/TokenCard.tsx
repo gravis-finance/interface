@@ -116,7 +116,7 @@ const TokenCard = ({
               <Dots />
             )
           }
-          description={t('Circular supply')}
+          description={t('Circulating supply')}
         />
         <DataItem
           title={

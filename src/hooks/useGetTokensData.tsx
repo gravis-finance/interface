@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 
-import { NETWORK_NAME_CHAIN_ID } from 'constants/network'
+import { BACKEND_NETWORK_NAMES } from 'constants/network'
 import { useActiveWeb3React } from 'hooks'
 
 export const GRVX_ADDRESSES: { [Number in string]: string } = {
@@ -18,14 +18,9 @@ export const GRVS_ADDRESSES: { [Number in string]: string } = {
   '137': '0x190cec0657a02e9eab1c1df5d59f9139131cf539'
 }
 
-const NETWORK_NAMES = {
-  [NETWORK_NAME_CHAIN_ID.BSC]: 'bsc',
-  [NETWORK_NAME_CHAIN_ID.MATIC]: 'polygon'
-}
-
 const TOKENS_DATA_KEY = 'TOKENS_DATA_KEY'
 
-const useGetTokensData = (network?: string) => {
+const useGetTokensData = (networks?: string[]) => {
   const { chainId } = useActiveWeb3React()
 
   const fetchTokens = async () => {
@@ -44,17 +39,23 @@ const useGetTokensData = (network?: string) => {
               (token) =>
                 Object.values(GRVX_ADDRESSES).find(
                   (address) => token.token_address === address.toLowerCase()
-                ) && token.chain === (network || NETWORK_NAMES[chainId])
-            )[0],
+                ) &&
+                (networks
+                  ? networks.includes(token.chain)
+                  : token.chain === BACKEND_NETWORK_NAMES[chainId])
+            ),
             grvs: queryResult.data.filter(
               (token) =>
                 Object.values(GRVS_ADDRESSES).find(
                   (address) => token.token_address === address.toLowerCase()
-                ) && token.chain === (network || NETWORK_NAMES[chainId])
-            )[0]
+                ) &&
+                (networks
+                  ? networks.includes(token.chain)
+                  : token.chain === BACKEND_NETWORK_NAMES[chainId])
+            )
           }
         : null,
-    [chainId, network, queryResult]
+    [chainId, networks, queryResult]
   )
 
   return { ...queryResult, data: preparedData }
