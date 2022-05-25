@@ -30,6 +30,7 @@ const MoreInfoItem = ({ title, link, icon }) => {
         <Image width={16} height={16} src={icon} />
       </Flex>
       <Text
+        fontSize="14px"
         ml="10px"
         style={{ textAlign: 'start', fontWeight: 700, lineHeight: '135%' }}
       >
