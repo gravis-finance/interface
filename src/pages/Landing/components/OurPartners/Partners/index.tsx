@@ -12,6 +12,7 @@ import backedBy6 from 'assets/images/landing/supporters/backed6.png'
 import backedBy7 from 'assets/images/landing/supporters/backed7.png'
 import backedBy8 from 'assets/images/landing/supporters/backed8.png'
 import backedBy9 from 'assets/images/landing/supporters/backed9.png'
+import backedBy10 from 'assets/images/landing/supporters/backed10.png'
 import supportedBy0 from 'assets/images/landing/supporters/supported0.png'
 import supportedBy1 from 'assets/images/landing/supporters/supported1.svg'
 import supportedBy2 from 'assets/images/landing/supporters/supported2.png'
@@ -48,7 +49,8 @@ const PARTNERS_CONFIG = {
     },
     { src: backedBy6, alt: 'gem mouse', width: 46, height: 46 },
     { src: backedBy8, alt: '', width: 50, height: 52 },
-    { src: backedBy5, alt: 'tccl ventures', width: 51, height: 24 }
+    { src: backedBy5, alt: 'tccl ventures', width: 51, height: 24 },
+    { src: backedBy10, alt: '', width: 110, height: 50 }
   ],
   supported: [
     {

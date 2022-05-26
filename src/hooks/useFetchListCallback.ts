@@ -1,21 +1,30 @@
-import { nanoid } from '@reduxjs/toolkit'
 import { ChainId } from '@gravis.finance/sdk'
+import { nanoid } from '@reduxjs/toolkit'
 import { TokenList } from '@uniswap/token-lists'
 import { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import useNetwork from './useNetwork'
+
+import { SUPPORTED_CHAINS } from 'constants/network'
+
 import { AppDispatch } from '../state'
 import { fetchTokenList } from '../state/lists/actions'
 import getTokenList from '../utils/getTokenList'
 import resolveENSContentHash from '../utils/resolveENSContentHash'
 import { useActiveWeb3React } from './index'
+import useNetwork from './useNetwork'
 
-export function useFetchListCallback(): { fetchList: (listUrl: string) => Promise<TokenList>; refetch: boolean } {
+export function useFetchListCallback(): {
+  fetchList: (listUrl: string) => Promise<TokenList>
+  refetch: boolean
+} {
   const { chainId, library } = useActiveWeb3React()
   const dispatch = useDispatch<AppDispatch>()
   const { network, networkLibrary } = useNetwork()
   const [lastChainId, setLastChaindId] = useState<any>()
-  const refetch = chainId !== lastChainId
+  const refetch =
+    chainId && SUPPORTED_CHAINS.includes(chainId)
+      ? chainId !== lastChainId
+      : false
 
   const ensResolver = useCallback(
     (ensName: string) => {
@@ -38,12 +47,20 @@ export function useFetchListCallback(): { fetchList: (listUrl: string) => Promis
       return getTokenList(chainId as ChainId, listUrl, ensResolver)
         .then((tokenList) => {
           setLastChaindId(chainId)
-          dispatch(fetchTokenList.fulfilled({ url: listUrl, tokenList, requestId }))
+          dispatch(
+            fetchTokenList.fulfilled({ url: listUrl, tokenList, requestId })
+          )
           return tokenList
         })
         .catch((error) => {
           console.error(`Failed to get list at url ${listUrl}`, error)
-          dispatch(fetchTokenList.rejected({ url: listUrl, requestId, errorMessage: error.message }))
+          dispatch(
+            fetchTokenList.rejected({
+              url: listUrl,
+              requestId,
+              errorMessage: error.message
+            })
+          )
           throw error
         })
     },
@@ -51,7 +68,7 @@ export function useFetchListCallback(): { fetchList: (listUrl: string) => Promis
   )
   return {
     fetchList,
-    refetch,
+    refetch
   }
 }
 

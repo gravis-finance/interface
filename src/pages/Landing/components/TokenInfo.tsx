@@ -31,7 +31,7 @@ const TokenInfo = ({ image, title, value, isLoading, className = '' }) => {
           {t(title)}
         </Text>
         <Text className="value" fontSize="12px" style={{ fontWeight: 600 }}>
-          {isLoading ? <Dots /> : `$${t(value)}`}
+          {isLoading || !value ? <Dots /> : `$${t(value)}`}
         </Text>
       </Flex>
     </Container>
