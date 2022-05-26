@@ -7,6 +7,11 @@ const GlobalStyle = createGlobalStyle`
       height: auto;
       max-width: 100%;
     }
+
+    [role=presentation] {
+      background: #0A0D12;
+      opacity: 0.7;
+    }
   }
 `
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+
 import { useActivePopups } from '../../state/application/hooks'
 import { AutoColumn } from '../Column'
 import PopupItem from './PopupItem'
@@ -78,7 +79,12 @@ export default function Popups() {
     <StyledPopupContainer>
       <FixedPopupColumn gap="20px">
         {activePopups.map((item) => (
-          <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
+          <PopupItem
+            key={item.key}
+            content={item.content}
+            popKey={item.key}
+            removeAfterMs={item.removeAfterMs}
+          />
         ))}
       </FixedPopupColumn>
       <MobilePopupWrapper height={activePopups?.length > 0 ? 'fit-content' : 0}>
@@ -87,7 +93,12 @@ export default function Popups() {
             .slice(0)
             .reverse()
             .map((item) => (
-              <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
+              <PopupItem
+                key={item.key}
+                content={item.content}
+                popKey={item.key}
+                removeAfterMs={item.removeAfterMs}
+              />
             ))}
         </MobilePopupInner>
       </MobilePopupWrapper>

@@ -3,7 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-5SLLRCX');</script>
+    <script>
+      ;(function (w, d, s, l, i) {
+        w[l] = w[l] || []
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : ''
+        j.async = true
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+        f.parentNode.insertBefore(j, f)
+      })(window, document, 'script', 'dataLayer', 'GTM-5SLLRCX')
+    </script>
     <!-- End Google Tag Manager -->
     <!--RPC preconnect-->
     <link rel="preconnect" href="%REACT_APP_NODE_1%" />
@@ -14,42 +25,86 @@
     <link rel="preconnect" href="%REACT_APP_MATIC_NODE_2%" />
     <!-- Links -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-Regular.woff2?v=3.18" as="font" />
-    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-SemiBold.woff2?v=3.18" as="font" />
-    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-Bold.woff2?v=3.18" as="font" />
-    <link crossorigin rel="prefetch" href="https://rsms.me/inter/font-files/Inter-Medium.woff2?v=3.18" as="font" />
+    <link
+      crossorigin
+      rel="prefetch"
+      href="https://rsms.me/inter/font-files/Inter-Regular.woff2?v=3.18"
+      as="font"
+    />
+    <link
+      crossorigin
+      rel="prefetch"
+      href="https://rsms.me/inter/font-files/Inter-SemiBold.woff2?v=3.18"
+      as="font"
+    />
+    <link
+      crossorigin
+      rel="prefetch"
+      href="https://rsms.me/inter/font-files/Inter-Bold.woff2?v=3.18"
+      as="font"
+    />
+    <link
+      crossorigin
+      rel="prefetch"
+      href="https://rsms.me/inter/font-files/Inter-Medium.woff2?v=3.18"
+      as="font"
+    />
     <link
       rel="stylesheet"
       href="https://rsms.me/inter/inter.css"
       media="print"
       onload="this.media='all'; this.onload=null;"
     />
+    <link
+      rel="preload"
+      href="%PUBLIC_URL%/fonts/Gilroy/stylesheet.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Multi-chain AMM DEX." />
+    <meta property="og:description" content="Multi-chain AMM DEX." />
     <meta
-      name="description"
-      content="Multi-chain AMM DEX."
+      property="og:image"
+      content="https://gravis.finance/android-chrome-512x512.png"
     />
-    <meta
-      property="og:description"
-      content="Multi-chain AMM DEX."
-    />
-    <meta property="og:image" content="https://gravis.finance/android-chrome-512x512.png" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon-32x32.png" sizes="32x32" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="%PUBLIC_URL%/favicon-16x16.png"
+      sizes="16x16"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="%PUBLIC_URL%/favicon-32x32.png"
+      sizes="32x32"
+    />
     <!-- Meta -->
     <title>Gravis Finance AMM DEX</title>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5SLLRCX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-5SLLRCX"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "82d4d233e2c2413f9900c3ae507d9b55"}'></script>
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "82d4d233e2c2413f9900c3ae507d9b55"}'
+    ></script>
     <!-- End Cloudflare Web Analytics -->
     <!-- Google.Analytics counter -->
     <script>
@@ -76,17 +131,28 @@
           (k.async = 1),
           (k.src = r),
           a.parentNode.insertBefore(k, a)
-      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym')
+      })(
+        window,
+        document,
+        'script',
+        'https://mc.yandex.ru/metrika/tag.js',
+        'ym'
+      )
 
       ym(80851390, 'init', {
         clickmap: true,
         trackLinks: true,
         accurateTrackBounce: true,
-        webvisor: true,
+        webvisor: true
       })
     </script>
     <noscript
-      ><div><img src="https://mc.yandex.ru/watch/80851390" style="position: absolute; left: -9999px" alt="" /></div
+      ><div>
+        <img
+          src="https://mc.yandex.ru/watch/80851390"
+          style="position: absolute; left: -9999px"
+          alt=""
+        /></div
     ></noscript>
     <!-- /Yandex.Metrika counter -->
     <div id="root"></div>

@@ -1,18 +1,22 @@
-import { useEffect, useState } from 'react'
 import { Web3Provider } from '@ethersproject/providers'
+import { ChainId } from '@gravis.finance/sdk'
+import { useEffect, useState } from 'react'
 
 import getNodeUrl from 'utils/getRpcUrl'
-import { ChainId } from '@gravis.finance/sdk'
+
+import { NetworkContextNames } from '../config/settings'
 import { NetworkConnector } from '../connectors/NetworkConnector'
 import useParsedQueryString from './useParsedQueryString'
-import { NetworkContextNames } from '../config/settings'
 
 let networkLibraries: { [key: string]: Web3Provider } = {}
-export const getNetworkLibrary = (chainId: ChainId, networkConnectors: any): Web3Provider => {
+export const getNetworkLibrary = (
+  chainId: ChainId,
+  networkConnectors: any
+): Web3Provider => {
   if (!networkLibraries[chainId] && networkConnectors[chainId])
     networkLibraries = {
       ...networkLibraries,
-      [chainId]: new Web3Provider(networkConnectors[chainId].provider as any),
+      [chainId]: new Web3Provider(networkConnectors[chainId].provider as any)
     }
   return networkLibraries[chainId]
 }
@@ -32,12 +36,14 @@ const useNetwork = () => {
   useEffect(() => {
     const NETWORK_URL = getNodeUrl(newChainId) as any
     if (typeof NETWORK_URL === 'undefined') {
-      throw new Error(`REACT_APP_NETWORK_URL must be a defined environment variable`)
+      throw new Error(
+        `REACT_APP_NETWORK_URL must be a defined environment variable`
+      )
     }
     setNetworkConnectors((oldNetworkConnectors) => {
       if (!oldNetworkConnectors[newChainId]) {
         const networkConnector = new NetworkConnector({
-          urls: { [newChainId]: NETWORK_URL },
+          urls: { [newChainId]: NETWORK_URL }
         })
         return { ...oldNetworkConnectors, [newChainId]: networkConnector }
       }
@@ -48,7 +54,7 @@ const useNetwork = () => {
   let networkContextName
   if ([ChainId.MAINNET, ChainId.BSCTESTNET].includes(newChainId)) {
     networkContextName = NetworkContextNames.BSC
-  } else if ([ChainId.HECOMAINNET, ChainId.MATICTESTNET].includes(newChainId)) {
+  } else if ([ChainId.HECOMAINNET, ChainId.HECOTESTNET].includes(newChainId)) {
     networkContextName = NetworkContextNames.HECO
   } else {
     networkContextName = NetworkContextNames.MATIC
@@ -58,7 +64,7 @@ const useNetwork = () => {
     network: newChainId,
     networkContextName,
     networkConnectors,
-    networkLibrary: getNetworkLibrary(newChainId, networkConnectors),
+    networkLibrary: getNetworkLibrary(newChainId, networkConnectors)
   }
 }
 

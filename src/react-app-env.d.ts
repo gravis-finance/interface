@@ -1,15 +1,16 @@
 /// <reference types="react-scripts" />
+import { Ethereumish } from '@ethersproject/providers'
 
 declare module 'fortmatic'
 
-interface Window {
-  ethereum?: {
-    isMetaMask?: true
-    on?: (...args: any[]) => void
-    removeListener?: (...args: any[]) => void
+declare global {
+  interface Window {
+    ethereum?: Ethereumish
+    web3?: any
+    BinanceChain?: BinanceChain
   }
-  web3?: any
-  BinanceChain?: BinanceChain
+
+  declare module '*.mp4'
 }
 
 interface WindowChain {
@@ -26,7 +27,12 @@ declare module 'content-hash' {
 }
 
 declare module 'multihashes' {
-  declare function decode(buff: Uint8Array): { code: number; name: string; length: number; digest: Uint8Array }
+  declare function decode(buff: Uint8Array): {
+    code: number
+    name: string
+    length: number
+    digest: Uint8Array
+  }
   declare function toB58String(hash: Uint8Array): string
 }
 

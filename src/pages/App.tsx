@@ -1,25 +1,34 @@
-import React, { lazy, Suspense, useEffect } from 'react'
-import { Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
 import {
-  getNetworkId,
   NetworkSwitchError,
   NotFound,
-  useModal,
+  getNetworkId,
+  useModal
 } from '@gravis.finance/uikit'
+import React, { Suspense, lazy, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  Redirect,
+  Route,
+  RouteProps,
+  Switch,
+  useLocation
+} from 'react-router-dom'
+import styled from 'styled-components'
 
 import backgroundImage from 'assets/svg/trade-background.svg'
-import useEagerConnect from 'hooks/useEagerConnect'
-
-import { setupNetwork } from 'utils/wallet'
+import { isProduction } from 'constants/commons'
+import { SUPPORTED_CHAINS } from 'constants/network'
 import { useActiveWeb3React } from 'hooks'
+import useEagerConnect from 'hooks/useEagerConnect'
 import useToast from 'hooks/useToast'
-import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
-import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
+import { setupNetwork } from 'utils/wallet'
+
 import Menu from '../components/Menu'
 import PageLoader from '../components/PageLoader'
 import Web3ReactManager from '../components/Web3ReactManager'
+import Landing from './Landing/Landing'
+import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
+import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 
 const Pool = lazy(() => import('./Pool'))
 const PoolFinder = lazy(() => import('./PoolFinder'))
@@ -28,15 +37,21 @@ const Swap = lazy(() => import('./Swap'))
 const Migrate = lazy(() => import('./Migrate'))
 const AddLiquidity = lazy(() => import('./AddLiquidity'))
 const RedirectDuplicateTokenIds = lazy(() =>
-  import('./AddLiquidity/redirects').then(({ RedirectDuplicateTokenIds: component }) => ({ default: component }))
+  import('./AddLiquidity/redirects').then(
+    ({ RedirectDuplicateTokenIds: component }) => ({ default: component })
+  )
 )
 const RedirectOldAddLiquidityPathStructure = lazy(() =>
-  import('./AddLiquidity/redirects').then(({ RedirectOldAddLiquidityPathStructure: component }) => ({
-    default: component,
-  }))
+  import('./AddLiquidity/redirects').then(
+    ({ RedirectOldAddLiquidityPathStructure: component }) => ({
+      default: component
+    })
+  )
 )
 const RedirectToAddLiquidity = lazy(() =>
-  import('./AddLiquidity/redirects').then(({ RedirectToAddLiquidity: component }) => ({ default: component }))
+  import('./AddLiquidity/redirects').then(
+    ({ RedirectToAddLiquidity: component }) => ({ default: component })
+  )
 )
 
 const AppWrapper = styled.div`
@@ -79,18 +94,20 @@ const BodyWrapper = styled.div`
   }
 `
 
-const isProduction = process.env.REACT_APP_NODE_ENV === 'production'
-const supportedChains = isProduction ? ['56', '128', '137'] : ['97', '256', '80001']
-
 const DefaultRoute = ({ ...props }: RouteProps) => {
   useEagerConnect()
   const { t } = useTranslation()
-  const provider: any = (window as WindowChain).ethereum
+  const provider: any = window.ethereum
   const location = useLocation()
   const { account } = useActiveWeb3React()
   const chainId = getNetworkId()
-  const [providerChainId, setProviderChainId] = React.useState<string>(provider?.networkVersion)
-  const isSupportedChain = React.useMemo(() => supportedChains.indexOf(providerChainId) !== -1, [providerChainId])
+  const [providerChainId, setProviderChainId] = React.useState<string>(
+    provider?.networkVersion
+  )
+  const isSupportedChain = React.useMemo(
+    () => !SUPPORTED_CHAINS.includes(parseInt(providerChainId)),
+    [providerChainId]
+  )
   const { toastWarning } = useToast()
 
   const handleChangeNetwork = React.useCallback(() => {
@@ -107,7 +124,9 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
         isSupportedChain={isSupportedChain}
         isProduction={isProduction}
         changeNetwork={handleChangeNetwork}
-        networkSwitchItemCallback={(returnedChainId) => localStorage.setItem('chainId', returnedChainId)}
+        networkSwitchItemCallback={(returnedChainId) =>
+          localStorage.setItem('chainId', returnedChainId)
+        }
       />
     ),
     [isSupportedChain, handleChangeNetwork]
@@ -134,53 +153,97 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
   }, [account, chainId, providerChainId]) // eslint-disable-line
 
   // redirect to supported chain id
-  if (!chainId || supportedChains?.indexOf(chainId) === -1) {
+  if (!chainId || !SUPPORTED_CHAINS?.includes(parseInt(chainId))) {
     return (
       <Redirect
         to={{
           ...location,
           search: `?network=${
-            localStorage.getItem('chainId') || parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
-          }`,
+            localStorage.getItem('chainId') ||
+            parseInt(process.env.REACT_APP_CHAIN_ID as string, 10)
+          }`
         }}
       />
     )
   }
 
-  return (
-    <BodyWrapper>
-      <Route {...props} />
-    </BodyWrapper>
-  )
+  return <Route {...props} />
 }
 
 export default function App() {
   return (
     <Suspense fallback={<PageLoader />}>
-      <AppWrapper>
-        <Web3ReactManager>
-          <Menu loginBlockVisible>
-            <Switch>
-              <DefaultRoute exact path="/" component={() => <Redirect to="/swap" />} />
-              <DefaultRoute exact strict path="/swap" component={Swap} />
-              <DefaultRoute exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
-              <DefaultRoute exact strict path="/send" component={RedirectPathToSwapOnly} />
-              <DefaultRoute exact strict path="/migrate" component={Migrate} />
-              <DefaultRoute exact strict path="/find" component={PoolFinder} />
-              <DefaultRoute exact strict path="/pool" component={Pool} />
-              <DefaultRoute exact strict path="/create" component={RedirectToAddLiquidity} />
-              <DefaultRoute exact path="/add" component={AddLiquidity} />
-              <DefaultRoute exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
-              <DefaultRoute exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
-              <DefaultRoute exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
-              <DefaultRoute exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-              <Route>
-                <NotFound redirectURL={process.env.REACT_APP_HOME_URL} />
-              </Route>
-            </Switch>
-          </Menu>
-        </Web3ReactManager>
-      </AppWrapper>
+      <Web3ReactManager>
+        <Switch>
+          <DefaultRoute exact path="/" component={Landing} />
+          <AppWrapper>
+            <BodyWrapper>
+              <Menu loginBlockVisible>
+                <Switch>
+                  <DefaultRoute exact strict path="/swap" component={Swap} />
+                  <DefaultRoute
+                    exact
+                    strict
+                    path="/swap/:outputCurrency"
+                    component={RedirectToSwap}
+                  />
+                  <DefaultRoute
+                    exact
+                    strict
+                    path="/send"
+                    component={RedirectPathToSwapOnly}
+                  />
+                  <DefaultRoute
+                    exact
+                    strict
+                    path="/migrate"
+                    component={Migrate}
+                  />
+                  <DefaultRoute
+                    exact
+                    strict
+                    path="/find"
+                    component={PoolFinder}
+                  />
+                  <DefaultRoute exact strict path="/pool" component={Pool} />
+                  <DefaultRoute
+                    exact
+                    strict
+                    path="/create"
+                    component={RedirectToAddLiquidity}
+                  />
+                  <DefaultRoute exact path="/add" component={AddLiquidity} />
+                  <DefaultRoute
+                    exact
+                    path="/add/:currencyIdA"
+                    component={RedirectOldAddLiquidityPathStructure}
+                  />
+                  <DefaultRoute
+                    exact
+                    path="/add/:currencyIdA/:currencyIdB"
+                    component={RedirectDuplicateTokenIds}
+                  />
+                  <DefaultRoute
+                    exact
+                    strict
+                    path="/remove/:tokens"
+                    component={RedirectOldRemoveLiquidityPathStructure}
+                  />
+                  <DefaultRoute
+                    exact
+                    strict
+                    path="/remove/:currencyIdA/:currencyIdB"
+                    component={RemoveLiquidity}
+                  />
+                  <Route>
+                    <NotFound redirectURL={process.env.REACT_APP_HOME_URL} />
+                  </Route>
+                </Switch>
+              </Menu>
+            </BodyWrapper>
+          </AppWrapper>
+        </Switch>
+      </Web3ReactManager>
     </Suspense>
   )
 }

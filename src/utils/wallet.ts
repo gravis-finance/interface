@@ -1,4 +1,5 @@
 import { ChainId } from '@gravis.finance/sdk'
+
 import { nodes } from './getRpcUrl'
 
 const Params = {
@@ -9,11 +10,11 @@ const Params = {
       nativeCurrency: {
         name: 'BNB',
         symbol: 'bnb',
-        decimals: 18,
+        decimals: 18
       },
       rpcUrls: nodes[ChainId.MAINNET],
-      blockExplorerUrls: ['https://bscscan.com/'],
-    },
+      blockExplorerUrls: ['https://bscscan.com/']
+    }
   ],
   [ChainId.BSCTESTNET]: [
     {
@@ -22,11 +23,11 @@ const Params = {
       nativeCurrency: {
         name: 'BNB',
         symbol: 'bnb',
-        decimals: 18,
+        decimals: 18
       },
       rpcUrls: nodes[ChainId.BSCTESTNET],
-      blockExplorerUrls: ['https://testnet.bscscan.com/'],
-    },
+      blockExplorerUrls: ['https://testnet.bscscan.com/']
+    }
   ],
   [ChainId.HECOMAINNET]: [
     {
@@ -35,11 +36,11 @@ const Params = {
       nativeCurrency: {
         name: 'HT',
         symbol: 'ht',
-        decimals: 18,
+        decimals: 18
       },
       rpcUrls: nodes[ChainId.HECOMAINNET],
-      blockExplorerUrls: ['https://hecoinfo.com/'],
-    },
+      blockExplorerUrls: ['https://hecoinfo.com/']
+    }
   ],
   [ChainId.HECOTESTNET]: [
     {
@@ -48,11 +49,11 @@ const Params = {
       nativeCurrency: {
         name: 'HT',
         symbol: 'ht',
-        decimals: 18,
+        decimals: 18
       },
       rpcUrls: nodes[ChainId.HECOTESTNET],
-      blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
-    },
+      blockExplorerUrls: ['https://testnet.hecoinfo.com/']
+    }
   ],
   [ChainId.MATICMAINNET]: [
     {
@@ -61,11 +62,11 @@ const Params = {
       nativeCurrency: {
         name: 'MATIC',
         symbol: 'matic',
-        decimals: 18,
+        decimals: 18
       },
       rpcUrls: nodes[ChainId.MATICMAINNET],
-      blockExplorerUrls: ['https://polygonscan.com/'],
-    },
+      blockExplorerUrls: ['https://polygonscan.com/']
+    }
   ],
   [ChainId.MATICTESTNET]: [
     {
@@ -74,12 +75,12 @@ const Params = {
       nativeCurrency: {
         name: 'MATIC',
         symbol: 'matic',
-        decimals: 18,
+        decimals: 18
       },
       rpcUrls: nodes[ChainId.MATICTESTNET],
-      blockExplorerUrls: ['https://explorer-mumbai.maticvigil.com/'],
-    },
-  ],
+      blockExplorerUrls: ['https://explorer-mumbai.maticvigil.com/']
+    }
+  ]
 }
 
 /**
@@ -87,12 +88,12 @@ const Params = {
  * @returns {boolean} true if the setup succeeded, false otherwise
  */
 export const setupNetwork = async (chainId: ChainId) => {
-  const provider: any = (window as WindowChain).ethereum
+  const provider = window.ethereum
   if (provider) {
     try {
       await provider.request({
         method: 'wallet_addEthereumChain',
-        params: Params[chainId],
+        params: Params[chainId]
       })
       return true
     } catch (error) {
@@ -100,7 +101,9 @@ export const setupNetwork = async (chainId: ChainId) => {
       return false
     }
   } else {
-    console.error("Can't setup the network on metamask because window.ethereum is undefined")
+    console.error(
+      "Can't setup the network on metamask because window.ethereum is undefined"
+    )
     return false
   }
 }
@@ -119,7 +122,7 @@ export const registerToken = async (
   tokenDecimals: number,
   tokenImage: string
 ) => {
-  const provider: any = (window as WindowChain).ethereum
+  const provider = window.ethereum
   let tokenAdded: any
   if (provider) {
     tokenAdded = await provider.request({
@@ -130,9 +133,9 @@ export const registerToken = async (
           address: tokenAddress,
           symbol: tokenSymbol,
           decimals: tokenDecimals,
-          image: tokenImage,
-        },
-      },
+          image: tokenImage
+        }
+      }
     })
   }
 
