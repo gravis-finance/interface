@@ -42,7 +42,8 @@
     "farming": "Farming",
     "staking": "GRVX Staking",
     "farms": "Farms",
-    "audit": "Audit"
+    "audit": "Audit",
+    "autofarming": "Autofarming"
   },
   "language": "en",
   "swap": "Swap",
