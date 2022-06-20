@@ -32,9 +32,10 @@ notes.txt
 
 package-lock.json
 
-cypress/videos
-cypress/screenshots
-cypress/fixtures/example.json
+autotests/downloads
+autotests/screenshots
+autotests/videos
+autotests/support/downloads
 
 .eslintcache
 

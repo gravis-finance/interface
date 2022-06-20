@@ -12,7 +12,11 @@
     "jest": true
   },
 
-  "extends": "@pancakeswap-libs/eslint-config-pancake",
+  "extends": [
+    "@pancakeswap-libs/eslint-config-pancake",
+    "plugin:cypress/recommended",
+    "plugin:chai-friendly/recommended"
+  ],
   "rules": {
     "no-console": ["warn", { "allow": ["info", "warn", "error"] }],
     "no-plusplus": 0,

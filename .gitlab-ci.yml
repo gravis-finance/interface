@@ -1,6 +1,7 @@
 stages:
     - build
     - deploy
+    - test
 build_develop:
     stage: build
     only:
@@ -82,4 +83,13 @@ deploy_production:
     when: manual
     script:
         - rsync -a ./build/* /var/www/swap-interface/build
+
+autotests:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  stage: test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+  script:
+    - yarn install
+    - yarn cy:run
 
