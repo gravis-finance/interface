@@ -1,5 +1,5 @@
 import { defineConfig } from 'cypress';
-import helpers from './autotests/support/helpers';
+import path from 'path';
 import metamask from './autotests/support/metamask';
 
 module.exports = defineConfig({
@@ -11,6 +11,7 @@ module.exports = defineConfig({
     fixturesFolder: 'autotests/fixtures',
     screenshotsFolder: 'autotests/screenshots',
     videosFolder: 'autotests/videos',
+    chromeWebSecurity: true,
     viewportWidth: 1920,
     viewportHeight: 1080,
     video: false,
@@ -27,8 +28,9 @@ module.exports = defineConfig({
           );
         }
 
-        const metamaskPath = await helpers.prepareMetamask('9.7.1');
-        arguments_.extensions.push(metamaskPath);
+        const projectDirectory = path.resolve(__dirname);
+        const metamaskDirectory = path.join(projectDirectory, 'autotests/support/downloads/metamask');
+        arguments_.extensions.push(metamaskDirectory);
         
         return arguments_;
       });
