@@ -37,8 +37,9 @@
       "js": [
         "disable-console.js",
         "globalthis.js",
-        "lockdown.js",
-        "runLockdown.js",
+        "lockdown-install.js",
+        "lockdown-run.js",
+        "lockdown-more.js",
         "contentscript.js"
       ],
       "run_at": "document_start",
@@ -73,17 +74,13 @@
     "clipboardWrite",
     "http://localhost:8545/",
     "https://*.infura.io/",
+    "https://lattice.gridplus.io/*",
     "activeTab",
     "webRequest",
     "*://*.eth/",
     "notifications"
   ],
   "short_name": "__MSG_appName__",
-  "web_accessible_resources": [
-    "inpage.js",
-    "phishing.html"
-  ],
-  "version": "9.7.1",
   "externally_connectable": {
     "matches": [
       "https://metamask.io/*"
@@ -92,5 +89,6 @@
       "*"
     ]
   },
-  "minimum_chrome_version": "63"
+  "minimum_chrome_version": "66",
+  "version": "10.15.0"
 }
