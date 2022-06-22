@@ -2,6 +2,7 @@ stages:
     - build
     - deploy
     - test
+    - allure
 build_develop:
     stage: build
     only:
@@ -99,26 +100,32 @@ stage_autotest:
     script:
         - yarn install
         - yarn cy:run
+    allow_failure: true
     artifacts:
         when: always
         expire_in: 1 week
         paths:
-            - build
+            - allure-results/
 
-
-
-# build_autotest:
-#     stage: build
-#     only:
-#         - autotests
-#     image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
-#     tags: &b_runner 
-#         - builder
-#         - docker-executor
-#     script:
-#         - yarn install
-#         - yarn cy:run
-#     artifacts:
-#         expire_in: 1 week
-#         paths:
-#             - build
+stage-report:
+    stage: allure
+    only:
+        - autotests
+    image: gradle:jdk8
+    tags: &b_runner 
+        - builder
+        - docker-executor
+    before_script:
+        - apt-get update
+        - apt-get install -y default-jdk wget unzip 
+        - mkdir /work/
+        - wget https://github.com/allure-framework/allure2/releases/download/2.13.8/allure-2.13.8.zip -P /work/
+        - unzip /work/allure-2.13.8.zip -d /work/
+    script:
+        - /work/allure-2.13.8/bin/allure generate allure-results --clean -o allure-report
+    artifacts:
+        when: always
+        expire_in: 1 week
+        paths:
+            - allure-results/
+            - allure-report/

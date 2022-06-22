@@ -84,8 +84,10 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.14.5",
     "@pancakeswap-libs/eslint-config-pancake": "1.0.0",
+    "@shelex/cypress-allure-plugin": "^2.26.5",
     "@types/jest": "^26.0.20",
     "@types/testing-library__cypress": "^5.0.8",
+    "allure-commandline": "^2.17.2",
     "babel-loader": "8.1.0",
     "babel-plugin-parse-translation": "^1.0.2",
     "cross-env": "^7.0.3",
@@ -117,8 +119,11 @@
     "pup-test:dev": "jest --config tests/jest.config.ts",
     "analyze": "node ./scripts/bundle-analyze",
     "locales": "babel --extensions \".tsx\",\".ts\"  --config-file ./babel-locales.config.js ./src",
-    "cy:open": "cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open",
-    "cy:run": "cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress run --headed --browser chrome"
+    "cy:open": "cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open --env allure=true",
+    "cy:run": "cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress run --headed --browser chrome --env allure=true",
+    "cy:allureGenerate": "allure generate allure-results --clean -o allure-report",
+    "cy:allureOpen": "allure open",
+    "cy:allureClear": "rm -r allure-results/ allure-report cypress/screenshots || true"
   },
   "browserslist": {
     "production": [

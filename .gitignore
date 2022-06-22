@@ -32,6 +32,8 @@ notes.txt
 
 package-lock.json
 
+allure-report
+allure-results
 autotests/downloads
 autotests/screenshots
 autotests/videos

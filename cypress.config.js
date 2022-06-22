@@ -1,5 +1,6 @@
 import { defineConfig } from 'cypress';
 import path from 'path';
+import allureWriter from "@shelex/cypress-allure-plugin/writer";
 import metamask from './autotests/support/metamask';
 
 module.exports = defineConfig({
@@ -17,7 +18,9 @@ module.exports = defineConfig({
     video: false,
     
     setupNodeEvents(on, config) {
-   
+
+      allureWriter(on, config);
+
       on('before:browser:launch', async (browser = {}, arguments_) => {
 
         if (browser.name === 'chrome') {
