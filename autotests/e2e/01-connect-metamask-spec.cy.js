@@ -8,8 +8,8 @@ describe('Tests - Connect Metamask (test-cases 1-9)', () => {
 
   it(`Precondition - Setup Metamask`, () => {
     cy.setupMetamask(
-      Cypress.env('secretWordsWallet'),
-      Cypress.env('passwordWallet'),
+      Cypress.env('secretWords'),
+      Cypress.env('password'),
     ).then(setupFinished => {
       expect(setupFinished).to.be.true;
     });
@@ -42,12 +42,12 @@ describe('Tests - Connect Metamask (test-cases 1-9)', () => {
     });
     swapPage.connectButton().should('not.exist');
     swapPage.accountButton().should('exist').and('contain', Cypress.env('walletAddressShort'));
-    // swapPage.accountButton().click();
-    // accountPage.walletAddress().should('have.value', Cypress.env('walletAddressLong'));
+    swapPage.accountButton().click();
+    accountPage.walletAddress().should('have.value', Cypress.env('walletAddressLong'));
     cy.disconnectMetamask().then(disconnected => {
       expect(disconnected).to.be.true;
     });
-    // accountPage.closeButton().click();
+    accountPage.closeButton().click();
     swapPage.accountButton().should('not.exist');
     swapPage.connectButton().should('exist').and('contain', 'Connect');
   });

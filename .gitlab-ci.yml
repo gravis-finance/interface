@@ -1,11 +1,12 @@
 stages:
     - build
     - deploy
+    - test
 build_develop:
     stage: build
     only:
         - develop
-    image: node:12-buster
+    image: node:14-buster
     tags: &b_runner 
         - builder
         - docker-executor
@@ -32,7 +33,8 @@ build_stage:
     stage: build
     only:
         - stage
-    image: node:12-buster
+        - autotests
+    image: node:14-buster
     tags: &b_runner 
         - builder
         - docker-executor
@@ -44,10 +46,12 @@ build_stage:
         expire_in: 1 week
         paths:
             - build
+
 deploy_stage:
     stage: deploy
     only:
         - stage
+        - autotests
     tags: 
       - shell
       - dev
@@ -59,7 +63,7 @@ build_production:
     stage: build
     only:
         - master
-    image: node:12-buster
+    image: node:14-buster
     tags: &b_runner
         - builder
         - docker-executor
@@ -71,6 +75,7 @@ build_production:
         expire_in: 1 week
         paths:
             - build
+
 deploy_production:
     stage: deploy
     only:
@@ -83,8 +88,8 @@ deploy_production:
     script:
         - rsync -a ./build/* /var/www/swap-interface/build
 
-build_autotest:
-    stage: build
+stage_autotest:
+    stage: test
     only:
         - autotests
     image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
@@ -100,3 +105,20 @@ build_autotest:
         paths:
             - build
 
+
+
+# build_autotest:
+#     stage: build
+#     only:
+#         - autotests
+#     image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+#     tags: &b_runner 
+#         - builder
+#         - docker-executor
+#     script:
+#         - yarn install
+#         - yarn cy:run
+#     artifacts:
+#         expire_in: 1 week
+#         paths:
+#             - build

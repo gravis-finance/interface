@@ -29,7 +29,7 @@ const optionsMenu = {
 const connectedSitesSelector = '.connected-sites';
 const connectedSites = {
   modal: connectedSitesSelector,
-  trashButton: `${connectedSitesSelector} .connected-sites-list__trash`,
+  disconnectLink: `${connectedSitesSelector} .btn-link`,
   cancelButton: `${connectedSitesSelector} .btn-secondary`,
   disconnectButton: `${connectedSitesSelector} .btn-primary`,
   closeButton: `${connectedSitesSelector} [data-testid="popover-close"]`,

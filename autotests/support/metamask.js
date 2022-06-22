@@ -50,20 +50,26 @@ module.exports = {
     return true;
   },
   importWallet: async (secretWords, password) => {
+    const secretWordsArray = secretWords.split(' ');
     await puppeteer.waitAndClick(firstTimeFlowPageElements.importWalletButton);
     await puppeteer.waitAndClick(metametricsPageElements.optOutAnalyticsButton);
-    await puppeteer.waitAndType(
-      firstTimeFlowFormPageElements.secretWordsInput,
-      secretWords,
-    );
-    await puppeteer.waitAndType(
-      firstTimeFlowFormPageElements.passwordInput,
-      password,
-    );
-    await puppeteer.waitAndType(
-      firstTimeFlowFormPageElements.confirmPasswordInput,
-      password,
-    );
+    // type secret words
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord0, secretWordsArray[0]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord1, secretWordsArray[1]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord2, secretWordsArray[2]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord3, secretWordsArray[3]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord4, secretWordsArray[4]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord5, secretWordsArray[5]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord6, secretWordsArray[6]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord7, secretWordsArray[7]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord8, secretWordsArray[8]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord9, secretWordsArray[9]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord10, secretWordsArray[10]);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord11, secretWordsArray[11]);
+    // type password
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.passwordInput, password);
+    await puppeteer.waitAndType(firstTimeFlowFormPageElements.confirmPasswordInput, password);
+    
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.termsCheckbox);
     await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
     await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
@@ -112,19 +118,11 @@ module.exports = {
     await puppeteer.switchToMetamaskWindow();
 
     await puppeteer.waitAndClick(mainPageElements.optionsMenu.button);
-    await puppeteer.waitAndClick(
-      mainPageElements.optionsMenu.connectedSitesButton,
-    );
-    await puppeteer.waitAndClick(mainPageElements.connectedSites.trashButton);
-    await puppeteer.waitAndClick(
-      mainPageElements.connectedSites.disconnectButton,
-    );
+    await puppeteer.waitAndClick(mainPageElements.optionsMenu.connectedSitesButton);
+    await puppeteer.waitAndClick(mainPageElements.connectedSites.disconnectLink);
+    await puppeteer.waitAndClick(mainPageElements.connectedSites.disconnectButton);
 
-    if (
-      (await puppeteer
-        .metamaskWindow()
-        .$(mainPageElements.connectedSites.modal)) !== null
-    ) {
+    if ((await puppeteer.metamaskWindow().$(mainPageElements.connectedSites.modal)) !== null) {
       await puppeteer.waitAndClick(mainPageElements.connectedSites.closeButton);
     }
 
@@ -138,35 +136,20 @@ module.exports = {
     await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
     await puppeteer.waitAndClick(settingsPageElements.networksButton);
     await puppeteer.waitAndClick(networksPageElements.addNetworkButton);
-    await puppeteer.waitAndType(
-      addNetworkPageElements.networkNameInput,
-      network.networkName,
-    );
-    await puppeteer.waitAndType(
-      addNetworkPageElements.rpcUrlInput,
-      network.rpcUrl,
-    );
-    await puppeteer.waitAndType(
-      addNetworkPageElements.chainIdInput,
-      network.chainId,
-    );
+    // type network settings
+    await puppeteer.waitAndType(addNetworkPageElements.networkNameInput,network.networkName);
+    await puppeteer.waitAndType(addNetworkPageElements.rpcUrlInput,network.rpcUrl);
+    await puppeteer.waitAndType(addNetworkPageElements.chainIdInput, network.chainId);
 
     if (network.symbol) {
-      await puppeteer.waitAndType(
-        addNetworkPageElements.symbolInput,
-        network.symbol,
-      );
+      await puppeteer.waitAndType(addNetworkPageElements.symbolInput, network.symbol);
     }
 
     if (network.blockExplorer) {
-      await puppeteer.waitAndType(
-        addNetworkPageElements.blockExplorerInput,
-        network.blockExplorer,
-      );
+      await puppeteer.waitAndType(addNetworkPageElements.blockExplorerInput, network.blockExplorer);
     }
 
-    await puppeteer.waitAndClick(addNetworkPageElements.saveButton);
-    await puppeteer.waitAndClick(settingsPageElements.closeButton);
+    await puppeteer.waitForAndClick(addNetworkPageElements.saveButton);
 
     await puppeteer.waitForText(
       mainPageElements.networkSwitcher.networkName,

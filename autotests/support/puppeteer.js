@@ -83,6 +83,17 @@ module.exports = {
       );
     }
   },
+  waitForAndClick: async (selector, page = metamaskWindow) => {
+    await page.waitForFunction(
+      `document.querySelector('${selector}') && document.querySelector('${selector}').clientHeight != 0`,
+      { visible: true },
+    );
+    await page.evaluate(
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      selector => document.querySelector(selector).click(),
+      selector,
+    );
+  },
   waitAndType: async (selector, value, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
     const element = await page.$(selector);

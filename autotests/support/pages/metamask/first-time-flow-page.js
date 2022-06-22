@@ -23,18 +23,39 @@ module.exports.metametricsPageElements = {
   optOutAnalyticsButton,
 };
 
-const firstTimeFlowFormPage = '.first-time-flow__form';
-const secretWordsInput = `${firstTimeFlowFormPage} .first-time-flow__seedphrase input`;
+const firstTimeFlowFormPage = '.create-new-vault__form';
+const secretWord0 = `${firstTimeFlowFormPage} #import-srp__srp-word-0`;
+const secretWord1 = `${firstTimeFlowFormPage} #import-srp__srp-word-1`;
+const secretWord2 = `${firstTimeFlowFormPage} #import-srp__srp-word-2`;
+const secretWord3 = `${firstTimeFlowFormPage} #import-srp__srp-word-3`;
+const secretWord4 = `${firstTimeFlowFormPage} #import-srp__srp-word-4`;
+const secretWord5 = `${firstTimeFlowFormPage} #import-srp__srp-word-5`;
+const secretWord6 = `${firstTimeFlowFormPage} #import-srp__srp-word-6`;
+const secretWord7 = `${firstTimeFlowFormPage} #import-srp__srp-word-7`;
+const secretWord8 = `${firstTimeFlowFormPage} #import-srp__srp-word-8`;
+const secretWord9 = `${firstTimeFlowFormPage} #import-srp__srp-word-9`;
+const secretWord10 = `${firstTimeFlowFormPage} #import-srp__srp-word-10`;
+const secretWord11 = `${firstTimeFlowFormPage} #import-srp__srp-word-11`;
 const passwordInput = `${firstTimeFlowFormPage} #password`;
 const confirmPasswordInput = `${firstTimeFlowFormPage} #confirm-password`;
-const termsCheckbox = `${firstTimeFlowFormPage} .first-time-flow__terms`;
-const importButton = `${firstTimeFlowFormPage} .first-time-flow__button`;
+const termsCheckbox = `${firstTimeFlowFormPage} #create-new-vault__terms-checkbox`;
+const importButton = `${firstTimeFlowFormPage} .create-new-vault__submit-button`;
 const newPasswordInput = `${firstTimeFlowFormPage} #create-password`;
 const newSignupCheckbox = `${firstTimeFlowFormPage} .first-time-flow__checkbox`;
 
 module.exports.firstTimeFlowFormPageElements = {
-  firstTimeFlowFormPage,
-  secretWordsInput,
+  secretWord0,
+  secretWord1,
+  secretWord2,
+  secretWord3,
+  secretWord4,
+  secretWord5,
+  secretWord6,
+  secretWord7,
+  secretWord8,
+  secretWord9,
+  secretWord10,
+  secretWord11,
   passwordInput,
   confirmPasswordInput,
   termsCheckbox,
