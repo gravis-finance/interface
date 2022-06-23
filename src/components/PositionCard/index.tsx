@@ -1,4 +1,3 @@
-import React, { MouseEventHandler, useMemo, useState } from 'react'
 import { ChainId, JSBI, Pair, Percent } from '@gravis.finance/sdk'
 import {
   AddIcon,
@@ -6,21 +5,24 @@ import {
   ArrowDropUpIcon,
   Button,
   ButtonBase,
-  Card as UIKitCard,
   CardBody,
   ColoredCopyIcon,
   IconButton,
   Text,
   Tooltip,
+  Card as UIKitCard
 } from '@gravis.finance/uikit'
-import { useTranslation } from 'react-i18next'
 import { darken } from 'polished'
+import React, { MouseEventHandler, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { currencyId } from '../../utils/currencyId'
+import { registerToken } from '../../utils/wallet'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import Card from '../Card'
 import { AutoColumn } from '../Column'
@@ -28,7 +30,6 @@ import CurrencyLogo from '../Logos/CurrencyLogo'
 import DoubleCurrencyLogo from '../Logos/DoubleLogo'
 import { RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
-import { registerToken } from '../../utils/wallet'
 
 interface FixedHeightProps {
   background?: boolean
@@ -47,7 +48,8 @@ export const FixedHeightRow = styled(RowBetween)`
 export const HoverCard = styled(Card)`
   border: 1px solid ${({ theme }) => theme.colors.invertedContrast};
   :hover {
-    border: 1px solid ${({ theme }) => darken(0.06, theme.colors.invertedContrast)};
+    border: 1px solid
+      ${({ theme }) => darken(0.06, theme.colors.invertedContrast)};
   }
 `
 
@@ -95,16 +97,26 @@ interface PositionCardProps {
   showUnwrapped?: boolean
 }
 
-export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCardProps) {
+export function MinimalPositionCard({
+  pair,
+  showUnwrapped = false
+}: PositionCardProps) {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
-  const currency0 = showUnwrapped ? pair.token0 : unwrappedToken(pair.token0, chainId as ChainId)
-  const currency1 = showUnwrapped ? pair.token1 : unwrappedToken(pair.token1, chainId as ChainId)
+  const currency0 = showUnwrapped
+    ? pair.token0
+    : unwrappedToken(pair.token0, chainId as ChainId)
+  const currency1 = showUnwrapped
+    ? pair.token1
+    : unwrappedToken(pair.token1, chainId as ChainId)
 
   const [showMore, setShowMore] = useState(false)
 
-  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
+  const userPoolBalance = useTokenBalance(
+    account ?? undefined,
+    pair.liquidityToken
+  )
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
   const [token0Deposited, token1Deposited] =
@@ -114,8 +126,18 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
     JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? [
-          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
+          pair.getLiquidityValue(
+            pair.token0,
+            totalPoolTokens,
+            userPoolBalance,
+            false
+          ),
+          pair.getLiquidityValue(
+            pair.token1,
+            totalPoolTokens,
+            userPoolBalance,
+            false
+          )
         ]
       : [undefined, undefined]
 
@@ -127,7 +149,11 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
             <AutoColumn>
               <FixedHeightRow>
                 <RowFixed>
-                  <Text style={{ textTransform: 'uppercase', fontWeight: 600 }} fontSize="14px" color="textSubtle">
+                  <Text
+                    style={{ textTransform: 'uppercase', fontWeight: 600 }}
+                    fontSize="14px"
+                    color="textSubtle"
+                  >
                     {t('lpTokensInWallet')}
                   </Text>
                 </RowFixed>
@@ -137,13 +163,27 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
                 style={{ paddingRight: '16px', paddingLeft: '16px' }}
               >
                 <RowFixed>
-                  <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin size={20} />
-                  <Text fontSize="14px" color="#909090" pl="8px" style={{ fontWeight: 500 }}>
+                  <DoubleCurrencyLogo
+                    currency0={currency0}
+                    currency1={currency1}
+                    margin
+                    size={20}
+                  />
+                  <Text
+                    fontSize="14px"
+                    color="#909090"
+                    pl="8px"
+                    style={{ fontWeight: 500 }}
+                  >
                     {currency0.symbol}/{currency1.symbol}
                   </Text>
                 </RowFixed>
                 <RowFixed>
-                  <Text fontSize="14px" style={{ fontWeight: 500 }} color="#909090">
+                  <Text
+                    fontSize="14px"
+                    style={{ fontWeight: 500 }}
+                    color="#909090"
+                  >
                     {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
                   </Text>
                 </RowFixed>
@@ -154,15 +194,24 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
                     border: '1px solid rgba(255, 255, 255, 0.05)',
                     borderRadius: '6px',
                     paddingRight: '16px',
-                    paddingLeft: '16px',
+                    paddingLeft: '16px'
                   }}
                 >
-                  <Text fontSize="14px" color="#909090" style={{ fontWeight: 500 }}>
+                  <Text
+                    fontSize="14px"
+                    color="#909090"
+                    style={{ fontWeight: 500 }}
+                  >
                     {currency0.symbol}:
                   </Text>
                   {token0Deposited ? (
                     <RowFixed>
-                      <Text ml="6px" fontSize="14px" style={{ fontWeight: 500 }} color="#009CE1">
+                      <Text
+                        ml="6px"
+                        fontSize="14px"
+                        style={{ fontWeight: 500 }}
+                        color="#009CE1"
+                      >
                         {token0Deposited?.toSignificant(6)}
                       </Text>
                     </RowFixed>
@@ -170,13 +219,24 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
                     '-'
                   )}
                 </FixedHeightRow>
-                <FixedHeightRow style={{ paddingRight: '16px', paddingLeft: '16px' }}>
-                  <Text fontSize="14px" color="#909090" style={{ fontWeight: 500 }}>
+                <FixedHeightRow
+                  style={{ paddingRight: '16px', paddingLeft: '16px' }}
+                >
+                  <Text
+                    fontSize="14px"
+                    color="#909090"
+                    style={{ fontWeight: 500 }}
+                  >
                     {currency1.symbol}:
                   </Text>
                   {token1Deposited ? (
                     <RowFixed>
-                      <Text ml="6px" fontSize="14px" style={{ fontWeight: 500 }} color="#909090">
+                      <Text
+                        ml="6px"
+                        fontSize="14px"
+                        style={{ fontWeight: 500 }}
+                        color="#909090"
+                      >
                         {token1Deposited?.toSignificant(6)}
                       </Text>
                     </RowFixed>
@@ -204,11 +264,16 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
 
   const [showMore, setShowMore] = useState(false)
 
-  const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
+  const userPoolBalance = useTokenBalance(
+    account ?? undefined,
+    pair.liquidityToken
+  )
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
   const poolTokenPercentage =
-    !!userPoolBalance && !!totalPoolTokens && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+    !!userPoolBalance &&
+    !!totalPoolTokens &&
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? new Percent(userPoolBalance.raw, totalPoolTokens.raw)
       : undefined
 
@@ -219,8 +284,18 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
     JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? [
-          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
+          pair.getLiquidityValue(
+            pair.token0,
+            totalPoolTokens,
+            userPoolBalance,
+            false
+          ),
+          pair.getLiquidityValue(
+            pair.token1,
+            totalPoolTokens,
+            userPoolBalance,
+            false
+          )
         ]
       : [undefined, undefined]
 
@@ -229,15 +304,25 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
     e.stopPropagation()
   }
 
-  const onAddCurrencyToMetamask: MouseEventHandler<HTMLButtonElement> = (event) => {
+  const onAddCurrencyToMetamask: MouseEventHandler<HTMLButtonElement> = (
+    event
+  ) => {
     event.stopPropagation()
     const { liquidityToken } = pair
     if (liquidityToken.symbol) {
-      registerToken(liquidityToken.address, 'GravisLP', liquidityToken.decimals, '')
+      registerToken(
+        liquidityToken.address,
+        'GravisLP',
+        liquidityToken.decimals,
+        ''
+      )
     }
   }
 
-  const isMetamask = useMemo(() => library?.connection?.url === 'metamask', [library])
+  const isMetamask = useMemo(
+    () => library?.connection?.url === 'metamask',
+    [library]
+  )
 
   return (
     <HoverCard>
@@ -248,17 +333,41 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
           data-id={`${currency0.symbol}-${currency1.symbol}-dropdown`}
         >
           <RowFixed>
-            <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin size={20} />
-            <Text style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {!currency0 || !currency1 ? <Dots>{t('loading')}</Dots> : `${currency0.symbol}/${currency1.symbol}`}
+            <DoubleCurrencyLogo
+              currency0={currency0}
+              currency1={currency1}
+              margin
+              size={20}
+            />
+            <Text
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              {!currency0 || !currency1 ? (
+                <Dots>{t('loading')}</Dots>
+              ) : (
+                `${currency0.symbol}/${currency1.symbol}`
+              )}
             </Text>
 
-            <CopyButtonWrapper variant="text" onClick={handleAddressCopy} title={t('copyLPTokensAddress')}>
-              <ColoredCopyIcon width="24px" height="24px" data-id="copy-button" />
+            <CopyButtonWrapper
+              data-id="copy-lp-token-address-button"
+              variant="text"
+              onClick={handleAddressCopy}
+              title={t('copyLPTokensAddress')}
+            >
+              <ColoredCopyIcon width="24px" height="24px" data-id="copy-icon" />
             </CopyButtonWrapper>
             {isMetamask && (
               <Tooltip placement="right" title={t('addToMetamask')}>
-                <AddButton ml={2} onClick={onAddCurrencyToMetamask} />
+                <AddButton
+                  data-id="add-to-metamask-button"
+                  ml={2}
+                  onClick={onAddCurrencyToMetamask}
+                />
               </Tooltip>
             )}
           </RowFixed>
@@ -283,7 +392,11 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
                   <Text ml="6px" color="#009CE1">
                     {token0Deposited?.toSignificant(6)}
                   </Text>
-                  <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency0} />
+                  <CurrencyLogo
+                    size="20px"
+                    style={{ marginLeft: '8px' }}
+                    currency={currency0}
+                  />
                 </RowFixed>
               ) : (
                 '-'
@@ -301,7 +414,11 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
                   <Text ml="6px" color="#009CE1">
                     {token1Deposited?.toSignificant(6)}
                   </Text>
-                  <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={currency1} />
+                  <CurrencyLogo
+                    size="20px"
+                    style={{ marginLeft: '8px' }}
+                    currency={currency1}
+                  />
                 </RowFixed>
               ) : (
                 '-'
@@ -309,11 +426,17 @@ export default function FullPositionCard({ pair }: PositionCardProps) {
             </FixedHeightRow>
             <FixedHeightRow background>
               <Text color="#909090">{t('yourPoolTokens')}</Text>
-              <Text color="#009CE1">{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}</Text>
+              <Text color="#009CE1">
+                {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
+              </Text>
             </FixedHeightRow>
             <FixedHeightRow>
               <Text color="#909090">{t('yourPoolShare')}:</Text>
-              <Text color="#009CE1">{poolTokenPercentage ? `${poolTokenPercentage.toFixed(2)}%` : '-'}</Text>
+              <Text color="#009CE1">
+                {poolTokenPercentage
+                  ? `${poolTokenPercentage.toFixed(2)}%`
+                  : '-'}
+              </Text>
             </FixedHeightRow>
 
             <RowBetween marginTop="10px">

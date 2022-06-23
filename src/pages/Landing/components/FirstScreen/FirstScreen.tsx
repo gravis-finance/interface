@@ -301,7 +301,10 @@ const FirstScreen = () => {
             )}
           </Description>
           <ButtonWrapper>
-            <Button onClick={() => history.push('/swap')}>
+            <Button
+              data-id="trade-now-button"
+              onClick={() => history.push('/swap')}
+            >
               {t('Trade now')}
             </Button>
             <TransparentButton

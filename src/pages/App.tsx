@@ -97,7 +97,7 @@ const BodyWrapper = styled.div`
 const DefaultRoute = ({ ...props }: RouteProps) => {
   useEagerConnect()
   const { t } = useTranslation()
-  const provider = window.ethereum
+  const provider: any = window.ethereum
   const location = useLocation()
   const { account } = useActiveWeb3React()
   const chainId = getNetworkId()
