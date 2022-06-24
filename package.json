@@ -113,17 +113,17 @@
     "test": "dotenv -e .env.production jest --watch",
     "test:dev": "dotenv -e .env.development jest --watch",
     "eject": "react-scripts eject",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx} autotests/**/*.{js,jsx,ts,tsx}",
+    "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} autotests/**/*.{js,jsx,ts,tsx} --fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
     "pup-test:dev": "jest --config tests/jest.config.ts",
     "analyze": "node ./scripts/bundle-analyze",
     "locales": "babel --extensions \".tsx\",\".ts\"  --config-file ./babel-locales.config.js ./src",
-    "cy:open": "cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open --env allure=true",
+    "cy:open": "cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open",
     "cy:run": "cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress run --headed --browser chrome --env allure=true",
     "cy:allureGenerate": "allure generate allure-results --clean -o allure-report",
     "cy:allureOpen": "allure open",
-    "cy:allureClear": "rm -r allure-results/ allure-report cypress/screenshots || true"
+    "cy:allureClear": "rm -r allure-results/ allure-report cypress/screenshots cypress/videos || true"
   },
   "browserslist": {
     "production": [

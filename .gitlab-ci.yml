@@ -3,6 +3,8 @@ stages:
     - deploy
     - test
     - allure
+    - allure-report-deploy
+
 build_develop:
     stage: build
     only:
@@ -19,6 +21,7 @@ build_develop:
         expire_in: 1 week
         paths:
             - build
+
 deploy_develop:
     stage: deploy
     only:
@@ -129,3 +132,16 @@ stage-report:
         paths:
             - allure-results/
             - allure-report/
+
+deploy_stage-report:
+    stage: allure-report-deploy
+    only:
+        - stage
+        - autotests
+    tags: 
+      - shell
+      - dev
+      - deploy-runner
+    script:
+        - mkdir -p /var/www/swap-interface-stage/reports/${CI_PIPELINE_ID}
+        - cp -R ./allure-report/* /var/www/swap-interface-stage/reports/${CI_PIPELINE_ID}

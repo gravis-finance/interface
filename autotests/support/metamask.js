@@ -7,8 +7,8 @@ import {  welcomePageElements,
           endOfFlowPageElements } from './pages/metamask/first-time-flow-page';
 import {  mainPageElements } from './pages/metamask/main-page';
 import {  unlockPageElements } from './pages/metamask/unlock-page';
-import {  notificationPageElements,
-          permissionsPageElements } from './pages/metamask/notification-page';
+import {  connectPageElements,
+          permissionsPageElements } from './pages/metamask/connect-page';
 import {  settingsPageElements,
           networksPageElements,
           addNetworkPageElements } from './pages/metamask/settings-page';
@@ -95,23 +95,13 @@ module.exports = {
       await puppeteer.switchToCypressWindow();
     return true;
   },
-  connectMetamask: async allAccounts => {
-    const notificationPage = await puppeteer.switchToMetamaskNotification();
-    if (allAccounts === true) {
-      await puppeteer.waitAndClick(
-        notificationPageElements.selectAllCheck,
-        notificationPage,
-      );
-    }
-    await puppeteer.waitAndClick(
-      notificationPageElements.nextButton,
-      notificationPage,
-    );
-    await puppeteer.waitAndClick(
-      permissionsPageElements.connectButton,
-      notificationPage,
-    );
+  async connectMetamask() {
+    await puppeteer.switchToMetamaskWindow();
+    await puppeteer.pageReload();
+    await puppeteer.waitAndClick(connectPageElements.nextButton);
+    await puppeteer.waitAndClick(permissionsPageElements.connectButton);
     await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.switchToCypressWindow();
     return true;
   },
   async disconnectMetamask() {
@@ -149,7 +139,7 @@ module.exports = {
       await puppeteer.waitAndType(addNetworkPageElements.blockExplorerInput, network.blockExplorer);
     }
 
-    await puppeteer.waitForAndClick(addNetworkPageElements.saveButton);
+    await puppeteer.waitEnabledAndClick(addNetworkPageElements.saveButton);
 
     await puppeteer.waitForText(
       mainPageElements.networkSwitcher.networkName,

@@ -1,4 +1,16 @@
 export default {
   connectButton: () => cy.get('[data-id="connect-button"]'),
   accountButton: () => cy.get('[data-id="account-button"]'),
+  swapTab: () => cy.get('[id="swap-nav-link"]'),
+  poolTab: () => cy.get('[id="pool-nav-link"]'),
+  migrateTab: () => cy.get('[id="migrate-nav-link"]'),
+  bridgeTab: () => cy.get('[id="bridge-nav-link"]'),
+  unlockButton: () => cy.get('[data-id="unlock-wallet-button"]'),
+  swapButton: () => cy.get('[data-id="swap-button"]'),
+  addLiquidityButton: () => cy.get('[data-id="join-pool-button"]'),
+  chooseTokenButton: () => cy.contains('Please, choose your token'),
+  chooseNetworkButton: () => cy.get('[data-id="network-switch-dropdown"]'),
+  bcsNetworkButton: () => cy.get('[id="bcs"]'),
+  hecoNetworkButton: () => cy.get('[id="heco"]'),
+  polygonNetworkButton: () => cy.get('[id="polygon"]'),
 }

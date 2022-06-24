@@ -44,18 +44,6 @@ module.exports = {
     await metamaskWindow.bringToFront();
     return true;
   },
-  switchToMetamaskNotification: async () => {
-    await module.exports.metamaskWindow().waitForTimeout(3000);
-    const pages = await puppeteerBrowser.pages();
-    // eslint-disable-next-line no-restricted-syntax
-    for (const page of pages) {
-      if (page.url().includes('notification')) {
-        await page.bringToFront();
-        return page;
-      }
-    }
-    return true;
-  },
   waitFor: async (selector, page = metamaskWindow) => {
     await page.waitForFunction(
       `document.querySelector('${selector}') && document.querySelector('${selector}').clientHeight != 0`,
@@ -83,10 +71,10 @@ module.exports = {
       );
     }
   },
-  waitForAndClick: async (selector, page = metamaskWindow) => {
+  waitEnabledAndClick: async (selector, page = metamaskWindow) => {
     await page.waitForFunction(
       `document.querySelector('${selector}') && document.querySelector('${selector}').clientHeight != 0`,
-      { visible: true },
+      { enabled: true },
     );
     await page.evaluate(
       // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -104,5 +92,8 @@ module.exports = {
     await page.waitForFunction(
       `document.querySelector('${selector}').innerText.toLowerCase().includes('${text.toLowerCase()}')`,
     );
+  },
+  pageReload: async (page = metamaskWindow) => {
+    await page.reload();
   },
 };

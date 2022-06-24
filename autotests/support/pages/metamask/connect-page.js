@@ -1,20 +1,20 @@
-const notificationPage = '.notification';
-const nextButton = `${notificationPage} .permissions-connect-choose-account__bottom-buttons button:nth-child(2)`;
-const allowToSpendButton = `${notificationPage} [data-testid="page-container-footer-next"]`;
-const rejectToSpendButton = `${notificationPage} [data-testid="page-container-footer-cancel"]`;
-const selectAllCheck = `${notificationPage} .permissions-connect-choose-account__header-check-box`;
-module.exports.notificationPageElements = {
-  notificationPage,
+const connectPage = '.os-win';
+const nextButton = `${connectPage} .permissions-connect-choose-account__bottom-buttons button:nth-child(2)`;
+const allowToSpendButton = `${connectPage} [data-testid="page-container-footer-next"]`;
+const rejectToSpendButton = `${connectPage} [data-testid="page-container-footer-cancel"]`;
+const selectAllCheck = `${connectPage} .permissions-connect-choose-account__header-check-box`;
+module.exports.connectPageElements = {
+  connectPage,
   nextButton,
   allowToSpendButton,
   rejectToSpendButton,
   selectAllCheck,
 };
 
-const confirmSignatureRequestButton = `${notificationPage} .request-signature__footer__sign-button`;
-const rejectSignatureRequestButton = `${notificationPage} .request-signature__footer__cancel-button`;
-const confirmTypedV4SignatureRequestButton = `${notificationPage} .btn-primary`;
-const rejectTypedV4SignatureRequestButton = `${notificationPage} .btn-default`;
+const confirmSignatureRequestButton = `${connectPage} .request-signature__footer__sign-button`;
+const rejectSignatureRequestButton = `${connectPage} .request-signature__footer__cancel-button`;
+const confirmTypedV4SignatureRequestButton = `${connectPage} .btn-primary`;
+const rejectTypedV4SignatureRequestButton = `${connectPage} .btn-default`;
 module.exports.signaturePageElements = {
   confirmSignatureRequestButton,
   rejectSignatureRequestButton,
@@ -29,8 +29,8 @@ module.exports.permissionsPageElements = {
   connectButton,
 };
 
-const confirmPageHeader = `${notificationPage} .confirm-page-container-header`;
-const confirmPageContent = `${notificationPage} .confirm-page-container-content`;
+const confirmPageHeader = `${connectPage} .confirm-page-container-header`;
+const confirmPageContent = `${connectPage} .confirm-page-container-content`;
 const confirmPageGasFeeSection = `${confirmPageContent} .confirm-page-container-content__gas-fee`;
 const gasFeeLabel = `${confirmPageGasFeeSection} .currency-display-component__text`;
 const gasFeeInput = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(1) .advanced-gas-inputs__gas-edit-row__input`;
@@ -43,7 +43,7 @@ const totalLabel = `${confirmPageContent} div:nth-child(2) > .confirm-detail-row
 const rejectButton = `${confirmPageContent} [data-testid="page-container-footer-cancel"]`;
 const confirmButton = `${confirmPageContent} [data-testid="page-container-footer-next"]`;
 module.exports.confirmPageElements = {
-  notificationPage,
+  connectPage,
   confirmPageHeader,
   confirmPageContent,
   confirmPageGasFeeSection,
