@@ -1,3 +1,4 @@
+import fs from 'fs';
 import puppeteer from 'puppeteer-core';
 import fetch from 'node-fetch';
 
@@ -51,25 +52,13 @@ module.exports = {
     );
     await page.waitForTimeout(300);
   },
-  waitAndClick: async (selector, page = metamaskWindow, numberOfClicks) => {
+  waitAndClick: async (selector, page = metamaskWindow) => {
     await module.exports.waitFor(selector, page);
-    if (numberOfClicks) {
-      let i = 0;
-      while (i < numberOfClicks) {
-        i++;
-        await page.evaluate(
-          // eslint-disable-next-line @typescript-eslint/no-shadow
-          selector => document.querySelector(selector).click(),
-          selector,
-        );
-      }
-    } else {
-      await page.evaluate(
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        selector => document.querySelector(selector).click(),
-        selector,
-      );
-    }
+    await page.evaluate(
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      selector => document.querySelector(selector).click(),
+      selector,
+    );
   },
   waitEnabledAndClick: async (selector, page = metamaskWindow) => {
     await page.waitForFunction(
@@ -95,5 +84,14 @@ module.exports = {
   },
   pageReload: async (page = metamaskWindow) => {
     await page.reload();
+  },
+  pageScreenshot: async (page = metamaskWindow) => {
+    if (!fs.existsSync('puppeteer-screenshots')) {
+      fs.mkdirSync('puppeteer-screenshots');
+    }
+    await page.screenshot({
+      path: `./puppeteer-screenshots/screenshot-${Date.now()}.png`,
+      fullPage: true
+    });
   },
 };

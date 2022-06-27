@@ -109,6 +109,7 @@ stage_autotest:
         expire_in: 1 week
         paths:
             - allure-results/
+            - puppeteer-screenshots/
 
 stage-report:
     stage: allure
@@ -132,6 +133,7 @@ stage-report:
         paths:
             - allure-results/
             - allure-report/
+            - puppeteer-screenshots/
 
 deploy_stage-report:
     stage: allure-report-deploy

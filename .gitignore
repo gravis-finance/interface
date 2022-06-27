@@ -37,6 +37,7 @@ allure-results
 autotests/downloads
 autotests/screenshots
 autotests/videos
+puppeteer-screenshots
 
 .eslintcache
 

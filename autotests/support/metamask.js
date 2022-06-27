@@ -98,6 +98,7 @@ module.exports = {
   async connectMetamask() {
     await puppeteer.switchToMetamaskWindow();
     await puppeteer.pageReload();
+    await puppeteer.metamaskWindow().waitForTimeout(2000);
     await puppeteer.waitAndClick(connectPageElements.nextButton);
     await puppeteer.waitAndClick(permissionsPageElements.connectButton);
     await puppeteer.metamaskWindow().waitForTimeout(3000);

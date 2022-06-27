@@ -1,5 +1,5 @@
 const connectPage = '.os-win';
-const nextButton = `${connectPage} .permissions-connect-choose-account__bottom-buttons button:nth-child(2)`;
+const nextButton = '.btn-primary';
 const allowToSpendButton = `${connectPage} [data-testid="page-container-footer-next"]`;
 const rejectToSpendButton = `${connectPage} [data-testid="page-container-footer-cancel"]`;
 const selectAllCheck = `${connectPage} .permissions-connect-choose-account__header-check-box`;
