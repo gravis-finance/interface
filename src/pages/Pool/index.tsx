@@ -1,23 +1,23 @@
-import React, { useContext, useMemo, lazy } from 'react'
-import styled, { ThemeContext } from 'styled-components'
 import { Pair } from '@gravis.finance/sdk'
 import { Button, CardBody, Text } from '@gravis.finance/uikit'
-
-import { Link } from 'react-router-dom'
-import CardNav from 'components/CardNav'
-import Question from 'components/QuestionHelper'
-import FullPositionCard from 'components/PositionCard'
-import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
-import { StyledInternalLink, TYPE } from 'components/Shared'
-import Card from 'components/Card'
-import { AutoColumn } from 'components/Column'
-
-import { useActiveWeb3React } from 'hooks'
-import { usePairs } from 'data/Reserves'
-import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
-import { Dots } from 'components/swap/styleds'
-import PageHeader from 'components/PageHeader'
+import React, { lazy, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import styled, { ThemeContext } from 'styled-components'
+
+import Card from 'components/Card'
+import CardNav from 'components/CardNav'
+import { AutoColumn } from 'components/Column'
+import PageHeader from 'components/PageHeader'
+import FullPositionCard from 'components/PositionCard'
+import Question from 'components/QuestionHelper'
+import { StyledInternalLink, TYPE } from 'components/Shared'
+import { Dots } from 'components/swap/styleds'
+import { usePairs } from 'data/Reserves'
+import { useActiveWeb3React } from 'hooks'
+import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
+import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
+
 import AppBody from '../AppBody'
 
 const { body: Body } = TYPE
@@ -164,17 +164,19 @@ export default function Pool() {
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
   const tokenPairsWithLiquidityTokens = useMemo(
-    () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
+    () =>
+      trackedTokenPairs.map((tokens) => ({
+        liquidityToken: toV2LiquidityToken(tokens),
+        tokens
+      })),
     [trackedTokenPairs]
   )
   const liquidityTokens = useMemo(
     () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
     [tokenPairsWithLiquidityTokens]
   )
-  const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
-    account ?? undefined,
-    liquidityTokens
-  )
+  const [v2PairsBalances, fetchingV2PairBalances] =
+    useTokenBalancesWithLoadingIndicator(account ?? undefined, liquidityTokens)
   // fetch the reserves for all V2 pools in which the user has a balance
   const liquidityTokensWithBalances = useMemo(
     () =>
@@ -183,11 +185,17 @@ export default function Pool() {
       ),
     [tokenPairsWithLiquidityTokens, v2PairsBalances]
   )
-  const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
+  const v2Pairs = usePairs(
+    liquidityTokensWithBalances.map(({ tokens }) => tokens)
+  )
   const v2IsLoading =
-    fetchingV2PairBalances || v2Pairs?.length < liquidityTokensWithBalances.length || v2Pairs?.some((V2Pair) => !V2Pair)
+    fetchingV2PairBalances ||
+    v2Pairs?.length < liquidityTokensWithBalances.length ||
+    v2Pairs?.some((V2Pair) => !V2Pair)
 
-  const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
+  const allV2PairsWithLiquidity = v2Pairs
+    .map(([, pair]) => pair)
+    .filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
   const getButton = () => {
     return (
       // chainId === 56 || chainId === 128 ?
@@ -206,7 +214,10 @@ export default function Pool() {
     <CardWrapper>
       <CardNav activeIndex={1} />
       <AppBody>
-        <PageHeader title={t('mainMenu.liquidity')} description={t('liquidityDescription')} />
+        <PageHeader
+          title={t('mainMenu.liquidity')}
+          description={t('liquidityDescription')}
+        />
         <StyledCardBody singleBlock={allV2PairsWithLiquidity?.length > 0}>
           {!account ? <UnlockButton /> : getButton()}
           <StyledRightSide>
@@ -214,11 +225,21 @@ export default function Pool() {
               <>
                 <StyledLiquidity>
                   <Text color={theme.colors.text}>{t('yourLiquidity')}</Text>
-                  <Question text={t('questionHelperMessages.addLiquidity')} big empty bordered={false} disableHover />
+                  <Question
+                    text={t('questionHelperMessages.addLiquidity')}
+                    big
+                    empty
+                    bordered={false}
+                    disableHover
+                  />
                 </StyledLiquidity>
                 {!account ? (
                   <Card>
-                    <Body color={theme.colors.textDisabled} textAlign="center" style={{ fontSize: '14px' }}>
+                    <Body
+                      color={theme.colors.textDisabled}
+                      textAlign="center"
+                      style={{ fontSize: '14px' }}
+                    >
                       {t('liquidityConnectToWallet')}
                     </Body>
                   </Card>
@@ -231,7 +252,10 @@ export default function Pool() {
                 ) : allV2PairsWithLiquidity?.length > 0 ? (
                   <>
                     {allV2PairsWithLiquidity.map((v2Pair) => (
-                      <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+                      <FullPositionCard
+                        key={v2Pair.liquidityToken.address}
+                        pair={v2Pair}
+                      />
                     ))}
                   </>
                 ) : (
@@ -249,12 +273,22 @@ export default function Pool() {
           <StyledYourLiquidity>
             <StyledLiquidity found>
               <Text color={theme.colors.text}>{t('yourLiquidity')}</Text>
-              <Question text={t('questionHelperMessages.addLiquidity')} big empty bordered={false} disableHover />
+              <Question
+                data-id="question-helper-message"
+                text={t('questionHelperMessages.addLiquidity')}
+                big
+                empty
+                bordered={false}
+                disableHover
+              />
             </StyledLiquidity>
-            <StyledFoundLiquidity>
+            <StyledFoundLiquidity data-id="liquidity-pools">
               {allV2PairsWithLiquidity.map((v2Pair) => (
                 <StyledFullPositionCard key={v2Pair.liquidityToken.address}>
-                  <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+                  <FullPositionCard
+                    key={v2Pair.liquidityToken.address}
+                    pair={v2Pair}
+                  />
                 </StyledFullPositionCard>
               ))}
             </StyledFoundLiquidity>
@@ -264,7 +298,14 @@ export default function Pool() {
           <ImportPoolCardBody>
             <AutoColumn gap="12px" style={{ width: '100%' }}>
               <div>
-                <Text fontSize="14px" style={{ padding: '.5rem 0 .5rem 0', letterSpacing: '-0.3px' }} color="#909090">
+                <Text
+                  fontSize="14px"
+                  style={{
+                    padding: '.5rem 0 .5rem 0',
+                    letterSpacing: '-0.3px'
+                  }}
+                  color="#909090"
+                >
                   {t('noJoinedPool')}{' '}
                   <StyledInternalLink data-id="import-pool-link" to="/find">
                     {t('importPoolMessage')}

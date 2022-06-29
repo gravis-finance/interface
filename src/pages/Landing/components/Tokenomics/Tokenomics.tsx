@@ -148,8 +148,8 @@ const StyledButton = styled(Button)<{ isSelected: boolean }>`
 `
 
 const BUTTONS = [
-  { id: 0, image: <StyledBinanaceIcon /> },
-  { id: 1, image: <StyledPolygonIcon /> }
+  { id: 0, image: <StyledBinanaceIcon />, name: 'Binance' },
+  { id: 1, image: <StyledPolygonIcon />, name: 'Polygon' }
 ]
 
 const NETWORKS = ['bsc', 'polygon']
@@ -174,8 +174,9 @@ const Tokenomics = () => {
         </Info>
         <CardWrapper>
           <Flex style={{ gap: 10 }}>
-            {BUTTONS.map(({ image, id }, index) => (
+            {BUTTONS.map(({ image, id, name }, index) => (
               <StyledButton
+                aria-label={name}
                 key={id}
                 isSelected={selected === index}
                 onClick={() => setSelected(index)}
