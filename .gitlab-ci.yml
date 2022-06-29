@@ -48,7 +48,6 @@ deploy_stage:
     stage: deploy
     only:
         - stage
-        - master
     tags: 
       - shell
       - dev
