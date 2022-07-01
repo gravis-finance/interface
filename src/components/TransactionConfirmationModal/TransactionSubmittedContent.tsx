@@ -26,7 +26,7 @@ const TransactionSubmittedContent = ({ onDismiss, chainId, hash }: TransactionSu
   const { t } = useTranslation()
 
   return (
-    <Wrapper>
+    <Wrapper data-id="transaction-submitted-content">
       <StyledSection>
         <ContentHeader onDismiss={onDismiss}>{t('transactionSubmitted')}</ContentHeader>
         <ConfirmedIcon>

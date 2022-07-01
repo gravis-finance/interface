@@ -14,7 +14,7 @@ const StyledSection = styled(Section)`
 const ConfirmationPendingContent = ({ onDismiss, pendingText }: ConfirmationPendingContentProps) => {
   const { t } = useTranslation()
   return (
-    <Wrapper>
+    <Wrapper data-id="cofirmation-pending-modal">
       <StyledSection>
         <ContentHeader onDismiss={onDismiss}>{t('waitingConfirmation')}</ContentHeader>
         <ConfirmedIcon>
