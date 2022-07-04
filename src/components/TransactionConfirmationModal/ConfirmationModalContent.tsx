@@ -24,7 +24,7 @@ const StyledSection = styled(Section)`
 
 const ConfirmationModalContent = ({ title, bottomContent, onDismiss, topContent }: ConfirmationModalContentProps) => {
   return (
-    <Wrapper>
+    <Wrapper data-id="confirmation-content">
       <ContentHeader onDismiss={onDismiss}>{title}</ContentHeader>
       <StyledBodyContainer>
         <StyledSection>{topContent}</StyledSection>
