@@ -63,7 +63,7 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss }: RecentTransac
   }, [allTransactions])
 
   return (
-    <StyledWrapper>
+    <StyledWrapper data-id="recent-transactions-modal">
       <Modal title={t('recentTransactions')} onDismiss={onDismiss}>
         {!account && (
           <Flex justifyContent="center" flexDirection="column" alignItems="center">
