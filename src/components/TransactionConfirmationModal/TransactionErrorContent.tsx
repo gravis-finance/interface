@@ -14,7 +14,7 @@ const TransactionErrorContent = ({ message, onDismiss }: TransactionErrorContent
   const { t } = useTranslation()
 
   return (
-    <Wrapper>
+    <Wrapper data-id="transaction-error-content">
       <Section style={{ padding: 0 }}>
         <ContentHeader onDismiss={onDismiss}>{t('error')}</ContentHeader>
         <AutoColumn style={{ marginTop: 20, padding: '2rem 0' }} gap="24px" justify="center">

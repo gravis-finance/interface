@@ -27,6 +27,7 @@ export default function TradePrice({ price, showInverted, setShowInverted, warni
         display: 'flex',
         color: !warning ? '#009CE1' : '#EB9500',
       }}
+      data-id="price-token-per-token"
     >
       {show ? (
         <>
