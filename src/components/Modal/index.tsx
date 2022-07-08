@@ -38,9 +38,10 @@ const DialogContent = lazy(async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...rest }) => (
     <AnimatedDialogContent {...rest} />
-  )).attrs({
+  )).attrs(props => ({
     'aria-label': 'dialog',
-  })`
+    ...props,
+  }))`
     &[data-reach-dialog-content] {
       margin: 0 0 2rem 0;
       // border: 1px solid ${({ theme }) => theme.colors.invertedContrast};
@@ -104,6 +105,7 @@ export default function Modal({
   initialFocusRef,
   children,
   istransparent,
+    ...restProps
 }: ModalProps) {
   // TODO
   const fadeTransition = useTransition(isOpen, null, {
@@ -125,6 +127,7 @@ export default function Modal({
                 maxHeight={maxHeight}
                 mobile={isMobile}
                 istransparent={istransparent}
+                {...restProps}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {/* eslint-disable */}

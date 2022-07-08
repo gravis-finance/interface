@@ -3520,6 +3520,18 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
   integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
 
+"@gravis.finance/sdk@1.0.29":
+  version "1.0.29"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.29.tgz#6d33a0d05187306f018fdcab47571562476b035b"
+  integrity sha512-Q5GFUo0inJfThabOUQSvG/L8LyWik4zK3gCMobzeuK8zD7l+FSRnfS7xL4MzG3vbSYUywIldi8weeGqjfGL9ww==
+  dependencies:
+    big.js "^5.2.2"
+    decimal.js-light "^2.5.0"
+    jsbi "^3.1.1"
+    tiny-invariant "^1.1.0"
+    tiny-warning "^1.0.3"
+    toformat "^2.0.0"
+
 "@gravis.finance/sdk@^1.0.16":
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.16.tgz#6f28b6964e6a3b55820f2be6055bc4de1c9212b1"
@@ -3533,25 +3545,12 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/sdk@^1.0.26":
-  version "1.0.28"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/sdk/-/sdk-1.0.28.tgz#cee7aa701206d3c2d3579ab0460d0e455659fb9e"
-  integrity sha512-38rVvlITBvSk56B9bNAK2kgUeTrBikvZOGWQHk+PWxR33SGCPIwjbscYN4gLyOlo6PhCJoBbPER3qseLqfSMKw==
+"@gravis.finance/uikit@1.3.115":
+  version "1.3.115"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.3.115.tgz#25613783c4835e05bfac9f47e5c924a90d47a8ec"
+  integrity sha512-g02MGmioYyPTmbuylGQrY4OUDoR2ULGl3UTlJVt2+5R9gCrDZLvHH4BTHiUCMnjdJJ3Coh347/utho8ti5eQtw==
   dependencies:
-    "@pancakeswap-libs/pancake-swap-core" "^0.1.0"
-    big.js "^5.2.2"
-    decimal.js-light "^2.5.0"
-    jsbi "^3.1.1"
-    tiny-invariant "^1.1.0"
-    tiny-warning "^1.0.3"
-    toformat "^2.0.0"
-
-"@gravis.finance/uikit@1.3.106":
-  version "1.3.106"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.3.106.tgz#2b4db4d088433eedf08133f521285083e9c1fea8"
-  integrity sha512-yaiIF6PDz+bBvC5NFf+gNm+VGI4hp7H/Jq7140woebRAwqQAjlmuIR+GIkOVxSwZnr8LVvWUzAVL+dLFyWg/rw==
-  dependencies:
-    "@gravis.finance/sdk" "^1.0.26"
+    "@gravis.finance/sdk" "1.0.29"
     "@popperjs/core" "^2.9.2"
     "@storybook/core" "6.5.5"
     "@types/lodash" "^4.14.162"
@@ -7744,7 +7743,7 @@ array-includes@^3.1.3, array-includes@^3.1.4:
 array-union@^1.0.1, array-union@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/array-union/-/array-union-1.0.2.tgz#9a34410e4f4e3da23dea375be5be70f24778ec39"
-  integrity sha512-Dxr6QJj/RdU/hCaBjOfxW+q6lyuVE6JFWIrAUpuOOhoJJoQ99cUn3igRaHVB5P9WrgFVN0FfArM3x0cueOU8ng==
+  integrity sha1-mjRBDk9OPaI96jdb5b5w8kd47Dk=
   dependencies:
     array-uniq "^1.0.1"
 
@@ -8217,7 +8216,7 @@ babel-jest@^26.6.0, babel-jest@^26.6.3:
     graceful-fs "^4.2.4"
     slash "^3.0.0"
 
-babel-loader@8.1.0:
+babel-loader@8.1.0, babel-loader@^8.0.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.1.0.tgz#c611d5112bd5209abe8b9fa84c3e4da25275f1c3"
   integrity sha512-7q7nC1tYOrqvUrN3LQK4GwSk/TQorZSOlO9C+RZDZpODgyN4ZlCqE5q9cDsyWOliN+aU9B4JX01xK9eJXowJLw==
@@ -8226,16 +8225,6 @@ babel-loader@8.1.0:
     loader-utils "^1.4.0"
     mkdirp "^0.5.3"
     pify "^4.0.1"
-    schema-utils "^2.6.5"
-
-babel-loader@^8.0.0:
-  version "8.2.5"
-  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.2.5.tgz#d45f585e654d5a5d90f5350a779d7647c5ed512e"
-  integrity sha512-OSiFfH89LrEMiWd4pLNqGz4CwJDtbs2ZVc+iGu2HrkRfPxId9F2anQj38IxWpmRfsUY0aBZYi1EFcd3mhtRMLQ==
-  dependencies:
-    find-cache-dir "^3.3.1"
-    loader-utils "^2.0.0"
-    make-dir "^3.1.0"
     schema-utils "^2.6.5"
 
 babel-messages@^6.23.0:
@@ -10679,9 +10668,9 @@ core-js-compat@^3.18.0, core-js-compat@^3.19.0, core-js-compat@^3.6.2:
     semver "7.0.0"
 
 core-js-compat@^3.21.0, core-js-compat@^3.22.1, core-js-compat@^3.8.1:
-  version "3.23.0"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.23.0.tgz#324191a23bfbd229802718dcc1d213414b244624"
-  integrity sha512-i4FgbtahOArZBEteiL+czI5N/bp17w16bXmLagGThdA2zuX1a5X4HbBmOVD7ERRtk3wMtPOFEmlXpVV4lsvwNw==
+  version "3.23.1"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.23.1.tgz#23d44d9f209086e60dabf9130cea7719af6e199b"
+  integrity sha512-KeYrEc8t6FJsKYB2qnDwRHWaC0cJNaqlHfCpMe5q3j/W1nje3moib/txNklddLPCtGb+etcBIyJ8zuMa/LN5/A==
   dependencies:
     browserslist "^4.20.4"
     semver "7.0.0"
@@ -10697,9 +10686,9 @@ core-js@^2.4.0, core-js@^2.5.0:
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
 core-js@^3.0.4, core-js@^3.8.2:
-  version "3.23.0"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.23.0.tgz#9e33448c8fd3b02ad023d85bd6e85da6335b5cc4"
-  integrity sha512-v2/hZoRcRrvQiBoGsHwmRdr+S4oICKcjA6xb2qjVurin6TpcDC1X2CIDa8rdu/d5n8RT/Sdoos2IlnpQ1rXs5A==
+  version "3.23.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.23.1.tgz#9f9a9255115f62c512db56d567f636da32ca0b78"
+  integrity sha512-wfMYHWi1WQjpgZNC9kAlN4ut04TM9fUTdi7CqIoTVM7yaiOUQTklOzfb+oWH3r9edQcT3F887swuVmxrV+CC8w==
 
 core-js@^3.2.1, core-js@^3.6.5:
   version "3.19.1"
@@ -18409,7 +18398,7 @@ lodash.truncate@^4.4.2:
 lodash.uniq@4.5.0, lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
-  integrity sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==
+  integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
 lodash.without@^4.4.0:
   version "4.4.0"
@@ -18612,7 +18601,7 @@ make-dir@^2.0.0, make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-make-dir@^3.0.0, make-dir@^3.0.2, make-dir@^3.1.0:
+make-dir@^3.0.0, make-dir@^3.0.2:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-3.1.0.tgz#415e967046b3a7f1d185277d84aa58203726a13f"
   integrity sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==

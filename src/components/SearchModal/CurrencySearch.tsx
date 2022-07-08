@@ -215,7 +215,7 @@ export function CurrencySearch({
 
   return (
     <>
-      <Column style={{ width: '100%', flex: '1 1' }}>
+      <Column style={{ width: '100%', flex: '1 1' }} data-id="select-token-modal">
         <PaddedColumn gap="14px">
           <RowBetween>
             <Text style={{ display: 'flex', alignItems: 'center', fontSize: '18px', letterSpacing: '-0.3px' }} bold>
