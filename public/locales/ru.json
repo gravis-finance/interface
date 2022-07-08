@@ -38,7 +38,8 @@
     "farming": "Фарминг",
     "staking": "Стейкинг GRVX",
     "farms": "Фермы",
-    "audit": "Аудит"
+    "audit": "Аудит",
+    "autofarming": "Автофарминг"
   },
   "language": "ru",
   "swap": "Обменять",

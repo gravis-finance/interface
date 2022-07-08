@@ -76,7 +76,7 @@ export default function Popups() {
   // }
   // ]
   return (
-    <StyledPopupContainer>
+    <StyledPopupContainer data-id="popup">
       <FixedPopupColumn gap="20px">
         {activePopups.map((item) => (
           <PopupItem
