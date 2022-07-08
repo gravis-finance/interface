@@ -106,7 +106,7 @@ export default function PopupItem({
   // })
   // CheckmarkCircleIcon
   return (
-    <Popup type={type}>
+    <Popup type={type} data-id="popup-item">
       {/* <StyledClose color={theme.colors.textSubtle} onClick={removeThisPopup} /> */}
       <StyledClose onClick={removeThisPopup} data-id="popup-close-button">
         <CloseIcon />
