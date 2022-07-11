@@ -1,6 +1,6 @@
 export default {
-  checkUrlGswapExchange: () => cy.url().should('include', 'stage.gswap.exchange/?network=56'),
-  checkUrlGswapExchangeSwap: () => cy.url().should('include', 'stage.gswap.exchange/swap?network=56'),
-  checkUrlGswapExchangePool: () => cy.url().should('include', 'stage.gswap.exchange/pool?network=56'),
-  checkUrlGswapExchangeMigrate: () => cy.url().should('include', 'stage.gswap.exchange/migrate?network=56'),
+  // networks: BSC - 56, HECO - 128, Polygon - 137
+  checkUrlGswapExchangeSwap: (network) => cy.url().should('include', `stage.gswap.exchange/swap?network=${network}`),
+  checkUrlGswapExchangePool: (network) => cy.url().should('include', `stage.gswap.exchange/pool?network=${network}`),
+  checkUrlGswapExchangeMigrate: (network) => cy.url().should('include', `stage.gswap.exchange/migrate?network=${network}`),
 }

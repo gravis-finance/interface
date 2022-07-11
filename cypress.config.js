@@ -43,6 +43,18 @@ module.exports = defineConfig({
           const setup = await metamask.setupMetamask({ secretWords, password });
           return setup;
         },
+        addNetwork: async (network) => {
+          const networkAdded = await metamask.addNetwork(network);
+          return networkAdded;
+        },
+        importAccount: async privateKey => {
+          const imported = await metamask.importAccount(privateKey);
+          return imported;
+        },
+        importToken: async (tokenName, tokenAddress) => {
+          const imported = await metamask.importToken(tokenName, tokenAddress);
+          return imported;
+        },
         connectMetamask: async () => {
           const connected = await metamask.connectMetamask();
           return connected;
@@ -51,9 +63,21 @@ module.exports = defineConfig({
           const disconnected = await metamask.disconnectMetamask();
           return disconnected;
         },
-        addNetwork: async network => {
-          const networkAdded = await metamask.addNetwork(network);
-          return networkAdded;
+        cancelChangeNetwork: async () => {
+          const allowed = await metamask.cancelChangeNetwork();
+          return allowed;
+        },
+        approveChangeNetwork: async (addNetwork) => {
+          const allowed = await metamask.approveChangeNetwork(addNetwork);
+          return allowed;
+        },
+        confirmTransaction: async gasConfig => {
+          const confirmed = await metamask.confirmTransaction(gasConfig);
+          return confirmed;
+        },
+        changeNetwork: async network => {
+          const networkChanged = await metamask.changeNetwork(network);
+          return networkChanged;
         },
       });
      

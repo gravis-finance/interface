@@ -37,7 +37,6 @@ build_stage:
     stage: build
     only:
         - stage
-        - autotests
     image: node:14-buster
     tags: &b_runner 
         - builder
@@ -55,7 +54,6 @@ deploy_stage:
     stage: deploy
     only:
         - stage
-        - autotests
     tags: 
       - shell
       - dev

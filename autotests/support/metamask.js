@@ -1,27 +1,41 @@
 import puppeteer from './puppeteer';
 
 import {  welcomePageElements,
-          firstTimeFlowPageElements,
-          metametricsPageElements,
-          firstTimeFlowFormPageElements,
-          endOfFlowPageElements } from './pages/metamask/first-time-flow-page';
+          selectActionPageElements, 
+          metametricsOptInPageElements,
+          importWithSeedPhrasePageElements,
+          endOfFlowPageElements } from './pages/metamask/initialize-page';
 import {  mainPageElements } from './pages/metamask/main-page';
 import {  unlockPageElements } from './pages/metamask/unlock-page';
-import {  connectPageElements,
-          permissionsPageElements } from './pages/metamask/connect-page';
+import {  permissionsPageElements } from './pages/metamask/connect-page';
+import {  confirmChangeNetworkPageElements,
+          confirmTransactionPageElements } from './pages/metamask/confirmation-page';
 import {  settingsPageElements,
           networksPageElements,
-          addNetworkPageElements } from './pages/metamask/settings-page';
+          addNetworkPageElements,
+          loadingModalElements } from './pages/metamask/settings-page';
+import { pageElements } from './pages/metamask/page';
 
 module.exports = {
   fixBlankPage: async () => {
     await puppeteer.metamaskWindow().waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
+      if ((await puppeteer.metamaskWindow().$(mainPageElements.app)) === null) {
+        await puppeteer.metamaskWindow().reload();
+        await puppeteer.metamaskWindow().waitForTimeout(1000);
+      } else {
+        break;
+      }
+    }
+  },
+  reloadPage: async (selector) => {
+    await puppeteer.metamaskWindow().reload();
+    for (let times = 0; times < 5; times++) {
       if (
-        (await puppeteer.metamaskWindow().$(welcomePageElements.app)) === null
+        (await puppeteer.metamaskWindow().$(selector)) === null
       ) {
         await puppeteer.metamaskWindow().reload();
-        await puppeteer.metamaskWindow().waitForTimeout(2000);
+        await puppeteer.metamaskWindow().waitForTimeout(1000);
       } else {
         break;
       }
@@ -29,7 +43,7 @@ module.exports = {
   },
   confirmWelcomePage: async () => {
     await module.exports.fixBlankPage();
-    await puppeteer.waitAndClick(welcomePageElements.confirmButton);
+    await puppeteer.waitAndClick(welcomePageElements.getStartedButton);
     return true;
   },
   closePopup: async () => {
@@ -41,39 +55,42 @@ module.exports = {
     }
     return true;
   },
-  unlock: async password => {
+  unlock: async (password) => {
     await module.exports.fixBlankPage();
     await puppeteer.waitAndType(unlockPageElements.passwordInput, password);
     await puppeteer.waitAndClick(unlockPageElements.unlockButton);
-    await puppeteer.waitFor(mainPageElements.walletOverview);
+    await puppeteer.waitFor(mainPageElements.app);
     await module.exports.closePopup();
     return true;
   },
   importWallet: async (secretWords, password) => {
     const secretWordsArray = secretWords.split(' ');
-    await puppeteer.waitAndClick(firstTimeFlowPageElements.importWalletButton);
-    await puppeteer.waitAndClick(metametricsPageElements.optOutAnalyticsButton);
+    await puppeteer.waitAndClick(selectActionPageElements.importWalletButton);
+    await puppeteer.waitAndClick(metametricsOptInPageElements.noThanksButton);
     // type secret words
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord0, secretWordsArray[0]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord1, secretWordsArray[1]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord2, secretWordsArray[2]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord3, secretWordsArray[3]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord4, secretWordsArray[4]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord5, secretWordsArray[5]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord6, secretWordsArray[6]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord7, secretWordsArray[7]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord8, secretWordsArray[8]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord9, secretWordsArray[9]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord10, secretWordsArray[10]);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.secretWord11, secretWordsArray[11]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord0, secretWordsArray[0]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord1, secretWordsArray[1]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord2, secretWordsArray[2]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord3, secretWordsArray[3]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord4, secretWordsArray[4]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord5, secretWordsArray[5]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord6, secretWordsArray[6]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord7, secretWordsArray[7]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord8, secretWordsArray[8]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord9, secretWordsArray[9]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord10, secretWordsArray[10]);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.secretWord11, secretWordsArray[11]);
     // type password
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.passwordInput, password);
-    await puppeteer.waitAndType(firstTimeFlowFormPageElements.confirmPasswordInput, password);
-    
-    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.termsCheckbox);
-    await puppeteer.waitAndClick(firstTimeFlowFormPageElements.importButton);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.newPasswordInput, password);
+    await puppeteer.waitAndType(importWithSeedPhrasePageElements.confirmPasswordInput, password);
+    // accept terms
+    await puppeteer.waitAndClick(importWithSeedPhrasePageElements.termsCheckbox);
+    // click import
+    await puppeteer.waitAndClick(importWithSeedPhrasePageElements.importButton);
+    // click all done
     await puppeteer.waitAndClick(endOfFlowPageElements.allDoneButton);
-    await puppeteer.waitFor(mainPageElements.walletOverview);
+    await puppeteer.waitFor(mainPageElements.app);
+    // close popup
     await module.exports.closePopup();
     return true;
   },
@@ -82,10 +99,7 @@ module.exports = {
     await puppeteer.assignWindows();
     await puppeteer.switchToMetamaskWindow();
     await puppeteer.metamaskWindow().waitForTimeout(1000);
-    if (
-      (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
-      null
-    ) {
+    if ((await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) === null) {
       await module.exports.confirmWelcomePage();
       await module.exports.importWallet(secretWords, password);
       await puppeteer.switchToCypressWindow();
@@ -95,58 +109,119 @@ module.exports = {
       await puppeteer.switchToCypressWindow();
     return true;
   },
-  async connectMetamask() {
+  addNetwork: async (network) => {
     await puppeteer.switchToMetamaskWindow();
-    await puppeteer.pageReload();
-    await puppeteer.metamaskWindow().waitForTimeout(2000);
-    await puppeteer.waitAndClick(connectPageElements.nextButton);
-    await puppeteer.waitAndClick(permissionsPageElements.connectButton);
-    await puppeteer.metamaskWindow().waitForTimeout(3000);
-    await puppeteer.switchToCypressWindow();
-    return true;
-  },
-  async disconnectMetamask() {
-    await puppeteer.switchToMetamaskWindow();
-
-    await puppeteer.waitAndClick(mainPageElements.optionsMenu.button);
-    await puppeteer.waitAndClick(mainPageElements.optionsMenu.connectedSitesButton);
-    await puppeteer.waitAndClick(mainPageElements.connectedSites.disconnectLink);
-    await puppeteer.waitAndClick(mainPageElements.connectedSites.disconnectButton);
-
-    if ((await puppeteer.metamaskWindow().$(mainPageElements.connectedSites.modal)) !== null) {
-      await puppeteer.waitAndClick(mainPageElements.connectedSites.closeButton);
-    }
-
-    await puppeteer.switchToCypressWindow();
-    return true;
-  },
-  addNetwork: async network => {
-    await puppeteer.switchToMetamaskWindow();
-
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClick(mainPageElements.accountMenu.settingsButton);
     await puppeteer.waitAndClick(settingsPageElements.networksButton);
     await puppeteer.waitAndClick(networksPageElements.addNetworkButton);
     // type network settings
-    await puppeteer.waitAndType(addNetworkPageElements.networkNameInput,network.networkName);
-    await puppeteer.waitAndType(addNetworkPageElements.rpcUrlInput,network.rpcUrl);
-    await puppeteer.waitAndType(addNetworkPageElements.chainIdInput, network.chainId);
-
-    if (network.symbol) {
-      await puppeteer.waitAndType(addNetworkPageElements.symbolInput, network.symbol);
-    }
-
     if (network.blockExplorer) {
       await puppeteer.waitAndType(addNetworkPageElements.blockExplorerInput, network.blockExplorer);
     }
-
-    await puppeteer.waitEnabledAndClick(addNetworkPageElements.saveButton);
-
-    await puppeteer.waitForText(
-      mainPageElements.networkSwitcher.networkName,
-      network.networkName,
-    );
-
+    if (network.symbol) {
+      await puppeteer.waitAndType(addNetworkPageElements.symbolInput, network.symbol);
+    }
+    await puppeteer.waitAndType(addNetworkPageElements.chainIdInput, network.chainId);
+    await puppeteer.waitAndType(addNetworkPageElements.rpcUrlInput, network.rpcUrl);
+    await puppeteer.waitAndType(addNetworkPageElements.networkNameInput, network.networkName);
+    await puppeteer.waitAndClick(addNetworkPageElements.saveButton);
+    await puppeteer.waitForText(mainPageElements.networkSwitcher.networkName, network.networkName);
+    await puppeteer.waitForText(mainPageElements.walletInfo.networkName, network.symbol);
+    await puppeteer.waitForNotExist(pageElements.loadingSpinner);
+    if ((await puppeteer.metamaskWindow().$(loadingModalElements.loadingModal)) !== null) {
+      await puppeteer.waitAndClick(loadingModalElements.tryAgainButton);
+    }
+    await puppeteer.waitForNotExist(pageElements.loadingSpinner);
+    await puppeteer.waitForNotExist(loadingModalElements.loadingModal);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  importAccount: async privateKey => {
+    await puppeteer.switchToMetamaskWindow();
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
+    await puppeteer.waitAndClick(mainPageElements.accountMenu.importAccountButton);
+    await puppeteer.waitAndType(mainPageElements.importAccount.input, privateKey);
+    await puppeteer.waitAndClick(mainPageElements.importAccount.importButton);
+    await puppeteer.waitAndClick(permissionsPageElements.cancelButton);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  importToken: async ({ tokenName, tokenAddress }) => {
+    await puppeteer.switchToMetamaskWindow();
+    await puppeteer.waitAndClickLink(mainPageElements.walletInfo.importTokenLink);
+    await puppeteer.waitAndType(mainPageElements.importToken.tokenContractAddress, tokenAddress);
+    await puppeteer.waitForValue(mainPageElements.importToken.tokenSymbol, tokenName);
+    await puppeteer.waitAndClick(mainPageElements.importToken.addTokenButton);
+    await puppeteer.waitAndClick(mainPageElements.importToken.importTokenButton);
+    await puppeteer.waitAndClick(mainPageElements.assetNavigation.backButton);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  connectMetamask: async () => {
+    await puppeteer.init();
+    await puppeteer.assignWindows();
+    await puppeteer.switchToMetamaskWindow();
+    await module.exports.reloadPage(permissionsPageElements.permissionsPage);
+    await puppeteer.waitAndClick(permissionsPageElements.nextButton);
+    await puppeteer.waitAndClick(permissionsPageElements.connectButton);
+    await puppeteer.metamaskWindow().waitForTimeout(3000);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  disconnectMetamask: async () => {
+    await puppeteer.init();
+    await puppeteer.assignWindows();
+    await puppeteer.switchToMetamaskWindow();
+    await puppeteer.waitAndClick(mainPageElements.optionsMenu.button);
+    await puppeteer.waitAndClick(mainPageElements.optionsMenu.connectedSitesButton);
+    await puppeteer.waitAndClick(mainPageElements.connectedSites.disconnectLink);
+    await puppeteer.waitAndClick(mainPageElements.connectedSites.disconnectButton);
+    if ((await puppeteer.metamaskWindow().$(mainPageElements.connectedSites.modal)) !== null) {
+      await puppeteer.waitAndClick(mainPageElements.connectedSites.closeButton);
+    }
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  cancelChangeNetwork: async () => {
+    await puppeteer.init();
+    await puppeteer.assignWindows();
+    await puppeteer.switchToMetamaskWindow();
+    await module.exports.reloadPage(confirmChangeNetworkPageElements.confirmChangeNetworkPage);
+    await puppeteer.waitAndClick(confirmChangeNetworkPageElements.cancelButton);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  approveChangeNetwork: async () => {
+    await puppeteer.init();
+    await puppeteer.assignWindows();
+    await puppeteer.switchToMetamaskWindow();
+    await module.exports.reloadPage(confirmChangeNetworkPageElements.confirmChangeNetworkPage);
+    if (!((await puppeteer.metamaskWindow().$(confirmChangeNetworkPageElements.definitionList)) === null)) {
+      await puppeteer.waitAndClick(confirmChangeNetworkPageElements.approveButton);
+    }
+    await puppeteer.waitAndClick(confirmChangeNetworkPageElements.switchButton);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  confirmTransaction: async () => {
+    await puppeteer.init();
+    await puppeteer.assignWindows();
+    await puppeteer.switchToMetamaskWindow();
+    await module.exports.reloadPage(confirmTransactionPageElements.confirmTransactionPage);
+    await puppeteer.waitForEnabled(confirmTransactionPageElements.confirmButton);
+    await puppeteer.waitAndClick(confirmTransactionPageElements.confirmButton);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  changeNetwork: async network => {
+    await puppeteer.init();
+    await puppeteer.assignWindows();
+    await puppeteer.switchToMetamaskWindow();
+    await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
+    await puppeteer.waitAndClickByText(mainPageElements.networkSwitcher.dropdownMenuItem, network);
+    await puppeteer.waitForText(mainPageElements.networkSwitcher.networkName, network);
     await puppeteer.switchToCypressWindow();
     return true;
   },

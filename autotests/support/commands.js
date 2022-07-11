@@ -28,15 +28,38 @@ Cypress.Commands.add('setupMetamask', (secretWords, password) => {
   return cy.task('setupMetamask', { secretWords, password });
 });
 
-Cypress.Commands.add('connectMetamask', allAccounts => {
-  return cy.task('connectMetamask', allAccounts);
+Cypress.Commands.add('addNetwork', network => {
+  return cy.task('addNetwork', network);
+});
+
+Cypress.Commands.add('importAccount', privateKey => {
+  return cy.task('importAccount', privateKey);
+});
+
+Cypress.Commands.add('importToken', (tokenName, tokenAddress) => {
+  return cy.task('importToken', { tokenName, tokenAddress });
+});
+
+Cypress.Commands.add('connectMetamask', () => {
+  return cy.task('connectMetamask');
 });
 
 Cypress.Commands.add('disconnectMetamask', () => {
   return cy.task('disconnectMetamask');
 });
 
-Cypress.Commands.add('addNetwork', network => {
-  return cy.task('addNetwork', network);
+Cypress.Commands.add('cancelChangeNetwork', () => {
+  return cy.task('cancelChangeNetwork');
 });
 
+Cypress.Commands.add('approveChangeNetwork', addNetwork => {
+  return cy.task('approveChangeNetwork', addNetwork);
+});
+
+Cypress.Commands.add('confirmTransaction', gasConfig => {
+  return cy.task('confirmTransaction', gasConfig);
+});
+
+Cypress.Commands.add('changeNetwork', network => {
+  return cy.task('changeNetwork', network);
+});
