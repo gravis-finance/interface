@@ -72,6 +72,24 @@ cy.functions = {
       const {gasUsed} = response.body.result[0];
       const gasFee = gasPrice * gasUsed;
       cy.wrap(gasFee).as('gasFee');
+      cy.readFile(Cypress.env('feeFile')).then((data) => {
+        data.push({ gasPrice: `${gasPrice}`, gasUsed: `${gasUsed}`, gasFee: `${gasFee}` });
+        cy.writeFile(Cypress.env('feeFile'), JSON.stringify(data))
+      })
+    });
+  },
+
+  getGasPrice() {
+    cy.request({
+      method: 'GET',
+      url: `https://api.bscscan.com/api` +
+      `?module=gastracker` +
+      `&action=gasoracle` +
+      `&apikey=${Cypress.env('apiKey')}`,
+    }).then((response)=> {
+      expect(response.body.status).to.equal('1');
+      const {UsdPrice} = response.body.result;
+      cy.wrap(UsdPrice).as('usdPrice');
     });
   },
 
@@ -129,3 +147,19 @@ cy.functions = {
     });
   },
 };
+
+// https://api.bscscan.com/api
+//   ?module=account
+//   &action=txlist
+//   &address=0xDab2Ca322315Ab925a2864A020F8BDd6167E8A6e
+//   &startblock=0
+//   &endblock=99999999
+//   &page=1
+//   &offset=1
+//   &sort=desc
+//   &apikey=KX1NRY5QW92UED2PXPEHYZM393T6Y1JA69
+
+// https://api.bscscan.com/api
+//   ?module=gastracker
+//   &action=gasoracle
+//   &apikey=KX1NRY5QW92UED2PXPEHYZM393T6Y1JA69

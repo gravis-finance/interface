@@ -103,8 +103,11 @@ const swapTokens = (swap, min, max, dec) => {
   });
 }
 
-
 describe('05 Swap tokens', () => {
+
+  before(`Visit stage.gswap.exchange`, () => {
+    cy.writeFile(Cypress.env('feeFile'), []);
+  });
 
   beforeEach(`Visit stage.gswap.exchange`, () => {
     cy.visit(Cypress.env('gswapHost'));
@@ -120,7 +123,7 @@ describe('05 Swap tokens', () => {
   });
 
   it(`Swap BNB to USDT (int)`, () => {
-    swapTokens('bnbToUsdt', 2, 3, 0);
+    swapTokens('bnbToUsdt', 1, 1, 0);
   });
 
   it(`Swap BNB to USDT (float)`, () => {
