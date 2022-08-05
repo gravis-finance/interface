@@ -220,9 +220,7 @@ export default function AddLiquidity({
         // @ts-ignore
         parseInt((new Date().getTime() + 15*60*1000) / 1000).toString(),
       ]
-      console.log('args', args)
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
-      console.log('value', value)
     } else {
       estimate = router.estimateGas.addLiquidity
       method = router.addLiquidity
