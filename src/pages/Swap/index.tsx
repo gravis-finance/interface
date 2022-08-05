@@ -490,6 +490,7 @@ const Swap = () => {
                   otherCurrency={currencies[Field.OUTPUT]}
                   id="swap-currency-input"
                   showCommonBases
+                  idForBalance="token1-balance-amount"
                 />
                 <AutoColumn justify="space-between">
                   <StyledAutoRow
@@ -539,6 +540,7 @@ const Swap = () => {
                   otherCurrency={currencies[Field.INPUT]}
                   showCommonBases
                   id="swap-currency-output"
+                  idForBalance="token2-balance-amount"
                 />
                 <TokenInPoolValue value={reserve1} pr="1rem" />
 

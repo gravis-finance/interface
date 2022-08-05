@@ -135,6 +135,7 @@ interface CurrencyInputPanelProps {
   currencyList?: any
   customHeight?: number
   loading?: boolean
+  idForBalance?: string
 }
 
 export default function CurrencyInputPanel({
@@ -155,6 +156,7 @@ export default function CurrencyInputPanel({
   currencyList,
   customHeight,
   loading,
+                                             idForBalance
 }: CurrencyInputPanelProps) {
   const { t } = useTranslation()
 
@@ -184,6 +186,7 @@ export default function CurrencyInputPanel({
                     color: '#fff',
                     borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
                   }}
+                  data-id={idForBalance || 'token-balance'}
                 >
                   {t('balanceTitle')}: {selectedCurrencyBalance?.toSignificant(6)}
                 </Text>
