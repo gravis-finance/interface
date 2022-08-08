@@ -75,7 +75,7 @@ const Card: FC<Props> = ({
         <Text mt="20px" style={{ maxWidth: 334, whiteSpace: 'pre-line' }}>
           {t(description)}
         </Text>
-        <StyledButton onClick={() => window.open(url, '_blank')}>
+        <StyledButton onClick={() => window.open(url, '_blank')} data-id={`${buttonText.toLowerCase().replace(" ", "-")}-button`}>
           {t(buttonText)}
         </StyledButton>
       </Flex>

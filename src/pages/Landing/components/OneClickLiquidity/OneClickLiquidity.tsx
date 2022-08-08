@@ -261,7 +261,7 @@ const OneClickLiquidity = () => {
         <Info>
           <Title>{t('1-click liquidity migration')}</Title>
           <Description>{t('See the list of supported pairs')}</Description>
-          <Button mt="35px" onClick={() => history.push('/migrate')}>
+          <Button mt="35px" onClick={() => history.push('/migrate')} data-id="migrate-liquidity-button">
             {t('Migrate liquidity')}
           </Button>
         </Info>

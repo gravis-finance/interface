@@ -136,6 +136,7 @@ const TokenCard = ({
         <Button
           style={{ minWidth: 130 }}
           onClick={() => (chainId ? history.push(getBuyLink(chainId)) : null)}
+          data-id={`${title}-buy-button`}
         >
           {t('Buy ')}
           {!isLoading ? (

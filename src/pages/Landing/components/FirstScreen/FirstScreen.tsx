@@ -314,6 +314,7 @@ const FirstScreen = () => {
                   '_blank'
                 )
               }
+              data-id="stake-tokens-grvs-grvx-button"
             >
               {t(isMobile ? 'Stake tokens' : 'Stake GRVS & GRVX')}
             </TransparentButton>
