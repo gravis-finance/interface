@@ -234,10 +234,10 @@ const TradeAnything = () => {
               {t('Trade any asset by only connecting your wallet')}
             </Description>
             <ButtonWrapper>
-              <StyledButton isBlack onClick={() => history.push('/swap')}>
+              <StyledButton isBlack onClick={() => history.push('/swap')} data-id="trade-now-button">
                 {t('Trade now')}
               </StyledButton>
-              <AddLiquididtyButton onClick={() => history.push('/add')}>
+              <AddLiquididtyButton onClick={() => history.push('/add')} data-id="add-liquidity-button">
                 {t('Add liquidity')}
               </AddLiquididtyButton>
             </ButtonWrapper>
