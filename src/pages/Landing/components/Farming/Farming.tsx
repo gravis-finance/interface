@@ -129,6 +129,7 @@ const Farming = () => {
               onClick={() =>
                 window.open(process.env.REACT_APP_AUTOFARMING_URL, '_blank')
               }
+              data-id="start-autofarming-button"
             >
               {t('Start auto-farming')}
             </Button>
@@ -136,6 +137,7 @@ const Farming = () => {
               onClick={() =>
                 window.open(process.env.REACT_APP_FARMING_URL, '_blank')
               }
+              data-id="start-farming-button"
             >
               {t('Start farming')}
             </TransparentButton>

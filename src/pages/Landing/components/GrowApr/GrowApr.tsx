@@ -188,6 +188,7 @@ const GrowApr = () => {
                   '_blank'
                 )
               }
+              data-id="stake-tokens-button"
             >
               {t('Stake tokens')}
             </StyledButton>

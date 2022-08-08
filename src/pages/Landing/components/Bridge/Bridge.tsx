@@ -225,6 +225,7 @@ const Bridge = () => {
             <StyledButton
               isBlack
               onClick={() => window.open(process.env.REACT_APP_BRIDGE_URL)}
+              data-id="bridge-now-button"
             >
               {t('Bridge now')}
             </StyledButton>
