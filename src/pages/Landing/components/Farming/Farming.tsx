@@ -189,14 +189,14 @@ const Farming = () => {
           </Description>
           <ButtonWrapper>
             <LinkedButton
-              href={`${process.env.REACT_APP_AUTOFARMING_URL}/network=${networkId}`}
+              href={`${process.env.REACT_APP_AUTOFARMING_URL}/autofarming?network=${networkId}`}
               target="_blank"
               data-id="start-autofarming-button"
             >
               {t('Start auto-farming')}
             </LinkedButton>
             <TransparentLinkedButton
-              href={`${process.env.REACT_APP_FARMING_URL}/network=${networkId}`}
+              href={`${process.env.REACT_APP_FARMING_URL}/farms?network=${networkId}`}
               target="_blank"
               data-id="start-farming-button"
             >
