@@ -1,4 +1,4 @@
-import { Image, Text } from '@gravis.finance/uikit'
+import { Image, Text, getNetworkId } from '@gravis.finance/uikit'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -175,6 +175,7 @@ const TransparentLinkedButton = styled.a`
 
 const Farming = () => {
   const { t } = useTranslation()
+  const networkId = getNetworkId()
 
   return (
     <Container id={BLOCKS_CONFIG.FARMING.link}>
@@ -188,14 +189,14 @@ const Farming = () => {
           </Description>
           <ButtonWrapper>
             <LinkedButton
-              href={process.env.REACT_APP_AUTOFARMING_URL}
+              href={`${process.env.REACT_APP_AUTOFARMING_URL}/network=${networkId}`}
               target="_blank"
               data-id="start-autofarming-button"
             >
               {t('Start auto-farming')}
             </LinkedButton>
             <TransparentLinkedButton
-              href={process.env.REACT_APP_FARMING_URL}
+              href={`${process.env.REACT_APP_FARMING_URL}/network=${networkId}`}
               target="_blank"
               data-id="start-farming-button"
             >
