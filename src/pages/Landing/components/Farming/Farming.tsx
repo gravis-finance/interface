@@ -6,9 +6,7 @@ import styled from 'styled-components'
 import WALLET_IMAGE from 'assets/images/landing/wallet.svg'
 
 import BLOCKS_CONFIG from '../../blocks-config'
-import Button from '../Button'
 import BaseContainer from '../Container'
-import TransparentButton from '../TransparentButton'
 
 const Container = styled(BaseContainer)``
 
@@ -111,6 +109,70 @@ const ButtonWrapper = styled.div`
   }
 `
 
+const LinkedButton = styled.a`
+  user-select: none;
+  align-items: center;
+  border-radius: 41px;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  width: max-content;
+  height: 48px;
+  line-height: 1;
+  justify-content: center;
+  outline: 0;
+  padding: 0 24px;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out,
+    border 0.2s ease-in-out, color 0.2s ease-in-out;
+  opacity: 1;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  box-shadow: none;
+  max-width: 200px;
+  letter-spacing: -0.02em;
+
+  :hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+`
+
+const TransparentLinkedButton = styled.a`
+  user-select: none;
+  align-items: center;
+  background: #242424;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  width: max-content;
+  height: 48px;
+  line-height: 1;
+  justify-content: center;
+  outline: 0;
+  padding: 0 24px;
+  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out,
+    border 0.2s ease-in-out;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  border: none;
+  box-shadow: none;
+  border-radius: 46px;
+  max-width: 200px;
+  letter-spacing: -0.02em;
+
+  :hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+`
+
 const Farming = () => {
   const { t } = useTranslation()
 
@@ -125,22 +187,20 @@ const Farming = () => {
             )}
           </Description>
           <ButtonWrapper>
-            <Button
-              onClick={() =>
-                window.open(process.env.REACT_APP_AUTOFARMING_URL, '_blank')
-              }
+            <LinkedButton
+              href={process.env.REACT_APP_AUTOFARMING_URL}
+              target="_blank"
               data-id="start-autofarming-button"
             >
               {t('Start auto-farming')}
-            </Button>
-            <TransparentButton
-              onClick={() =>
-                window.open(process.env.REACT_APP_FARMING_URL, '_blank')
-              }
+            </LinkedButton>
+            <TransparentLinkedButton
+              href={process.env.REACT_APP_FARMING_URL}
+              target="_blank"
               data-id="start-farming-button"
             >
               {t('Start farming')}
-            </TransparentButton>
+            </TransparentLinkedButton>
           </ButtonWrapper>
         </Info>
         <WalletImage />
