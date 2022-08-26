@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, isEther, TokenAmount, WETH, ChainId } from '@gravis.finance/sdk'
-import { BorderedAddIcon, Button, CardBody, Text, Text as UIKitText, useModal, Spinner } from '@gravis.finance/uikit'
+import { ChainId, Currency, currencyEquals, isEther, TokenAmount, WETH } from '@gravis.finance/sdk'
+import { BorderedAddIcon, Button, CardBody, Spinner, Text as UIKitText, Text, useModal } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { RouteComponentProps } from 'react-router-dom'
 import Card from 'components/Card'
@@ -33,7 +33,6 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { ROUTER_ADDRESS } from 'config/contracts'
 import { addDataLayerEvent } from 'utils/addDataLayerEvent'
 import { DATA_LAYER_EVENTS } from 'constants/data-layer-events'
-import {parseUnits} from "@ethersproject/units";
 
 import AppBody from '../AppBody'
 import { Wrapper } from '../Pool/styleds'
@@ -212,14 +211,14 @@ export default function AddLiquidity({
       method = router.addLiquidityETH
 
       args = [
-        '0xA87806d5003b1DE8C1f670a2E2463b04823b45aC',
-        parseUnits('1').toString(),
-        parseUnits('1').toString(),
-        parseUnits('0.000316263').toString(),
-        '0xa0ECF3E5272786d74384639476162A059195Be90',
-        // @ts-ignore
-        parseInt((new Date().getTime() + 15*60*1000) / 1000).toString(),
+        wrappedCurrency(tokenBIsETH ? currencyA : currencyB, chainId)?.address ?? '', // token
+        (tokenBIsETH ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
+        amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
+        amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
+        account,
+        deadlineFromNow,
       ]
+
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
     } else {
       estimate = router.estimateGas.addLiquidity
