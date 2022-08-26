@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, isEther, TokenAmount, WETH, ChainId } from '@gravis.finance/sdk'
-import { BorderedAddIcon, Button, CardBody, Text, Text as UIKitText, useModal, Spinner } from '@gravis.finance/uikit'
+import { ChainId, Currency, currencyEquals, isEther, TokenAmount, WETH } from '@gravis.finance/sdk'
+import { BorderedAddIcon, Button, CardBody, Spinner, Text as UIKitText, Text, useModal } from '@gravis.finance/uikit'
 import { useTranslation } from 'react-i18next'
 import { RouteComponentProps } from 'react-router-dom'
 import Card from 'components/Card'
@@ -220,6 +220,7 @@ export default function AddLiquidity({
         // @ts-ignore
         parseInt((new Date().getTime() + 15*60*1000) / 1000).toString(),
       ]
+
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
     } else {
       estimate = router.estimateGas.addLiquidity
