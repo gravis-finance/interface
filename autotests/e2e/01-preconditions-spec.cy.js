@@ -1,9 +1,5 @@
 describe('01 Preconditions', () => {
 
-  before(`Visit stage.gswap.exchange`, () => {
-    cy.visit(Cypress.env('gswapHost'));
-  });
-
   it(`Precondition - Import wallet`, () => {
     cy.setupMetamask(
       Cypress.env('secretWords'),
@@ -37,7 +33,7 @@ describe('01 Preconditions', () => {
   it(`Precondition - Import USDT token`, () => {
     cy.importToken(
       'USDT',
-      Cypress.env('tokenUsdt'),
+      Cypress.env('contractUsdt'),
     ).then(imported => {
       expect(imported).to.be.true;
     });

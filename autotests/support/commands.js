@@ -52,12 +52,12 @@ Cypress.Commands.add('cancelChangeNetwork', () => {
   return cy.task('cancelChangeNetwork');
 });
 
-Cypress.Commands.add('approveChangeNetwork', addNetwork => {
-  return cy.task('approveChangeNetwork', addNetwork);
+Cypress.Commands.add('approveChangeNetwork', () => {
+  return cy.task('approveChangeNetwork');
 });
 
-Cypress.Commands.add('confirmTransaction', gasConfig => {
-  return cy.task('confirmTransaction', gasConfig);
+Cypress.Commands.add('confirmTransaction', () => {
+  return cy.task('confirmTransaction');
 });
 
 Cypress.Commands.add('changeNetwork', network => {

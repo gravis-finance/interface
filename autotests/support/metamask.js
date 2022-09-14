@@ -30,12 +30,13 @@ module.exports = {
   },
   reloadPage: async (selector) => {
     await puppeteer.metamaskWindow().reload();
+    await puppeteer.metamaskWindow().waitForTimeout(1000);
     for (let times = 0; times < 5; times++) {
       if (
         (await puppeteer.metamaskWindow().$(selector)) === null
       ) {
         await puppeteer.metamaskWindow().reload();
-        await puppeteer.metamaskWindow().waitForTimeout(1000);
+        await puppeteer.metamaskWindow().waitForTimeout(10000);
       } else {
         break;
       }
@@ -127,13 +128,9 @@ module.exports = {
     await puppeteer.waitAndType(addNetworkPageElements.networkNameInput, network.networkName);
     await puppeteer.waitAndClick(addNetworkPageElements.saveButton);
     await puppeteer.waitForText(mainPageElements.networkSwitcher.networkName, network.networkName);
-    await puppeteer.waitForText(mainPageElements.walletInfo.networkName, network.symbol);
-    await puppeteer.waitForNotExist(pageElements.loadingSpinner);
-    if ((await puppeteer.metamaskWindow().$(loadingModalElements.loadingModal)) !== null) {
-      await puppeteer.waitAndClick(loadingModalElements.tryAgainButton);
-    }
     await puppeteer.waitForNotExist(pageElements.loadingSpinner);
     await puppeteer.waitForNotExist(loadingModalElements.loadingModal);
+    await puppeteer.waitForText(mainPageElements.walletInfo.networkName, network.symbol);
     await puppeteer.switchToCypressWindow();
     return true;
   },
@@ -143,15 +140,19 @@ module.exports = {
     await puppeteer.waitAndClick(mainPageElements.accountMenu.importAccountButton);
     await puppeteer.waitAndType(mainPageElements.importAccount.input, privateKey);
     await puppeteer.waitAndClick(mainPageElements.importAccount.importButton);
-    await puppeteer.waitAndClick(permissionsPageElements.cancelButton);
     await puppeteer.switchToCypressWindow();
     return true;
   },
-  importToken: async ({ tokenName, tokenAddress }) => {
+  importToken: async ({ tokenName, tokenAddress, tokenNewName }) => {
     await puppeteer.switchToMetamaskWindow();
     await puppeteer.waitAndClickLink(mainPageElements.walletInfo.importTokenLink);
     await puppeteer.waitAndType(mainPageElements.importToken.tokenContractAddress, tokenAddress);
     await puppeteer.waitForValue(mainPageElements.importToken.tokenSymbol, tokenName);
+    if (tokenNewName) {
+      await puppeteer.waitAndClick(mainPageElements.importToken.editTokenNameButton);
+      await puppeteer.waitAndClear(mainPageElements.importToken.tokenSymbol);
+      await puppeteer.waitAndType(mainPageElements.importToken.tokenSymbol, tokenNewName);
+    }
     await puppeteer.waitAndClick(mainPageElements.importToken.addTokenButton);
     await puppeteer.waitAndClick(mainPageElements.importToken.importTokenButton);
     await puppeteer.waitAndClick(mainPageElements.assetNavigation.backButton);
@@ -162,7 +163,7 @@ module.exports = {
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.switchToMetamaskWindow();
-    await module.exports.reloadPage(permissionsPageElements.permissionsPage);
+    await puppeteer.metamaskWindow().reload();
     await puppeteer.waitAndClick(permissionsPageElements.nextButton);
     await puppeteer.waitAndClick(permissionsPageElements.connectButton);
     await puppeteer.metamaskWindow().waitForTimeout(3000);
@@ -188,7 +189,7 @@ module.exports = {
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.switchToMetamaskWindow();
-    await module.exports.reloadPage(confirmChangeNetworkPageElements.confirmChangeNetworkPage);
+    await puppeteer.metamaskWindow().reload();
     await puppeteer.waitAndClick(confirmChangeNetworkPageElements.cancelButton);
     await puppeteer.switchToCypressWindow();
     return true;
@@ -197,7 +198,7 @@ module.exports = {
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.switchToMetamaskWindow();
-    await module.exports.reloadPage(confirmChangeNetworkPageElements.confirmChangeNetworkPage);
+    await puppeteer.metamaskWindow().reload();
     if (!((await puppeteer.metamaskWindow().$(confirmChangeNetworkPageElements.definitionList)) === null)) {
       await puppeteer.waitAndClick(confirmChangeNetworkPageElements.approveButton);
     }
@@ -209,9 +210,20 @@ module.exports = {
     await puppeteer.init();
     await puppeteer.assignWindows();
     await puppeteer.switchToMetamaskWindow();
+    await puppeteer.metamaskWindow().reload();
     await module.exports.reloadPage(confirmTransactionPageElements.confirmTransactionPage);
     await puppeteer.waitForEnabled(confirmTransactionPageElements.confirmButton);
     await puppeteer.waitAndClick(confirmTransactionPageElements.confirmButton);
+    await puppeteer.switchToCypressWindow();
+    return true;
+  },
+  rejectTransaction: async () => {
+    await puppeteer.init();
+    await puppeteer.assignWindows();
+    await puppeteer.switchToMetamaskWindow();
+    await puppeteer.metamaskWindow().reload();
+    await module.exports.reloadPage(confirmTransactionPageElements.confirmTransactionPage);
+    await puppeteer.waitAndClick(confirmTransactionPageElements.rejectButton);
     await puppeteer.switchToCypressWindow();
     return true;
   },

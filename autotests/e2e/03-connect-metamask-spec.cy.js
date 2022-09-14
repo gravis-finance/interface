@@ -1,14 +1,10 @@
-import swapPage from '../support/pages/gswap/swap-page';
-import url from '../support/pages/gswap/url';
+import mainPage from '../support/pages/main-page';
+import url from '../support/pages/url';
 
 describe('03 Connect Metamask', () => {
 
   beforeEach(`Visit stage.gswap.exchange`, () => {
-    cy.visit(Cypress.env('gswapHost'));
-  });
-
-  after(`Disconnect MetaMask`, () => {
-    cy.functions.disconnectGswap();
+    cy.visit(Cypress.env('gswapSwapStageHost'));
   });
 
   it(`Connect Metamask using connect button`, () => {
@@ -17,28 +13,28 @@ describe('03 Connect Metamask', () => {
   });
 
   it(`Connect Metamask using unlock button (swap tab)`, () => {
-    url.checkUrlGswapExchangeSwap('56');
+    url.gswapStageSwapUrlCheck('56');
     cy.functions.connectMetamask('unlockButton');
-    swapPage.unlockButton().should('not.exist');
-    swapPage.swapButton().should('exist').and('have.attr', 'disabled');
+    mainPage.unlockButton().should('not.exist');
+    mainPage.swapButton().should('exist').and('have.attr', 'disabled');
     cy.functions.disconnectMetamask();
   });
 
   it(`Connect Metamask using unlock button (pool tab)`, () => {
-    swapPage.poolTab().click();
-    url.checkUrlGswapExchangePool('56');
+    mainPage.tabButton('pool').click();
+    url.gswapStagePoolUrlCheck('56');
     cy.functions.connectMetamask('unlockButton');
-    swapPage.unlockButton().should('not.exist');
-    swapPage.addLiquidityButton().should('exist');
+    mainPage.unlockButton().should('not.exist');
+    mainPage.addLiquidityButton().should('exist');
     cy.functions.disconnectMetamask();
   });
 
   it(`Connect Metamask using unlock button (migrate tab)`, () => {
-    swapPage.migrateTab().click();
-    url.checkUrlGswapExchangeMigrate('56');
+    mainPage.tabButton('migrate').click();
+    url.gswapStageMigrateUrlCheck('56');
     cy.functions.connectMetamask('unlockButton');
-    swapPage.unlockButton().should('not.exist');
-    swapPage.chooseTokenButton().should('exist').and('have.attr', 'disabled');
+    mainPage.unlockButton().should('not.exist');
+    mainPage.chooseTokenButton().should('exist').and('have.attr', 'disabled');
     cy.functions.disconnectMetamask();
   });
 

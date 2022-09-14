@@ -14,12 +14,14 @@ module.exports.confirmChangeNetworkPageElements = {
 const confirmTransactionPage = '.page-container';
 const containerSummary = `${confirmTransactionPage} .confirm-page-container-summary`;
 const confirmButton = `${confirmTransactionPage} [data-testid="page-container-footer-next"]`;
+const rejectButton = `${confirmTransactionPage} [data-testid="page-container-footer-cancel"]`;
 const currencyDisplay = `${containerSummary} .currency-display-component`;
 const senderName = `${confirmTransactionPage} .sender-to-recipient__party--sender`;
 module.exports.confirmTransactionPageElements = {
   confirmTransactionPage,
   containerSummary,
   confirmButton,
+  rejectButton,
   currencyDisplay,
   senderName,
 };

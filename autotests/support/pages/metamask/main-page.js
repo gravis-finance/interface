@@ -40,6 +40,7 @@ const importToken = {
   tokenSymbol: '#custom-symbol',
   addTokenButton: '[data-testid="page-container-footer-next"]',
   importTokenButton: '.btn-primary',
+  editTokenNameButton: '.import-token__custom-symbol__edit',
 };
 
 const connectedSitesSelector = '.connected-sites';

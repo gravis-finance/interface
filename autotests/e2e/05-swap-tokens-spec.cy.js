@@ -1,16 +1,14 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 import web3 from 'web3';
 
-import modals from '../support/pages/gswap/modals';
-import swapPage from '../support/pages/gswap/swap-page';
+import mainPage from '../support/pages/main-page';
+import modals from '../support/pages/modals';
 
 const checkMaxBnb = () => {
-  swapPage.toButton().click();
-  modals.selectTokenUsdtButton().click();
-  swapPage.token1Balance().should('be.visible');
-  swapPage.maxButton().click();
-  swapPage.fromInput().invoke('val').then((amountBnbGswap) => {
-    cy.functions.getBnbAmount();
+  mainPage.fromTokenBalance().should('be.visible');
+  mainPage.fromMaxButton().click();
+  mainPage.fromInput().invoke('val').then((amountBnbGswap) => {
+    cy.functionsApi.getBnbAmount();
     cy.get('@amountBnbBlockchain').then((amountBnbBlockchain) => {
       expect(amountBnbBlockchain).to.be.equal(web3.utils.toWei(amountBnbGswap, 'ether'));
     });
@@ -18,13 +16,14 @@ const checkMaxBnb = () => {
 }
 
 const checkMaxUsdt = () => {
-  swapPage.revertButton().click();
-  swapPage.fromButton().click();
-  modals.selectTokenUsdtButton().click();
-  swapPage.token1Balance().should('be.visible');
-  swapPage.maxButton().click();
-  swapPage.fromInput().invoke('val').then((amountUsdtGswap) => {
-    cy.functions.getUsdtAmount();
+  mainPage.revertButton().click();
+  mainPage.fromButton().click();
+  mainPage.inputTokenSearch().type('USDT');
+  mainPage.tokenName('USDT').click({ force: true });
+  mainPage.fromTokenBalance().should('be.visible');
+  mainPage.fromMaxButton().click();
+  mainPage.fromInput().invoke('val').then((amountUsdtGswap) => {
+    cy.functionsApi.getUsdtAmount();
     cy.get('@amountUsdtBlockchain').then((amountUsdtBlockchain) => {
       expect(amountUsdtBlockchain).to.be.equal(web3.utils.toWei(amountUsdtGswap, 'ether'));
     });
@@ -32,51 +31,56 @@ const checkMaxUsdt = () => {
 }
 
 const swapTokens = (swap, min, max, dec) => {
+  mainPage.fromTokenBalance().should('be.visible');
   if (swap === 'bnbToUsdt') {
-    swapPage.toButton().click();
-    modals.selectTokenUsdtButton().click();
-  } else {
-    swapPage.revertButton().click();
-    swapPage.fromButton().click();
-    modals.selectTokenUsdtButton().click();
+    mainPage.toButton().click();
+    mainPage.inputTokenSearch().type('USDT');
+    mainPage.tokenName('USDT').click({ force: true });
   }
-  cy.functions.getBnbAmount();
+  if (swap === 'usdtToBnb') { 
+    mainPage.revertButton().click();
+    mainPage.fromButton().click();
+    mainPage.inputTokenSearch().type('USDT');
+    mainPage.tokenName('USDT').click({ force: true });
+  }
+  cy.functionsApi.getBnbAmount();
   cy.get('@amountBnbBlockchain').then((amountBnbBlockchainBefore) => {
-    cy.functions.getUsdtAmount();
+    cy.functionsApi.getUsdtAmount();
     cy.get('@amountUsdtBlockchain').then((amountUsdtBlockchainBefore) => {
-      const amountUsdtSwap = cy.functions.getRandomAmount(min, max, dec);
+      const amountUsdtSwap = cy.functions.randomAmountFixedDec(min, max, dec);
       if (swap === 'bnbToUsdt') {
-        swapPage.toInput().type(amountUsdtSwap);
+        mainPage.toInput().type(amountUsdtSwap);
       } else if  (swap === 'usdtToBnb') {
-        swapPage.fromInput().type(amountUsdtSwap);
+        mainPage.fromInput().type(amountUsdtSwap);
       } else if (swap === 'usdtToBnbAll') {
-        swapPage.token1Balance().should('be.visible');
-        swapPage.maxButton().click();
+        mainPage.fromTokenBalance().should('be.visible');
+        mainPage.fromMaxButton().click();
       }
-      swapPage.swapButton().click();
+      mainPage.swapButton().click();
+      cy.wait(2000);
       cy.get('body').then(($body) => {
         if ($body.text().includes('Price Updated')) {
-          modals.confirmSwapAcceptPriceButton().click();
+          modals.confirmSwapModalAcceptPriceButton().click();
         }
       });
-      modals.confirmSwapConfirmSwapButton().click();
+      modals.confirmSwapModalConfirmSwapButton().click();
       modals.confirmPendingModal().should('exist');
       cy.confirmTransaction().then(confirmed => {
         expect(confirmed).to.be.true;
       });
-      modals.submitSwapTransactionLink().invoke('attr','href').then((href) => {
+      modals.submitSwapModalTransactionLink().invoke('attr','href').then((href) => {
       const transaction = href.split('/')[4];
       modals.confirmPendingModal().should('not.exist');
       modals.submitSwapModal().should('not.exist');
       modals.popup().should('exist').and('contain', 'View on BSCScan');
       modals.popup().should('not.exist');
-      cy.functions.getBnbAmount();
+      cy.functionsApi.getBnbAmount();
       cy.get('@amountBnbBlockchain').then((amountBnbBlockchainAfter) => {
-        cy.functions.getUsdtAmount();
+        cy.functionsApi.getUsdtAmount();
         cy.get('@amountUsdtBlockchain').then((amountUsdtBlockchainAfter) => {
-          cy.functions.getTransactionAmount(transaction);
+          cy.functionsApi.getTransactionAmount(transaction);
           cy.get('@transactionValue').then((transactionValue) => {
-            cy.functions.getTransactionFee();
+            cy.functionsApi.getTransactionFee();
               cy.get('@gasFee').then((gasFee) => {
                 if (swap === 'bnbToUsdt') {
                   const diffBnb = BigInt(amountBnbBlockchainBefore) - BigInt(transactionValue) - BigInt(gasFee) - BigInt(amountBnbBlockchainAfter);
@@ -105,17 +109,13 @@ const swapTokens = (swap, min, max, dec) => {
 
 describe('05 Swap tokens', () => {
 
-  before(`Visit stage.gswap.exchange`, () => {
+  before(`Create file for calculate fee`, () => {
     cy.writeFile(Cypress.env('feeFile'), []);
   });
 
   beforeEach(`Visit stage.gswap.exchange`, () => {
-    cy.visit(Cypress.env('gswapHost'));
+    cy.visit(Cypress.env('gswapSwapStageHost'));
     cy.functions.connectMetamask();
-  });
-
-  after(`Disconnect MetaMask`, () => {
-    cy.functions.disconnectGswap();
   });
 
   it(`Check max BNB`, () => {

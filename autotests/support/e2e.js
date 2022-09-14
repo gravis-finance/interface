@@ -16,6 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 import './functions';
+import './functionsAPI';
 import '@shelex/cypress-allure-plugin';
 
 // Hide fetch/XHR requests

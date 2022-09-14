@@ -1,16 +1,16 @@
-import modals from '../support/pages/gswap/modals';
-import swapPage from '../support/pages/gswap/swap-page';
-import url from '../support/pages/gswap/url';
+import mainPage from '../support/pages/main-page';
+import modals from '../support/pages/modals';
+import url from '../support/pages/url';
 
 Cypress.on('uncaught:exception', () => {
   return false;
 });
 
 const changeNetwork = (network, addNetwork = false) => {
-  swapPage.chooseNetworkButton().eq(0).click();
-  swapPage.networkButton(network).click();
-  modals.checkNetworkSwitchModal();
-  modals.changeNetworkButton().click();
+  mainPage.chooseNetworkButton().eq(0).click();
+  mainPage.networkButton(network).click();
+  modals.networkSwitchModalCheck();
+  modals.networkSwitchModalChangeNetworkButton().click();
   cy.approveChangeNetwork(addNetwork).then(approved => {
     expect(approved).to.be.true;
   });
@@ -20,110 +20,100 @@ const changeNetwork = (network, addNetwork = false) => {
 
 describe('04 Change network', () => {
 
-  beforeEach(`Visit stage.gswap.exchange`, () => {
-    cy.visit(Cypress.env('gswapHost'));
-  });
-
-  afterEach(`Change network in MetaMask`, () => {
+  before(`Visit stage.gswap.exchange`, () => {
     cy.changeNetwork('Smart Chain').then(networkChanged => {
       expect(networkChanged).to.be.true;
     });
   });
 
-  after(`Disconnect MetaMask`, () => {
-    cy.functions.disconnectGswap();
+  beforeEach(`Visit stage.gswap.exchange`, () => {
+    cy.visit(Cypress.env('gswapSwapStageHost'));
+    cy.functions.connectMetamask();
   });
 
   it(`Change network from BCS to HECO and cancel`, () => {
-    cy.functions.connectMetamask();
-    swapPage.chooseNetworkButton().eq(0).click();
-    swapPage.networkButton('heco').click();
-    modals.checkNetworkSwitchModal();   
-    modals.changeNetworkButton().click();
+    mainPage.chooseNetworkButton().eq(0).click();
+    mainPage.networkButton('heco').click();
+    modals.networkSwitchModalCheck();   
+    modals.networkSwitchModalChangeNetworkButton().click();
     cy.cancelChangeNetwork().then(canceled => {
       expect(canceled).to.be.true;
     });
     modals.networkSwitchModal().should('exist');
-    modals.alertBlock().should('exist').and('contain', 'You have a pending action in the wallet.');
+    // modals.alertBlock().should('exist').and('contain', 'You have a pending action in the wallet.');
   });
 
   it(`Change network BSC -> HECO -> BSC`, () => {
-    cy.functions.connectMetamask();
-
     changeNetwork('heco');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'HECO');
-    url.checkUrlGswapExchangeSwap('128');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'HECO');
+    url.gswapStageSwapUrlCheck('128');
 
     changeNetwork('bsc');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
-    url.checkUrlGswapExchangeSwap('56');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
+    url.gswapStageSwapUrlCheck('56');
 
-    swapPage.poolTab().click();
-
-    changeNetwork('heco');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'HECO');
-    url.checkUrlGswapExchangePool('128');
-
-    changeNetwork('bsc');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
-    url.checkUrlGswapExchangePool('56');
-
-    swapPage.migrateTab().click();
+    mainPage.tabButton('pool').click();
 
     changeNetwork('heco');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'HECO');
-    url.checkUrlGswapExchangeMigrate('128');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'HECO');
+    url.gswapStagePoolUrlCheck('128');
 
     changeNetwork('bsc');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
-    url.checkUrlGswapExchangeMigrate('56');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
+    url.gswapStagePoolUrlCheck('56');
+
+    mainPage.tabButton('migrate').click();
+
+    changeNetwork('heco');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'HECO');
+    url.gswapStageMigrateUrlCheck('128');
+
+    changeNetwork('bsc');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
+    url.gswapStageMigrateUrlCheck('56');
   });
 
   it(`Change network BSC -> Polygon -> BSC`, () => {
-    cy.functions.connectMetamask();
-
     changeNetwork('polygon');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'Polygon');
-    url.checkUrlGswapExchangeSwap('137');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'Polygon');
+    url.gswapStageSwapUrlCheck('137');
 
     changeNetwork('bsc');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
-    url.checkUrlGswapExchangeSwap('56');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
+    url.gswapStageSwapUrlCheck('56');
 
-    swapPage.poolTab().click();
-
-    changeNetwork('polygon');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'Polygon');
-    url.checkUrlGswapExchangePool('137');
-
-    changeNetwork('bsc');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
-    url.checkUrlGswapExchangePool('56');
-
-    swapPage.migrateTab().click();
+    mainPage.tabButton('pool').click();
 
     changeNetwork('polygon');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'Polygon');
-    url.checkUrlGswapExchangeMigrate('137');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'Polygon');
+    url.gswapStagePoolUrlCheck('137');
 
     changeNetwork('bsc');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
-    url.checkUrlGswapExchangeMigrate('56');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
+    url.gswapStagePoolUrlCheck('56');
+
+    mainPage.tabButton('migrate').click();
+
+    changeNetwork('polygon');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'Polygon');
+    url.gswapStageMigrateUrlCheck('137');
+
+    changeNetwork('bsc');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
+    url.gswapStageMigrateUrlCheck('56');
   });
 
   it(`Change network from BSC -> HECO -> Polygon -> BSC`, () => {
-    cy.functions.connectMetamask();
-
     changeNetwork('heco');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'HECO');
-    url.checkUrlGswapExchangeSwap('128');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'HECO');
+    url.gswapStageSwapUrlCheck('128');
 
     changeNetwork('polygon');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'Polygon');
-    url.checkUrlGswapExchangeSwap('137');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'Polygon');
+    url.gswapStageSwapUrlCheck('137');
 
     changeNetwork('bsc');
-    swapPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
-    url.checkUrlGswapExchangeSwap('56');
+    mainPage.chooseNetworkButton().eq(0).should('contain', 'BSC');
+    url.gswapStageSwapUrlCheck('56');
   });
 });

@@ -1,11 +1,11 @@
 import web3 from 'web3';
 
-describe('06 Gas fee', () => {
+describe('99 - Gas fee calculate', () => {
 
   it(`Calculate gas fee`, () => {
-    cy.functions.getBnbAmount();
-    cy.functions.getUsdtAmount();
-    cy.functions.getGasPrice();
+    cy.functionsApi.getBnbAmount();
+    cy.functionsApi.getUsdtAmount();
+    cy.functionsApi.getGasPrice();
     cy.writeFile(Cypress.env('allurePropertiesFile'), '');
     cy.readFile(Cypress.env('feeFile')).then((data) => {
       let totalGasUsed = BigInt(0);
