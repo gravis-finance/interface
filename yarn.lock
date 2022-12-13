@@ -3545,10 +3545,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@gravis.finance/uikit@1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.4.3.tgz#3aafbaa8e6b1e81fccb3787f5843f260b2a0fe92"
-  integrity sha512-+GApabmWWMCokcdmdo+TXOS5t992QKOGjeKTeAK84KHV+qzskPj9qFQQcKCPWXLQmJ1etGKtWd/4qBp+GIyZQw==
+"@gravis.finance/uikit@1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@gravis.finance/uikit/-/uikit-1.4.4.tgz#a282bafe0620834cd8f3322416229ea6d026615a"
+  integrity sha512-c5BPuMphRVrLiiVtiiWYLbY/PAqk/nab7Yr7jw/lY7ck7wClzUbAcUEpZbiordJhzTnnG7j7hSpYbHVJM/YRhw==
   dependencies:
     "@gravis.finance/sdk" "1.0.29"
     "@popperjs/core" "^2.9.2"
@@ -24478,9 +24478,6 @@ spdx-expression-parse@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/spdx-expression-parse/-/spdx-expression-parse-3.0.1.tgz#cf70f50482eefdc98e3ce0a6833e4a53ceeba679"
   integrity sha512-cbqHunsQWnJNE6KhVSMsMeH5H/L9EpymbzqTQ3uLwNCLZ1Q481oWaofqH7nO6V07xlXwY6PhQdQ2IedWx/ZK4Q==
-  dependencies:
-    spdx-exceptions "^2.1.0"
-    spdx-license-ids "^3.0.0"
 
 spdx-license-ids@^3.0.0:
   version "3.0.11"
