@@ -1,46 +1,45 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import styled from 'styled-components'
-import { BigNumber } from '@ethersproject/bignumber'
-import { TransactionResponse } from '@ethersproject/providers'
-import { ChainId, Currency, currencyEquals, isEther, TokenAmount, WETH } from '@gravis.finance/sdk'
-import { BorderedAddIcon, Button, CardBody, Spinner, Text as UIKitText, Text, useModal } from '@gravis.finance/uikit'
-import { useTranslation } from 'react-i18next'
-import { RouteComponentProps } from 'react-router-dom'
+import {BigNumber} from '@ethersproject/bignumber'
+import {TransactionResponse} from '@ethersproject/providers'
+import {ChainId, Currency, currencyEquals, isEther, TokenAmount, WETH} from '@gravis.finance/sdk'
+import {BorderedAddIcon, Button, CardBody, Spinner, Text as UIKitText, Text, useModal} from '@gravis.finance/uikit'
+import {useTranslation} from 'react-i18next'
+import {RouteComponentProps} from 'react-router-dom'
 import Card from 'components/Card'
-import { AutoColumn, ColumnCenter } from 'components/Column'
-import TransactionConfirmationModal, { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
+import {AutoColumn, ColumnCenter} from 'components/Column'
+import TransactionConfirmationModal, {ConfirmationModalContent} from 'components/TransactionConfirmationModal'
 import CardNav from 'components/CardNav'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import DoubleCurrencyLogo from 'components/Logos/DoubleLogo'
-import { AddRemoveTabs } from 'components/NavigationTabs'
-import { MinimalPositionCard } from 'components/PositionCard'
-import Row, { AutoRow, RowBetween, RowFlat } from 'components/Row'
-import { PairState } from 'data/Reserves'
-import { useActiveWeb3React } from 'hooks'
-import { useCurrency } from 'hooks/Tokens'
-import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
-import { Field } from 'state/mint/actions'
-import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
+import {AddRemoveTabs} from 'components/NavigationTabs'
+import {MinimalPositionCard} from 'components/PositionCard'
+import Row, {AutoRow, RowBetween, RowFlat} from 'components/Row'
+import {PairState} from 'data/Reserves'
+import {useActiveWeb3React} from 'hooks'
+import {useCurrency} from 'hooks/Tokens'
+import {ApprovalState, useApproveCallback} from 'hooks/useApproveCallback'
+import {Field} from 'state/mint/actions'
+import {useDerivedMintInfo, useMintActionHandlers, useMintState} from 'state/mint/hooks'
 
-import { useAllTransactions, useTransactionAdder } from 'state/transactions/hooks'
-import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
-import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'utils'
-import { maxAmountSpend } from 'utils/maxAmountSpend'
-import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { currencyId } from 'utils/currencyId'
+import {useAllTransactions, useTransactionAdder} from 'state/transactions/hooks'
+import {useIsExpertMode, useUserDeadline, useUserSlippageTolerance} from 'state/user/hooks'
+import {calculateGasMargin, calculateSlippageAmount, getRouterContract} from 'utils'
+import {maxAmountSpend} from 'utils/maxAmountSpend'
+import {wrappedCurrency} from 'utils/wrappedCurrency'
+import {currencyId} from 'utils/currencyId'
 import Pane from 'components/Pane'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { ROUTER_ADDRESS } from 'config/contracts'
-import { addDataLayerEvent } from 'utils/addDataLayerEvent'
-import { DATA_LAYER_EVENTS } from 'constants/data-layer-events'
-import {parseUnits} from "@ethersproject/units";
+import {ROUTER_ADDRESS} from 'config/contracts'
+import {addDataLayerEvent} from 'utils/addDataLayerEvent'
+import {DATA_LAYER_EVENTS} from 'constants/data-layer-events'
 
 import AppBody from '../AppBody'
-import { Wrapper } from '../Pool/styleds'
-import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
-import { PoolPriceBar } from './PoolPriceBar'
+import {Wrapper} from '../Pool/styleds'
+import {ConfirmAddModalBottom} from './ConfirmAddModalBottom'
+import {PoolPriceBar} from './PoolPriceBar'
 import ProgressSteps from '../../components/ProgressSteps'
-import { TransactionErrorModal } from '../../components/TransactionErrorModal'
+import {TransactionErrorModal} from '../../components/TransactionErrorModal'
 
 
 const CardWrapper = styled.div`
@@ -210,17 +209,14 @@ export default function AddLiquidity({
       const tokenBIsETH = isEther(currencyB)
       estimate = router.estimateGas.addLiquidityETH
       method = router.addLiquidityETH
-
       args = [
-        '0xA87806d5003b1DE8C1f670a2E2463b04823b45aC',
-        parseUnits('1').toString(),
-        parseUnits('1').toString(),
-        parseUnits('0.000316263').toString(),
-        '0xa0ECF3E5272786d74384639476162A059195Be90',
-        // @ts-ignore
-        parseInt((new Date().getTime() + 15*60*1000) / 1000).toString(),
+        wrappedCurrency(tokenBIsETH ? currencyA : currencyB, chainId)?.address ?? '', // token
+        (tokenBIsETH ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
+        amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
+        amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
+        account,
+        deadlineFromNow,
       ]
-
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
     } else {
       estimate = router.estimateGas.addLiquidity
@@ -237,8 +233,6 @@ export default function AddLiquidity({
       ]
       value = null
     }
-
-    setAttemptingTxn(true)
     // const aa = await estimate(...args, value ? { value } : {})
     await estimate(...args, value ? { value } : {})
       .then((estimatedGasLimit) =>
