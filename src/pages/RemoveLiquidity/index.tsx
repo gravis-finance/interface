@@ -291,8 +291,8 @@ const RemoveLiquidity = ({
           tokenA.address,
           tokenB.address,
           liquidityAmount.raw.toString(),
-          amountsMin[Field.CURRENCY_A].toString(),
-          amountsMin[Field.CURRENCY_B].toString(),
+          '1',
+          '1',
           account,
           deadlineFromNow,
         ]
