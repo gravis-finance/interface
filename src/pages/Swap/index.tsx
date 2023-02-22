@@ -695,11 +695,11 @@ const Swap = () => {
                       }}
                       style={{ width: '48%' }}
                       data-id="swap-button"
-                      disabled={
+                      /*disabled={
                         !isValid ||
                         approval !== ApprovalState.APPROVED ||
                         (priceImpactSeverity > 3 && !isExpertMode)
-                      }
+                      }*/
                       variant={
                         isValid && priceImpactSeverity > 2
                           ? 'danger'
@@ -729,11 +729,11 @@ const Swap = () => {
                       }
                     }}
                     data-id="swap-button"
-                    disabled={
+                    /*disabled={
                       !isValid ||
                       (priceImpactSeverity > 3 && !isExpertMode) ||
                       !!swapCallbackError
-                    }
+                    }*/
                     variant={
                       isValid && priceImpactSeverity > 2 && !swapCallbackError
                         ? 'danger'
