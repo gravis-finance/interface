@@ -1,45 +1,45 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import styled from 'styled-components'
-import { splitSignature } from '@ethersproject/bytes'
-import { Contract } from '@ethersproject/contracts'
-import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, isEther, Percent, WETH, ChainId } from '@gravis.finance/sdk'
-import { BorderedAddIcon, Button, Flex, Text, BorderedArrowDownIcon } from '@gravis.finance/uikit'
-import { useTranslation } from 'react-i18next'
-import { ChevronDown } from 'react-feather'
-import { RouteComponentProps } from 'react-router'
-import { BigNumber } from '@ethersproject/bignumber'
-import { ROUTER_ADDRESS } from 'config/contracts'
+import {splitSignature} from '@ethersproject/bytes'
+import {Contract} from '@ethersproject/contracts'
+import {TransactionResponse} from '@ethersproject/providers'
+import {ChainId, Currency, currencyEquals, isEther, Percent, WETH} from '@gravis.finance/sdk'
+import {BorderedAddIcon, BorderedArrowDownIcon, Button, Flex, Text} from '@gravis.finance/uikit'
+import {useTranslation} from 'react-i18next'
+import {ChevronDown} from 'react-feather'
+import {RouteComponentProps} from 'react-router'
+import {BigNumber} from '@ethersproject/bignumber'
+import {ROUTER_ADDRESS} from 'config/contracts'
 
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { AutoColumn, ColumnCenter } from '../../components/Column'
-import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
+import {AutoColumn, ColumnCenter} from '../../components/Column'
+import TransactionConfirmationModal, {ConfirmationModalContent} from '../../components/TransactionConfirmationModal'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import DoubleCurrencyLogo from '../../components/Logos/DoubleLogo'
-import { AddRemoveTabs } from '../../components/NavigationTabs'
-import { MinimalPositionCard } from '../../components/PositionCard'
-import { RowBetween, RowFixed } from '../../components/Row'
+import {AddRemoveTabs} from '../../components/NavigationTabs'
+import {MinimalPositionCard} from '../../components/PositionCard'
+import {RowBetween, RowFixed} from '../../components/Row'
 
 import Slider from '../../components/Slider'
 import CurrencyLogo from '../../components/Logos/CurrencyLogo'
-import { useActiveWeb3React } from '../../hooks'
-import { useCurrency } from '../../hooks/Tokens'
-import { usePairContract } from '../../hooks/useContract'
+import {useActiveWeb3React} from '../../hooks'
+import {useCurrency} from '../../hooks/Tokens'
+import {usePairContract} from '../../hooks/useContract'
 
-import { useAllTransactions, useTransactionAdder } from '../../state/transactions/hooks'
-import { StyledInternalLink } from '../../components/Shared'
-import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '../../utils'
-import { currencyId } from '../../utils/currencyId'
+import {useAllTransactions, useTransactionAdder} from '../../state/transactions/hooks'
+import {StyledInternalLink} from '../../components/Shared'
+import {calculateGasMargin, getRouterContract} from '../../utils'
+import {currencyId} from '../../utils/currencyId'
 import useDebouncedChangeHandler from '../../utils/useDebouncedChangeHandler'
-import { wrappedCurrency } from '../../utils/wrappedCurrency'
+import {wrappedCurrency} from '../../utils/wrappedCurrency'
 import AppBody from '../AppBody'
-import { ClickableText, Wrapper } from '../Pool/styleds'
-import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
-import { Dots } from '../../components/swap/styleds'
-import { useBurnActionHandlers, useDerivedBurnInfo, useBurnState } from '../../state/burn/hooks'
+import {ClickableText, Wrapper} from '../Pool/styleds'
+import {ApprovalState, useApproveCallback} from '../../hooks/useApproveCallback'
+import {Dots} from '../../components/swap/styleds'
+import {useBurnActionHandlers, useBurnState, useDerivedBurnInfo} from '../../state/burn/hooks'
 
-import { Field } from '../../state/burn/actions'
-import { useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
+import {Field} from '../../state/burn/actions'
+import {useUserDeadline, useUserSlippageTolerance} from '../../state/user/hooks'
 
 const OutlineCard = styled.div`
   padding: 17px 24px;
@@ -252,11 +252,6 @@ const RemoveLiquidity = ({
       throw new Error('missing currency amounts')
     }
     const router = getRouterContract(chainId, library, account)
-
-    const amountsMin = {
-      [Field.CURRENCY_A]: calculateSlippageAmount(currencyAmountA, allowedSlippage)[0],
-      [Field.CURRENCY_B]: calculateSlippageAmount(currencyAmountB, allowedSlippage)[0],
-    }
 
     if (!currencyA || !currencyB) throw new Error('missing tokens')
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
